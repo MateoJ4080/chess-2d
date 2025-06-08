@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class BoardGenerator : MonoBehaviour
 {
-    public GameObject squarePrefab; // Square sprite with SpriteRenderer
-    public Transform boardContainer;
-    public Color lightColor = Color.white;
-    public Color darkColor = Color.gray;
+    [SerializeField] private GameObject _squarePrefab; // Square sprite with SpriteRenderer
+    [SerializeField] private Transform _squaresContainer;
+    [SerializeField] private Transform _piecesContainer; // Parent container for pieces
+    [SerializeField] private Color _lightColor = Color.white;
+    [SerializeField] private Color _darkColor = Color.gray;
 
-    public int boardWidth = 8;
-    public int boardHeight = 8;
+    [SerializeField] private int _boardWidth = 8;
+    [SerializeField] private int _boardHeight = 8;
 
     void Start()
     {
@@ -17,21 +18,22 @@ public class BoardGenerator : MonoBehaviour
 
     void GenerateBoard()
     {
-        for (int x = 0; x < boardWidth; x++)
+        for (int x = 0; x < _boardWidth; x++)
         {
-            for (int y = 0; y < boardHeight; y++)
+            for (int y = 0; y < _boardHeight; y++)
             {
-                GameObject square = Instantiate(squarePrefab, boardContainer);
+                GameObject square = Instantiate(_squarePrefab, _squaresContainer);
                 square.name = $"Square_{x}_{y}";
                 square.transform.localPosition = new Vector2(x, y);
 
                 var sr = square.GetComponent<SpriteRenderer>();
                 bool isLight = (x + y) % 2 == 0;
-                sr.color = isLight ? lightColor : darkColor;
+                sr.color = isLight ? _lightColor : _darkColor;
             }
         }
         // "0.5f" as offset to center the board, because the tiles are positioned by their left-bottom corner
-        boardContainer.transform.position = new Vector2(0.5f + -boardWidth / 2, 0.5f + -boardHeight / 2);
+        _squaresContainer.transform.position = new Vector2(0.5f + -_boardWidth / 2, 0.5f + -_boardHeight / 2);
+        _piecesContainer.transform.position = _squaresContainer.transform.position;
         // OnBoardGenerated?.invoke();
     }
 }
