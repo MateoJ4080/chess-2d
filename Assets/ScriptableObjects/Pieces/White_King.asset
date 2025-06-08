@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
+  m_Name: White_King
+  m_EditorClassIdentifier: 
+  pieceName: White King
+  prefab: {fileID: 1512983982630131342, guid: 88e70daa33df8e64a8115297d66fb4e6, type: 3}
+  initialPositions:
+  - {x: 4, y: 0}
+  isWhite: 1
