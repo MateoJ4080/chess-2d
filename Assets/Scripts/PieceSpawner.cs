@@ -24,7 +24,11 @@ public class PieceSpawner : MonoBehaviour
             {
                 GameObject piece = Instantiate(pieceData.Prefab, _pieceContainer);
                 piece.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                piece.name = $"{(pieceData.IsWhite ? "White" : "Black")}_{pieceData.PieceName}_{pos.x}_{pos.y}";
+
+                char column = (char)('A' + (int)pos.x);
+                int row = (int)pos.y + 1;
+                piece.name = $"{pieceData.PieceName}_{column}{row}";
+
                 piece.transform.localPosition = new Vector2(pos.x, pos.y);
 
                 // Scale the piece to fit the tile size
