@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Black_King
   m_EditorClassIdentifier: 
   pieceName: Black King
-  prefab: {fileID: 1092435844442611076, guid: ddcd03eb33854984b83fbe05298a4240, type: 3}
+  prefab: {fileID: 2526980718157629377, guid: d5918fd1e06907c42a09b3d1b71b95b2, type: 3}
   initialPositions:
   - {x: 4, y: 7}
   isWhite: 0

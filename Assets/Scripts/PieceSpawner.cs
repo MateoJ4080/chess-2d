@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PieceSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform _pieceContainer; // Parent container
-    [SerializeField] private PieceData[] _pieces;       // Array containing the scriptable object object of each piece
-    [SerializeField] private GameObject _referenceTile; // Tile reference to get its size
+    [SerializeField] private GameObject _referenceTile;    // Reference tile to get its size
+    [SerializeField] private Transform _pieceContainer;    // Parent container for all pieces
+    [SerializeField] private PieceData[] _pieces;          // Array containing the scriptable object of each piece
 
     private Vector2 _tileSize;
     private float _tilePadding = 0.4f;
@@ -23,23 +23,30 @@ public class PieceSpawner : MonoBehaviour
             foreach (var pos in pieceData.InitialPositions)
             {
                 GameObject piece = Instantiate(pieceData.Prefab, _pieceContainer);
-                piece.GetComponent<SpriteRenderer>().sortingOrder = 1;
 
+                // Find the child object containing the sprite
+                Transform visual = piece.transform.Find("Visual");
+                SpriteRenderer sr = visual.GetComponent<SpriteRenderer>();
+                sr.sortingOrder = 1;
+
+                // Rename using chess notation (A1-H8)
                 char column = (char)('A' + (int)pos.x);
                 int row = (int)pos.y + 1;
                 piece.name = $"{pieceData.PieceName}_{column}{row}";
 
                 piece.transform.localPosition = new Vector2(pos.x, pos.y);
 
-                // Scale the piece to fit the tile size
-                var sr = piece.GetComponent<SpriteRenderer>();
+                // Scale the child to fit the tile with padding
                 Vector2 pieceSize = sr.bounds.size;
-
-                // Search piece proper size by dividing the tile size by the piece size
                 float scaleX = _tileSize.x / pieceSize.x;
                 float scaleY = _tileSize.y / pieceSize.y;
                 float uniformScale = Mathf.Min(scaleX, scaleY);
-                piece.transform.localScale = new Vector2(uniformScale - _tilePadding, uniformScale - _tilePadding);
+                visual.localScale = new Vector2(uniformScale - _tilePadding, uniformScale - _tilePadding);
+
+                // Set the collider to match the tile size (unaffected by visual scaling)
+                BoxCollider2D collider = piece.GetComponent<BoxCollider2D>();
+                collider.size = _tileSize;
+                collider.offset = Vector2.zero;
             }
         }
     }

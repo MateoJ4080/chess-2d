@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Black_Bishop
   m_EditorClassIdentifier: 
   pieceName: Black Bishop
-  prefab: {fileID: 4953068282436903536, guid: ecf6272b0eae4074294f6bec01d6d52d, type: 3}
+  prefab: {fileID: 6883143649913806113, guid: 69e91aaef04a16145b277a745ec1b972, type: 3}
   initialPositions:
   - {x: 2, y: 7}
   - {x: 5, y: 7}

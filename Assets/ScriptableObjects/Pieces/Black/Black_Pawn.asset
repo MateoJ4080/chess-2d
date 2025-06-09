@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Black_Pawn
   m_EditorClassIdentifier: 
   pieceName: Black Pawn
-  prefab: {fileID: 9083462171145840720, guid: 268ef4dc7924a1248aacdade6f0d4b7d, type: 3}
+  prefab: {fileID: 3679350049911150494, guid: be1907d7156921642a21c3f97b3e52de, type: 3}
   initialPositions:
   - {x: 0, y: 6}
   - {x: 1, y: 6}

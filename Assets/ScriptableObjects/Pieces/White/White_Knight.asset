@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: White_Knight
   m_EditorClassIdentifier: 
   pieceName: White Knight
-  prefab: {fileID: 789717201579723089, guid: c3ef0133805aa6348a0c645f9caf329c, type: 3}
+  prefab: {fileID: 3134265934511993770, guid: efcf1ebc933d22f4289b19b893a24159, type: 3}
   initialPositions:
   - {x: 1, y: 0}
   - {x: 6, y: 0}

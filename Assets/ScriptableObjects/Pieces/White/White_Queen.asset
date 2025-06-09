@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: White_Queen
   m_EditorClassIdentifier: 
   pieceName: White Queen
-  prefab: {fileID: 8373694602200189704, guid: 7e59aa4053be51f4ab496b61c0d5b610, type: 3}
+  prefab: {fileID: 5085635855871345859, guid: 3711e879b90a7c949913d0ba9b297c08, type: 3}
   initialPositions:
   - {x: 3, y: 0}
   isWhite: 1

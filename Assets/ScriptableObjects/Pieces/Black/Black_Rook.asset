@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Black_Rook
   m_EditorClassIdentifier: 
   pieceName: Black Rook
-  prefab: {fileID: 1948790135730123899, guid: c3c54b9b204c18548ba1dd43a8fd30bd, type: 3}
+  prefab: {fileID: 125214921008740338, guid: 94183db7a8b2dfe40859d647d43b833f, type: 3}
   initialPositions:
   - {x: 0, y: 7}
   - {x: 7, y: 7}
