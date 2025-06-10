@@ -449,6 +449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _squarePrefab: {fileID: 961063354550261679, guid: ba3821ee56577eb45a79ecddc4e1c5bc, type: 3}
+  _mainCamera: {fileID: 519420031}
   _squaresContainer: {fileID: 1271453742}
   _piecesContainer: {fileID: 1238403471}
   _lightColor: {r: 1, g: 1, b: 1, a: 1}
