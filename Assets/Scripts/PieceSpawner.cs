@@ -23,6 +23,7 @@ public class PieceSpawner : MonoBehaviour
             foreach (var pos in pieceData.InitialPositions)
             {
                 GameObject piece = Instantiate(pieceData.Prefab, _pieceContainer);
+                piece.AddComponent<Draggable>(); // Make each piece draggable
 
                 // Find the child object containing the sprite
                 Transform visual = piece.transform.Find("Visual");
