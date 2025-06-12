@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultCursor: {fileID: 0}
-  _handCursor: {fileID: 2800000, guid: b8c3eec1c19bbaa41bed6360728a7d5f, type: 3}
-  _hotspot: {x: 8, y: 3}
+  _handCursor: {fileID: 2800000, guid: 48dd8137fa831434bbe6645feee0f59f, type: 3}
+  _hotspot: {x: 16, y: 10}
 --- !u!4 &537021039
 Transform:
   m_ObjectHideFlags: 0
@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 1242518675}
   - component: {fileID: 1242518674}
   - component: {fileID: 1242518676}
+  - component: {fileID: 1242518677}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -448,10 +449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969458afe7779ff469d59a599b839064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _squarePrefab: {fileID: 961063354550261679, guid: ba3821ee56577eb45a79ecddc4e1c5bc, type: 3}
   _mainCamera: {fileID: 519420031}
+  _squarePrefab: {fileID: 961063354550261679, guid: ba3821ee56577eb45a79ecddc4e1c5bc, type: 3}
   _squaresContainer: {fileID: 1271453742}
-  _piecesContainer: {fileID: 1238403471}
   _lightColor: {r: 1, g: 1, b: 1, a: 1}
   _darkColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   _boardWidth: 8
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _referenceTile: {fileID: 961063354550261679, guid: ba3821ee56577eb45a79ecddc4e1c5bc, type: 3}
   _pieceContainer: {fileID: 1238403471}
-  _pieces:
+  _piecesData:
   - {fileID: 11400000, guid: b5bbd7669ddf68346b458932235ca7f9, type: 2}
   - {fileID: 11400000, guid: e34157859b3b2bd479c2b82eef7b36d4, type: 2}
   - {fileID: 11400000, guid: f1eac691ebab34642a345e7068012281, type: 2}
@@ -500,6 +500,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d13bf6aaf27dac14a9366ce8363ccbba, type: 2}
   - {fileID: 11400000, guid: c6b37d80ffcc8a2418e36e4ee9d7a232, type: 2}
   - {fileID: 11400000, guid: 8dcf6c5976d35fc46b1ecac62c122f07, type: 2}
+--- !u!114 &1242518677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242518672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ddbe05388eb134eaeaaab427d77b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movementData: {fileID: 11400000, guid: fa90a1c53fe88874f86fecc4e0e8b168, type: 2}
+  _highlightPrefab: {fileID: 7646082271530305797, guid: 6ab5eba29e234e440bf176c5bb23654b, type: 3}
 --- !u!1 &1271453741
 GameObject:
   m_ObjectHideFlags: 0
