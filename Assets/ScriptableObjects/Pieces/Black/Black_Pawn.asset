@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: Black_Pawn
   m_EditorClassIdentifier: 
+  pieceType: Pawn
   pieceName: Black Pawn
   prefab: {fileID: 3679350049911150494, guid: be1907d7156921642a21c3f97b3e52de, type: 3}
   initialPositions:

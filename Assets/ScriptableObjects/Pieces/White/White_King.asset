@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: White_King
   m_EditorClassIdentifier: 
+  pieceType: King
   pieceName: White King
   prefab: {fileID: 5909732749249651528, guid: b24264f17e56d7d4390334d961e79fc7, type: 3}
   initialPositions:

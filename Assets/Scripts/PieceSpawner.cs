@@ -4,7 +4,7 @@ public class PieceSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _referenceTile;    // Reference tile to get its size
     [SerializeField] private Transform _pieceContainer;    // Parent container for all pieces
-    [SerializeField] private PieceData[] _pieces;          // Array containing the scriptable object of each piece
+    [SerializeField] private PieceData[] _piecesData;          // Array containing the scriptable object of each piece
 
     private Vector2 _tileSize;
     private float _tilePadding = 0.4f;
@@ -18,12 +18,18 @@ public class PieceSpawner : MonoBehaviour
     public void SpawnPieces()
     {
         Debug.Log("Spawning pieces...");
-        foreach (var pieceData in _pieces)
+        foreach (var pieceData in _piecesData)
         {
             foreach (var pos in pieceData.InitialPositions)
             {
+                Vector2Int piecePos = new Vector2Int((int)pos.x, (int)pos.y);
+
                 GameObject piece = Instantiate(pieceData.Prefab, _pieceContainer);
-                piece.AddComponent<Draggable>(); // Make each piece draggable
+                piece.AddComponent<Draggable>();
+
+                // Add ChessPiece component and assign the PieceData. This is to use "PieceType" string and set the ActivePiece in MoveHighlighter
+                var chessPiece = piece.AddComponent<ChessPiece>();
+                chessPiece.PieceData = pieceData;
 
                 // Find the child object containing the sprite
                 Transform visual = piece.transform.Find("Visual");
@@ -31,11 +37,11 @@ public class PieceSpawner : MonoBehaviour
                 sr.sortingOrder = 1;
 
                 // Rename using chess notation (A1-H8)
-                char column = (char)('A' + (int)pos.x);
-                int row = (int)pos.y + 1;
+                char column = (char)('A' + piecePos.x);
+                int row = piecePos.y + 1;
                 piece.name = $"{pieceData.PieceName}_{column}{row}";
 
-                piece.transform.localPosition = new Vector2(pos.x, pos.y);
+                piece.transform.localPosition = new Vector3(piecePos.x, piecePos.y, 0f);
 
                 // Scale the child to fit the tile with padding
                 Vector2 pieceSize = sr.bounds.size;
@@ -48,6 +54,9 @@ public class PieceSpawner : MonoBehaviour
                 BoxCollider2D collider = piece.GetComponent<BoxCollider2D>();
                 collider.size = _tileSize;
                 collider.offset = Vector2.zero;
+
+                // Store the piece in dictionary
+                BoardGenerator.Instance.PiecesOnBoard[piece] = piecePos;
             }
         }
     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: Black_Queen
   m_EditorClassIdentifier: 
+  pieceType: Queen
   pieceName: Black Queen
   prefab: {fileID: 4168874907514201355, guid: 5815756e04b2b2449b40e2be57ddfb31, type: 3}
   initialPositions:

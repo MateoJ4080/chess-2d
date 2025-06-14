@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: White_Rook
   m_EditorClassIdentifier: 
+  pieceType: Rook
   pieceName: White Rook
   prefab: {fileID: 7954241924168561529, guid: 855a166d2c59785488636f32abcfb609, type: 3}
   initialPositions:

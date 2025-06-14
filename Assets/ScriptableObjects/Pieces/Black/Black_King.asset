@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: Black_King
   m_EditorClassIdentifier: 
+  pieceType: King
   pieceName: Black King
   prefab: {fileID: 2526980718157629377, guid: d5918fd1e06907c42a09b3d1b71b95b2, type: 3}
   initialPositions:

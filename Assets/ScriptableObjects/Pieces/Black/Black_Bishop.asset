@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: Black_Bishop
   m_EditorClassIdentifier: 
+  pieceType: Bishop
   pieceName: Black Bishop
   prefab: {fileID: 6883143649913806113, guid: 69e91aaef04a16145b277a745ec1b972, type: 3}
   initialPositions:
