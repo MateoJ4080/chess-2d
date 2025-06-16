@@ -25,7 +25,7 @@ public class PieceManager : MonoBehaviour
     public void SelectPiece(GameObject piece)
     {
         Debug.Log("SelectPiece");
-        if (_selectedPiece == piece) return;
+        if (_selectedPiece == piece || !piece.CompareTag("Piece")) return;
 
         DeselectCurrentPiece();
         _selectedPiece = piece;
@@ -41,28 +41,6 @@ public class PieceManager : MonoBehaviour
         }
     }
 
-    public bool TryMovePiece(GameObject piece, Vector2Int newPosition)
-    {
-        if (!BoardGenerator.Instance.Squares.ContainsKey(newPosition))
-            return false;
-
-        Vector2Int oldPosition = BoardGenerator.Instance.PiecesOnBoard[piece];
-
-        // if (IsValidMove(piece, oldPosition, newPosition))
-        //{
-        //  BoardGenerator.Instance.PiecesOnBoard[piece] = newPosition;
-        //OnPieceMoved?.Invoke(piece, oldPosition, newPosition);
-        //  return true;
-        // }
-
-        return false;
-    }
-
-    //public bool IsValidMove(GameObject gameObject, Vector2Int oldPos Vector2Int newPos)
-    // {
-    // return _moveHighlighter.LegalPositions.Contains(targetPosition);
-    // }
-
     public static void InvokeOnPieceSelected(GameObject piece)
     {
         OnPieceSelected?.Invoke(piece);
@@ -71,5 +49,11 @@ public class PieceManager : MonoBehaviour
     public static void InvokeOnPieceMoved(GameObject piece, Vector2Int oldPosition, Vector2Int newPosition)
     {
         OnPieceMoved?.Invoke(piece, oldPosition, newPosition);
+    }
+
+    public bool IsLegalMove(Vector2Int targetPosition)
+    {
+        // Mueve la pieza
+        return _moveHighlighter.LegalPositions.Contains(targetPosition);
     }
 }

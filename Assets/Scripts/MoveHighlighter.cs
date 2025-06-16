@@ -23,6 +23,8 @@ public class MoveHighlighter : MonoBehaviour
 
     private List<GameObject> activeHighlights = new();
     public List<GameObject> ActiveHighlights => activeHighlights;
+    private List<Vector2Int> legalPositions = new();
+    public List<Vector2Int> LegalPositions => legalPositions;
 
     [SerializeField] private PieceMovementData _movementData;
     [SerializeField] private SpriteRenderer _highlightPrefab;
@@ -31,6 +33,7 @@ public class MoveHighlighter : MonoBehaviour
     {
         PieceManager.OnPieceSelected += ShowMoves;
         PieceManager.OnPieceMoved += ClearHighlights;
+        PieceManager.OnPieceDeselected += ClearHighlights;
     }
 
     // Overload to match Action<GameObject> delegate
@@ -67,6 +70,7 @@ public class MoveHighlighter : MonoBehaviour
             {
                 SpriteRenderer highlight = Instantiate(_highlightPrefab, position, Quaternion.identity);
                 activeHighlights.Add(highlight.gameObject);
+                legalPositions.Add(boardPosition);
             }
         }
     }
@@ -79,10 +83,17 @@ public class MoveHighlighter : MonoBehaviour
                 Destroy(highlight);
         }
         activeHighlights.Clear();
+        legalPositions.Clear();
     }
 
     // Overload to match Action<GameObject, Vector2Int, Vector2Int> delegate
     public void ClearHighlights(GameObject piece, Vector2Int from, Vector2Int to)
+    {
+        ClearHighlights();
+    }
+
+    // Overload to match Action<GameObject> delegate
+    public void ClearHighlights(GameObject pieceGO)
     {
         ClearHighlights();
     }

@@ -4,7 +4,7 @@ public class PieceSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _referenceTile;    // Reference tile to get its size
     [SerializeField] private Transform _pieceContainer;    // Parent container for all pieces
-    [SerializeField] private PieceData[] _piecesData;          // Array containing the scriptable object of each piece
+    [SerializeField] private PieceData[] _piecesData;      // Array containing the scriptable object of each piece
 
     private Vector2 _tileSize;
     private float _tilePadding = 0.4f;
