@@ -73,6 +73,43 @@ public class MoveHighlighter : MonoBehaviour
                 legalPositions.Add(boardPosition);
             }
         }
+
+        if (pieceName == "Pawn")
+        {
+            int direction = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : -1;
+            Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
+
+            // Move one square forward
+            Vector2Int forward = currentPos + new Vector2Int(0, direction);
+            if (BoardGenerator.Instance.Squares.ContainsKey(forward) &&
+               !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(forward))
+            {
+                // Highlight for one square forward
+                SpriteRenderer highlight = Instantiate(_highlightPrefab, new Vector3(forward.x, forward.y, 0), Quaternion.identity);
+                activeHighlights.Add(highlight.gameObject);
+                legalPositions.Add(forward);
+
+                // Move two squares forward if on initial row
+                int initialRow = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : 6;
+                Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
+                if (currentPos.y == initialRow &&
+                    BoardGenerator.Instance.Squares.ContainsKey(doubleForward) &&
+                    !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(doubleForward))
+                {
+                    // Only if the intermediate square is also free
+                    if (!BoardGenerator.Instance.PiecesOnBoard.ContainsValue(forward))
+                    {
+                        // Highlight for two squares forward
+                        SpriteRenderer doubleHighlight = Instantiate(_highlightPrefab, new Vector3(doubleForward.x, doubleForward.y, 0), Quaternion.identity);
+                        activeHighlights.Add(doubleHighlight.gameObject);
+                        legalPositions.Add(doubleForward);
+                    }
+                }
+            }
+
+            // Diagonal captures (already implemented)
+            // ...
+        }
     }
 
     public void ClearHighlights()
