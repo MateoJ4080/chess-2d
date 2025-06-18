@@ -22,6 +22,12 @@ public class PieceManager : MonoBehaviour
         Instance = this;
     }
 
+    public bool IsLegalMove(Vector2Int targetPosition)
+    {
+        return _moveHighlighter.LegalPositions.Contains(targetPosition);
+    }
+
+    // Select and Deselect
     public void SelectPiece(GameObject piece)
     {
         Debug.Log("SelectPiece");
@@ -41,6 +47,7 @@ public class PieceManager : MonoBehaviour
         }
     }
 
+    // Static methods to invoke events
     public static void InvokeOnPieceSelected(GameObject piece)
     {
         OnPieceSelected?.Invoke(piece);
@@ -49,11 +56,5 @@ public class PieceManager : MonoBehaviour
     public static void InvokeOnPieceMoved(GameObject piece, Vector2Int oldPosition, Vector2Int newPosition)
     {
         OnPieceMoved?.Invoke(piece, oldPosition, newPosition);
-    }
-
-    public bool IsLegalMove(Vector2Int targetPosition)
-    {
-        // Mueve la pieza
-        return _moveHighlighter.LegalPositions.Contains(targetPosition);
     }
 }

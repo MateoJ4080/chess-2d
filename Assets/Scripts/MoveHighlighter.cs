@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class MoveHighlighter : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class MoveHighlighter : MonoBehaviour
     public List<Vector2Int> LegalPositions => legalPositions;
 
     [SerializeField] private PieceMovementData _movementData;
-    [SerializeField] private SpriteRenderer _highlightPrefab;
+    [SerializeField] private GameObject _highlightPrefab;
 
     void OnEnable()
     {
@@ -36,9 +37,17 @@ public class MoveHighlighter : MonoBehaviour
         PieceManager.OnPieceDeselected += ClearHighlights;
     }
 
+    void OnDisable()
+    {
+        PieceManager.OnPieceSelected -= ShowMoves;
+        PieceManager.OnPieceMoved -= ClearHighlights;
+        PieceManager.OnPieceDeselected -= ClearHighlights;
+    }
+
     // Overload to match Action<GameObject> delegate
     public void ShowMoves(GameObject pieceGO)
     {
+        Debug.Log(pieceGO.name);
         if (pieceGO == null) return;
         var piece = pieceGO.GetComponent<ChessPiece>();
         if (piece != null)
@@ -60,16 +69,18 @@ public class MoveHighlighter : MonoBehaviour
             _ => null
         };
 
-
-        foreach (Vector2Int direction in directions)
+        if (directions != null)
         {
-            Vector3Int position = Vector3Int.RoundToInt(pieceGO.transform.position) + new Vector3Int(direction.x, direction.y, 0);
-            Vector2Int boardPosition = new Vector2Int(position.x, position.y);
-
-            if (BoardGenerator.Instance.Squares.ContainsKey(boardPosition) && !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(boardPosition))
+            foreach (Vector2Int direction in directions)
             {
-                SpriteRenderer highlight = Instantiate(_highlightPrefab, position, Quaternion.identity);
-                ShowHighlight(highlight.gameObject, boardPosition);
+                Vector3Int position = Vector3Int.RoundToInt(pieceGO.transform.position) + new Vector3Int(direction.x, direction.y, 0);
+                Vector2Int boardPosition = new Vector2Int(position.x, position.y);
+
+                if (BoardGenerator.Instance.Squares.ContainsKey(boardPosition) && !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(boardPosition))
+                {
+                    GameObject highlight = Instantiate(_highlightPrefab, position, Quaternion.identity);
+                    ShowHighlight(highlight, boardPosition);
+                }
             }
         }
 
@@ -77,26 +88,26 @@ public class MoveHighlighter : MonoBehaviour
         {
             int direction = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : -1;
             Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
+            Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
 
             // Move one square forward
             Vector2Int forward = currentPos + new Vector2Int(0, direction);
             if (BoardUtils.SquareIsAvailable(forward))
             {
                 // Highlight for one square forward
-                SpriteRenderer highlight = Instantiate(_highlightPrefab, new Vector3(forward.x, forward.y, 0), Quaternion.identity);
-                ShowHighlight(_highlightPrefab, forward);
+                GameObject highlight = Instantiate(_highlightPrefab, new Vector3(forward.x, forward.y, 0), Quaternion.identity);
+                ShowHighlight(highlight, forward);
 
-                // Move two squares forward if on initial row
+                // Can move two squares forward if on initial row
                 int initialRow = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : 6;
-                Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
 
+                // Highlight for two squares forward    
                 if (currentPos.y == initialRow &&
                     BoardUtils.SquareIsAvailable(forward) &&
                     BoardUtils.SquareIsAvailable(doubleForward))
                 {
-                    // Highlight for two squares forward
-                    SpriteRenderer doubleHighlight = Instantiate(_highlightPrefab, new Vector3(doubleForward.x, doubleForward.y, 0), Quaternion.identity);
-                    ShowHighlight(_highlightPrefab, doubleForward);
+                    GameObject highlightDouble = Instantiate(_highlightPrefab, new Vector3(doubleForward.x, doubleForward.y, 0), Quaternion.identity);
+                    ShowHighlight(highlightDouble, doubleForward);
                 }
             }
         }
@@ -131,7 +142,6 @@ public class MoveHighlighter : MonoBehaviour
 
     void ShowHighlight(GameObject highlightGO, Vector2Int pos)
     {
-        Instantiate(highlightGO, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
         activeHighlights.Add(highlightGO);
         legalPositions.Add(pos);
     }
