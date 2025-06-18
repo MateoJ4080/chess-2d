@@ -47,7 +47,6 @@ public class MoveHighlighter : MonoBehaviour
     // Overload to match Action<GameObject> delegate
     public void ShowMoves(GameObject pieceGO)
     {
-        Debug.Log(pieceGO.name);
         if (pieceGO == null) return;
         var piece = pieceGO.GetComponent<ChessPiece>();
         if (piece != null)
@@ -78,8 +77,7 @@ public class MoveHighlighter : MonoBehaviour
 
                 if (BoardGenerator.Instance.Squares.ContainsKey(boardPosition) && !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(boardPosition))
                 {
-                    GameObject highlight = Instantiate(_highlightPrefab, position, Quaternion.identity);
-                    ShowHighlight(highlight, boardPosition);
+                    ShowHighlight(_highlightPrefab, boardPosition);
                 }
             }
         }
@@ -95,8 +93,7 @@ public class MoveHighlighter : MonoBehaviour
             if (BoardUtils.SquareIsAvailable(forward))
             {
                 // Highlight for one square forward
-                GameObject highlight = Instantiate(_highlightPrefab, new Vector3(forward.x, forward.y, 0), Quaternion.identity);
-                ShowHighlight(highlight, forward);
+                ShowHighlight(_highlightPrefab, forward);
 
                 // Can move two squares forward if on initial row
                 int initialRow = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : 6;
@@ -106,8 +103,7 @@ public class MoveHighlighter : MonoBehaviour
                     BoardUtils.SquareIsAvailable(forward) &&
                     BoardUtils.SquareIsAvailable(doubleForward))
                 {
-                    GameObject highlightDouble = Instantiate(_highlightPrefab, new Vector3(doubleForward.x, doubleForward.y, 0), Quaternion.identity);
-                    ShowHighlight(highlightDouble, doubleForward);
+                    ShowHighlight(_highlightPrefab, doubleForward);
                 }
             }
         }
@@ -140,9 +136,10 @@ public class MoveHighlighter : MonoBehaviour
         ClearHighlights();
     }
 
-    void ShowHighlight(GameObject highlightGO, Vector2Int pos)
+    void ShowHighlight(GameObject highlightPrefab, Vector2Int pos)
     {
-        activeHighlights.Add(highlightGO);
+        GameObject highlight = Instantiate(highlightPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
+        activeHighlights.Add(highlight);
         legalPositions.Add(pos);
     }
 }
