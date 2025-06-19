@@ -57,60 +57,135 @@ public class MoveHighlighter : MonoBehaviour
 
     public void ShowMoves(GameObject pieceGO, string pieceName)
     {
-        Vector2Int[] directions = pieceName switch
-        {
-            // Pawn logic below
-            "Knight" => _movementData.knightMoves,
-            "Bishop" => _movementData.bishopDirections,
-            "Rook" => _movementData.rookDirections,
-            "Queen" => _movementData.queenDirections,
-            "King" => _movementData.kingMoves,
-            _ => null
-        };
+        bool isWhitePiece = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite;
 
-        if (directions != null)
+        switch (pieceName)
         {
-            foreach (Vector2Int direction in directions)
+            case "Pawn":
+                ShowPawnMoves(pieceGO, isWhitePiece);
+                break;
+            case "Knight":
+                ShowKnightMoves(pieceGO);
+                break;
+            case "Bishop":
+                ShowBishopMoves(pieceGO);
+                break;
+            case "Rook":
+                ShowRookMoves(pieceGO);
+                break;
+            case "Queen":
+                ShowQueenMoves(pieceGO);
+                break;
+            case "King":
+                ShowKingMoves(pieceGO);
+                break;
+        }
+    }
+
+    #region ShowMoves Methods
+
+    void ShowPawnMoves(GameObject pieceGO, bool isWhitePiece)
+    {
+        int direction = isWhitePiece ? 1 : -1;
+        int initialRow = isWhitePiece ? 1 : 6;
+
+        Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
+        Vector2Int forward = currentPos + new Vector2Int(0, direction);
+        Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
+
+        if (BoardUtils.SquareIsAvailable(forward))
+        {
+            // Highlight for one square forward
+            ShowHighlight(_highlightPrefab, forward);
+
+            // Can move two squares forward if on initial row
+            if (currentPos.y == initialRow &&
+                BoardUtils.SquareIsAvailable(forward) &&
+                BoardUtils.SquareIsAvailable(doubleForward))
             {
-                Vector3Int position = Vector3Int.RoundToInt(pieceGO.transform.position) + new Vector3Int(direction.x, direction.y, 0);
-                Vector2Int boardPosition = new Vector2Int(position.x, position.y);
-
-                if (BoardGenerator.Instance.Squares.ContainsKey(boardPosition) && !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(boardPosition))
-                {
-                    ShowHighlight(_highlightPrefab, boardPosition);
-                }
+                ShowHighlight(_highlightPrefab, doubleForward);
             }
         }
+    }
 
-        if (pieceName == "Pawn")
+    void ShowKnightMoves(GameObject pieceGO)
+    {
+        Vector2Int[] knightMoves = _movementData.knightMoves;
+        foreach (Vector2Int move in knightMoves)
         {
-            int direction = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : -1;
-            Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
-            Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
-
-            // Move one square forward
-            Vector2Int forward = currentPos + new Vector2Int(0, direction);
-            if (BoardUtils.SquareIsAvailable(forward))
+            Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + move;
+            if (BoardUtils.SquareIsAvailable(pos))
             {
-                // Highlight for one square forward
-                ShowHighlight(_highlightPrefab, forward);
-
-                // Can move two squares forward if on initial row
-                int initialRow = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite ? 1 : 6;
-
-                // Highlight for two squares forward    
-                if (currentPos.y == initialRow &&
-                    BoardUtils.SquareIsAvailable(forward) &&
-                    BoardUtils.SquareIsAvailable(doubleForward))
-                {
-                    ShowHighlight(_highlightPrefab, doubleForward);
-                }
+                ShowHighlight(_highlightPrefab, pos);
             }
         }
+    }
+
+    void ShowBishopMoves(GameObject pieceGO)
+    {
+        Vector2Int[] bishopDirections = _movementData.bishopDirections;
+        foreach (Vector2Int direction in bishopDirections)
+        {
+            Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
+            while (BoardUtils.SquareIsAvailable(pos))
+            {
+                ShowHighlight(_highlightPrefab, pos);
+                pos += direction;
+            }
+        }
+    }
+
+    void ShowRookMoves(GameObject pieceGO)
+    {
+        Vector2Int[] rookDirections = _movementData.rookDirections;
+        foreach (Vector2Int direction in rookDirections)
+        {
+            Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
+            while (BoardUtils.SquareIsAvailable(pos))
+            {
+                ShowHighlight(_highlightPrefab, pos);
+                pos += direction;
+            }
+        }
+    }
+
+    void ShowQueenMoves(GameObject pieceGO)
 
 
-        // Diagonal captures (already implemented)
-        // ...
+    {
+        Vector2Int[] queenDirections = _movementData.queenDirections;
+        foreach (Vector2Int direction in queenDirections)
+        {
+            Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
+            while (BoardUtils.SquareIsAvailable(pos))
+            {
+                ShowHighlight(_highlightPrefab, pos);
+                pos += direction;
+            }
+        }
+    }
+
+    void ShowKingMoves(GameObject gameObject)
+    {
+        Vector2Int[] kingMoves = _movementData.kingMoves;
+        Vector2Int currentPos = Vector2Int.RoundToInt(gameObject.transform.position);
+        foreach (Vector2Int move in kingMoves)
+        {
+            Vector2Int pos = currentPos + move;
+            if (BoardUtils.SquareIsAvailable(pos))
+            {
+                ShowHighlight(_highlightPrefab, pos);
+            }
+        }
+    }
+
+    #endregion
+
+    void ShowHighlight(GameObject highlightPrefab, Vector2Int pos)
+    {
+        GameObject highlight = Instantiate(highlightPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
+        activeHighlights.Add(highlight);
+        legalPositions.Add(pos);
     }
 
     public void ClearHighlights()
@@ -124,22 +199,15 @@ public class MoveHighlighter : MonoBehaviour
         legalPositions.Clear();
     }
 
-    // Overload to match Action<GameObject, Vector2Int, Vector2Int> delegate
-    public void ClearHighlights(GameObject piece, Vector2Int from, Vector2Int to)
-    {
-        ClearHighlights();
-    }
-
     // Overload to match Action<GameObject> delegate
     public void ClearHighlights(GameObject pieceGO)
     {
         ClearHighlights();
     }
 
-    void ShowHighlight(GameObject highlightPrefab, Vector2Int pos)
+    // Overload to match Action<GameObject, Vector2Int, Vector2Int> delegate
+    public void ClearHighlights(GameObject piece, Vector2Int from, Vector2Int to)
     {
-        GameObject highlight = Instantiate(highlightPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
-        activeHighlights.Add(highlight);
-        legalPositions.Add(pos);
+        ClearHighlights();
     }
 }
