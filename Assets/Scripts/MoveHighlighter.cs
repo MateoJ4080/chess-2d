@@ -94,6 +94,15 @@ public class MoveHighlighter : MonoBehaviour
                 ShowHighlight(_highlightPrefab, doubleForward);
             }
         }
+
+        Vector2Int topRight = currentPos + new Vector2Int(1, direction);
+        Debug.Log($"topRight: {topRight}");
+        if (BoardUtils.CanCaptureAt(topRight, pieceGO))
+            ShowHighlight(_highlightPrefab, topRight);
+
+        Vector2Int topLeft = currentPos + new Vector2Int(-1, direction);
+        if (BoardUtils.CanCaptureAt(topLeft, pieceGO))
+            ShowHighlight(_highlightPrefab, topLeft);
     }
 
     void ShowKnightMoves(GameObject pieceGO)
