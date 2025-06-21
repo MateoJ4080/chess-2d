@@ -22,7 +22,7 @@ public class PieceSpawner : MonoBehaviour
         {
             foreach (var pos in pieceData.InitialPositions)
             {
-                Vector2Int piecePos = new Vector2Int((int)pos.x, (int)pos.y);
+                Vector2Int piecePos = new(pos.x, pos.y);
 
                 GameObject piece = Instantiate(pieceData.Prefab, _pieceContainer);
                 piece.AddComponent<Draggable>();
