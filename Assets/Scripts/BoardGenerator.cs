@@ -15,6 +15,7 @@ public class BoardGenerator : MonoBehaviour
 
     public Dictionary<Vector2Int, GameObject> Squares { get; private set; } = new();
     public Dictionary<GameObject, Vector2Int> PiecesOnBoard { get; private set; } = new();
+    public Dictionary<Vector2Int, GameObject> PositionToPiece { get; private set; } = new();
 
     public static BoardGenerator Instance { get; private set; }
 

@@ -57,6 +57,7 @@ public class PieceSpawner : MonoBehaviour
 
                 // Store the piece in dictionary
                 BoardGenerator.Instance.PiecesOnBoard[piece] = piecePos;
+                BoardGenerator.Instance.PositionToPiece[piecePos] = piece;
             }
         }
     }

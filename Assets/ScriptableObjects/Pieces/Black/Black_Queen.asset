@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: Queen
   pieceName: Black Queen
+  pieceColor: Black
   prefab: {fileID: 4168874907514201355, guid: 5815756e04b2b2449b40e2be57ddfb31, type: 3}
   initialPositions:
   - {x: 3, y: 7}
-  isWhite: 0

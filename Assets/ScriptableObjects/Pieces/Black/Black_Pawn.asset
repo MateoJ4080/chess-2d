@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: Pawn
   pieceName: Black Pawn
+  pieceColor: Black
   prefab: {fileID: 3679350049911150494, guid: be1907d7156921642a21c3f97b3e52de, type: 3}
   initialPositions:
   - {x: 0, y: 6}
@@ -24,4 +25,3 @@ MonoBehaviour:
   - {x: 5, y: 6}
   - {x: 6, y: 6}
   - {x: 7, y: 6}
-  isWhite: 0
