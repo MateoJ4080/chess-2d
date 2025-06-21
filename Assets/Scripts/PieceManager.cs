@@ -27,18 +27,21 @@ public class PieceManager : MonoBehaviour
             return;
         }
 
-        if (!BoardUtils.SquareIsEmpty(to) || BoardUtils.CanCaptureAt(to, piece))
+        // If there's a piece there, we remove it from the dictionary and destroy it
+        if (!BoardUtils.SquareIsEmpty(to))
         {
             var target = BoardUtils.GetPieceAt(to);
-            Debug.Log("Trying to destroy " + target);
-            if (target) Destroy(target);
-
-            BoardGenerator.Instance.PiecesOnBoard[piece] = to;
-            BoardGenerator.Instance.PositionToPiece[to] = piece;
+            if (target != null)
+            {
+                BoardGenerator.Instance.PiecesOnBoard.Remove(target);
+                Destroy(target);
+            }
         }
 
         piece.GetComponent<Draggable>().SnapToGrid();
         _moveHighlighter.ClearHighlights();
+
+        BoardUtils.RefreshBoardState(from, to, piece);
     }
 
     // Check if this is a highlighted and legal square for the piece to move
