@@ -10,9 +10,7 @@ public class Draggable : MonoBehaviour
 
     [SerializeField] private MoveHighlighter _moveHighlighter;
 
-    private Vector3 _firstPosition;
-
-
+    private Vector2Int _firstPosition;
 
     void Start()
     {
@@ -21,52 +19,33 @@ public class Draggable : MonoBehaviour
             _moveHighlighter = FindAnyObjectByType<MoveHighlighter>();
     }
 
-    void OnEnable()
-    {
-        PieceManager.OnPieceMoved += SnapToGrid;
-    }
-
-    void OnMouseDown()
-    {
-        _firstPosition = transform.position;
-        _offset = transform.position - GetMouseWorldPos();
-        _isDragging = true;
-
-        _moveHighlighter.ClearHighlights();
-        PieceManager.InvokeOnPieceSelected(gameObject);
-    }
-
-    void OnMouseUp()
-    {
-        _isDragging = false;
-        BoardGenerator.Instance.PiecesOnBoard[gameObject] = Vector2Int.RoundToInt(transform.position);
-
-        if (transform.position != _firstPosition && PieceManager.Instance.IsLegalMove(Vector2Int.RoundToInt(transform.position)))
-        {
-            PieceManager.InvokeOnPieceMoved(gameObject, Vector2Int.RoundToInt(_firstPosition), Vector2Int.RoundToInt(transform.position));
-        }
-        else
-        {
-            transform.position = _firstPosition;
-        }
-    }
-
     void Update()
     {
         if (_isDragging)
             transform.position = GetMouseWorldPos() + _offset;
     }
 
-
-    void SnapToGrid()
+    void OnMouseDown()
     {
-        transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+        _isDragging = true;
+        _firstPosition = Vector2Int.RoundToInt(transform.position);
+        _offset = transform.position - GetMouseWorldPos();
+
+        _moveHighlighter.ClearHighlights();
+        _moveHighlighter.ShowMoves(gameObject);
     }
 
-    // Handler matching Action<GameObject, Vector2Int, Vector2Int>
-    void SnapToGrid(GameObject piece, Vector2Int from, Vector2Int to)
+    void OnMouseUp()
     {
-        SnapToGrid();
+        _isDragging = false;
+
+        Vector2Int newPosition = Vector2Int.RoundToInt(transform.position);
+        PieceManager.Instance.TryMovePiece(gameObject, _firstPosition, newPosition);
+    }
+
+    public void SnapToGrid()
+    {
+        transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
     }
 
     Vector3 GetMouseWorldPos()

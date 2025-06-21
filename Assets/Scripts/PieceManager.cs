@@ -5,10 +5,6 @@ public class PieceManager : MonoBehaviour
 {
     public static PieceManager Instance { get; private set; }
 
-    public static event Action<GameObject> OnPieceSelected;
-    public static event Action<GameObject> OnPieceDeselected;
-    public static event Action<GameObject, Vector2Int, Vector2Int> OnPieceMoved;
-
     [SerializeField] private MoveHighlighter _moveHighlighter;
     private GameObject _selectedPiece;
 
@@ -22,6 +18,30 @@ public class PieceManager : MonoBehaviour
         Instance = this;
     }
 
+    public void TryMovePiece(GameObject piece, Vector2Int from, Vector2Int to)
+    {
+        // Return piece to initial square if isn't legal move
+        if (!IsLegalMove(to))
+        {
+            piece.transform.position = new(from.x, from.y, 0);
+            return;
+        }
+
+        if (!BoardUtils.SquareIsEmpty(to) || BoardUtils.CanCaptureAt(to, piece))
+        {
+            var target = BoardUtils.GetPieceAt(to);
+            Debug.Log("Trying to destroy " + target);
+            if (target) Destroy(target);
+
+            BoardGenerator.Instance.PiecesOnBoard[piece] = to;
+            BoardGenerator.Instance.PositionToPiece[to] = piece;
+        }
+
+        piece.GetComponent<Draggable>().SnapToGrid();
+        _moveHighlighter.ClearHighlights();
+    }
+
+    // Check if this is a highlighted and legal square for the piece to move
     public bool IsLegalMove(Vector2Int targetPosition)
     {
         return _moveHighlighter.LegalPositions.Contains(targetPosition);
@@ -35,26 +55,13 @@ public class PieceManager : MonoBehaviour
 
         DeselectCurrentPiece();
         _selectedPiece = piece;
-        OnPieceSelected?.Invoke(piece);
     }
 
     public void DeselectCurrentPiece()
     {
         if (_selectedPiece != null)
         {
-            OnPieceDeselected?.Invoke(_selectedPiece);
             _selectedPiece = null;
         }
-    }
-
-    // Static methods to invoke events
-    public static void InvokeOnPieceSelected(GameObject piece)
-    {
-        OnPieceSelected?.Invoke(piece);
-    }
-
-    public static void InvokeOnPieceMoved(GameObject piece, Vector2Int oldPosition, Vector2Int newPosition)
-    {
-        OnPieceMoved?.Invoke(piece, oldPosition, newPosition);
     }
 }

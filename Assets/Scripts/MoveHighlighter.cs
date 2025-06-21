@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.UIElements;
 
 public class MoveHighlighter : MonoBehaviour
 {
@@ -30,20 +31,6 @@ public class MoveHighlighter : MonoBehaviour
     [SerializeField] private PieceMovementData _movementData;
     [SerializeField] private GameObject _highlightPrefab;
 
-    void OnEnable()
-    {
-        PieceManager.OnPieceSelected += ShowMoves;
-        PieceManager.OnPieceMoved += ClearHighlights;
-        PieceManager.OnPieceDeselected += ClearHighlights;
-    }
-
-    void OnDisable()
-    {
-        PieceManager.OnPieceSelected -= ShowMoves;
-        PieceManager.OnPieceMoved -= ClearHighlights;
-        PieceManager.OnPieceDeselected -= ClearHighlights;
-    }
-
     // Overload to match Action<GameObject> delegate
     public void ShowMoves(GameObject pieceGO)
     {
@@ -57,12 +44,13 @@ public class MoveHighlighter : MonoBehaviour
 
     public void ShowMoves(GameObject pieceGO, string pieceName)
     {
-        bool isWhitePiece = pieceGO.GetComponent<ChessPiece>().PieceData.IsWhite;
+        PieceData pieceData = pieceGO.GetComponent<ChessPiece>().PieceData;
+        bool isWhite = pieceData.IsWhite;
 
         switch (pieceName)
         {
             case "Pawn":
-                ShowPawnMoves(pieceGO, isWhitePiece);
+                ShowPawnMoves(pieceGO, isWhite);
                 break;
             case "Knight":
                 ShowKnightMoves(pieceGO);
@@ -84,24 +72,24 @@ public class MoveHighlighter : MonoBehaviour
 
     #region ShowMoves Methods
 
-    void ShowPawnMoves(GameObject pieceGO, bool isWhitePiece)
+    void ShowPawnMoves(GameObject pieceGO, bool isWhite)
     {
-        int direction = isWhitePiece ? 1 : -1;
-        int initialRow = isWhitePiece ? 1 : 6;
+        int direction = isWhite ? 1 : -1;
+        int initialRow = isWhite ? 1 : 6;
 
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         Vector2Int forward = currentPos + new Vector2Int(0, direction);
         Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
 
-        if (BoardUtils.SquareIsAvailable(forward))
+        if (BoardUtils.SquareIsEmpty(forward))
         {
             // Highlight for one square forward
             ShowHighlight(_highlightPrefab, forward);
 
             // Can move two squares forward if on initial row
             if (currentPos.y == initialRow &&
-                BoardUtils.SquareIsAvailable(forward) &&
-                BoardUtils.SquareIsAvailable(doubleForward))
+                BoardUtils.SquareIsEmpty(forward) &&
+                BoardUtils.SquareIsEmpty(doubleForward))
             {
                 ShowHighlight(_highlightPrefab, doubleForward);
             }
@@ -114,7 +102,7 @@ public class MoveHighlighter : MonoBehaviour
         foreach (Vector2Int move in knightMoves)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + move;
-            if (BoardUtils.SquareIsAvailable(pos))
+            if (BoardUtils.SquareIsEmpty(pos))
             {
                 ShowHighlight(_highlightPrefab, pos);
             }
@@ -127,7 +115,7 @@ public class MoveHighlighter : MonoBehaviour
         foreach (Vector2Int direction in bishopDirections)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
-            while (BoardUtils.SquareIsAvailable(pos))
+            while (BoardUtils.SquareIsEmpty(pos))
             {
                 ShowHighlight(_highlightPrefab, pos);
                 pos += direction;
@@ -141,7 +129,7 @@ public class MoveHighlighter : MonoBehaviour
         foreach (Vector2Int direction in rookDirections)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
-            while (BoardUtils.SquareIsAvailable(pos))
+            while (BoardUtils.SquareIsEmpty(pos))
             {
                 ShowHighlight(_highlightPrefab, pos);
                 pos += direction;
@@ -157,7 +145,7 @@ public class MoveHighlighter : MonoBehaviour
         foreach (Vector2Int direction in queenDirections)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
-            while (BoardUtils.SquareIsAvailable(pos))
+            while (BoardUtils.SquareIsEmpty(pos))
             {
                 ShowHighlight(_highlightPrefab, pos);
                 pos += direction;
@@ -172,7 +160,7 @@ public class MoveHighlighter : MonoBehaviour
         foreach (Vector2Int move in kingMoves)
         {
             Vector2Int pos = currentPos + move;
-            if (BoardUtils.SquareIsAvailable(pos))
+            if (BoardUtils.SquareIsEmpty(pos))
             {
                 ShowHighlight(_highlightPrefab, pos);
             }
