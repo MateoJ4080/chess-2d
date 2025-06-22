@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: Bishop
   pieceName: White Bishop
-  pieceColor: White
+  isWhite: 1
   prefab: {fileID: 1895886443676241159, guid: 34d1b1d164bcf4643af144272e8f73b4, type: 3}
   initialPositions:
   - {x: 2, y: 0}

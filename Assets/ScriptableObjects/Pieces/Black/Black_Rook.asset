@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: Rook
   pieceName: Black Rook
-  pieceColor: Black
+  isWhite: 0
   prefab: {fileID: 125214921008740338, guid: 94183db7a8b2dfe40859d647d43b833f, type: 3}
   initialPositions:
   - {x: 0, y: 7}

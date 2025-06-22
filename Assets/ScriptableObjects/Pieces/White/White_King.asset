@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: King
   pieceName: White King
-  pieceColor: White
+  isWhite: 1
   prefab: {fileID: 5909732749249651528, guid: b24264f17e56d7d4390334d961e79fc7, type: 3}
   initialPositions:
   - {x: 4, y: 0}
