@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475980bc6c793fb47916678b43e81cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveHighlighter: {fileID: 1242518677}
+  _highlightMoves: {fileID: 1242518677}
 --- !u!4 &887906300
 Transform:
   m_ObjectHideFlags: 0
