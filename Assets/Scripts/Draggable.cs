@@ -8,15 +8,15 @@ public class Draggable : MonoBehaviour
     private bool _isDragging = false;
     private Camera _cam;
 
-    [SerializeField] private MoveHighlighter _moveHighlighter;
+    [SerializeField] private HighlightMoves _highlightMoves;
 
     private Vector2Int _firstPosition;
 
     void Start()
     {
         _cam = Camera.main;
-        if (_moveHighlighter == null)
-            _moveHighlighter = FindAnyObjectByType<MoveHighlighter>();
+        if (_highlightMoves == null)
+            _highlightMoves = FindAnyObjectByType<HighlightMoves>();
     }
 
     void Update()
@@ -31,8 +31,8 @@ public class Draggable : MonoBehaviour
         _firstPosition = Vector2Int.RoundToInt(transform.position);
         _offset = transform.position - GetMouseWorldPos();
 
-        _moveHighlighter.ClearHighlights();
-        _moveHighlighter.ShowMoves(gameObject);
+        _highlightMoves.ClearHighlights();
+        _highlightMoves.ShowMoves(gameObject);
     }
 
     void OnMouseUp()

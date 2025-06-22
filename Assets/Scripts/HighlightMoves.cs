@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.UIElements;
 
-public class MoveHighlighter : MonoBehaviour
+public class HighlightMoves : MonoBehaviour
 {
     private GameObject activePiece;
     public GameObject ActivePiece

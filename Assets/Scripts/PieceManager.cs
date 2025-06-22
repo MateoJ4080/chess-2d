@@ -5,7 +5,7 @@ public class PieceManager : MonoBehaviour
 {
     public static PieceManager Instance { get; private set; }
 
-    [SerializeField] private MoveHighlighter _moveHighlighter;
+    [SerializeField] private HighlightMoves _highlightMoves;
     private GameObject _selectedPiece;
 
     private void Awake()
@@ -39,7 +39,7 @@ public class PieceManager : MonoBehaviour
         }
 
         piece.GetComponent<Draggable>().SnapToGrid();
-        _moveHighlighter.ClearHighlights();
+        _highlightMoves.ClearHighlights();
 
         BoardUtils.RefreshBoardState(from, to, piece);
     }
@@ -47,7 +47,7 @@ public class PieceManager : MonoBehaviour
     // Check if this is a highlighted and legal square for the piece to move
     public bool IsLegalMove(Vector2Int targetPosition)
     {
-        return _moveHighlighter.LegalPositions.Contains(targetPosition);
+        return _highlightMoves.LegalPositions.Contains(targetPosition);
     }
 
     // Select and Deselect
