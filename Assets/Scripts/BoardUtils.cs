@@ -5,7 +5,7 @@ public static class BoardUtils
 {
     public static bool SquareIsEmpty(Vector2Int position)
     {
-        Debug.Log($"{position}: {BoardGenerator.Instance.Squares.ContainsKey(position)} and {!BoardGenerator.Instance.PositionToPiece.ContainsKey(position)}");
+        // Debug.Log($"{position}: {BoardGenerator.Instance.Squares.ContainsKey(position)} and {!BoardGenerator.Instance.PositionToPiece.ContainsKey(position)}");
         return BoardGenerator.Instance.Squares.ContainsKey(position) &&
                 !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(position);
     }

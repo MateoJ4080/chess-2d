@@ -30,6 +30,7 @@ public class HighlightMoves : MonoBehaviour
 
     [SerializeField] private PieceMovementData _movementData;
     [SerializeField] private GameObject _highlightPrefab;
+    [SerializeField] private GameObject _highlightCapturePrefab;
 
     // Overload to match Action<GameObject> delegate
     public void ShowMoves(GameObject pieceGO)
@@ -96,13 +97,12 @@ public class HighlightMoves : MonoBehaviour
         }
 
         Vector2Int topRight = currentPos + new Vector2Int(1, direction);
-        Debug.Log($"topRight: {topRight}");
         if (BoardUtils.PieceIsOpponent(topRight, pieceGO))
-            ShowHighlight(_highlightPrefab, topRight);
+            ShowHighlight(_highlightCapturePrefab, topRight);
 
         Vector2Int topLeft = currentPos + new Vector2Int(-1, direction);
         if (BoardUtils.PieceIsOpponent(topLeft, pieceGO))
-            ShowHighlight(_highlightPrefab, topLeft);
+            ShowHighlight(_highlightCapturePrefab, topLeft);
     }
 
     void ShowKnightMoves(GameObject pieceGO)
@@ -115,6 +115,10 @@ public class HighlightMoves : MonoBehaviour
             {
                 ShowHighlight(_highlightPrefab, pos);
             }
+            if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+            {
+                ShowHighlight(_highlightCapturePrefab, pos);
+            }
         }
     }
 
@@ -124,8 +128,13 @@ public class HighlightMoves : MonoBehaviour
         foreach (Vector2Int direction in bishopDirections)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
-            while (BoardUtils.SquareIsEmpty(pos))
+            while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
+                if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+                {
+                    ShowHighlight(_highlightCapturePrefab, pos);
+                    break;
+                }
                 ShowHighlight(_highlightPrefab, pos);
                 pos += direction;
             }
@@ -138,8 +147,13 @@ public class HighlightMoves : MonoBehaviour
         foreach (Vector2Int direction in rookDirections)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
-            while (BoardUtils.SquareIsEmpty(pos))
+            while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
+                if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+                {
+                    ShowHighlight(_highlightCapturePrefab, pos);
+                    break;
+                }
                 ShowHighlight(_highlightPrefab, pos);
                 pos += direction;
             }
@@ -147,31 +161,38 @@ public class HighlightMoves : MonoBehaviour
     }
 
     void ShowQueenMoves(GameObject pieceGO)
-
-
     {
         Vector2Int[] queenDirections = _movementData.queenDirections;
         foreach (Vector2Int direction in queenDirections)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
-            while (BoardUtils.SquareIsEmpty(pos))
+            while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
+                if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+                {
+                    ShowHighlight(_highlightCapturePrefab, pos);
+                    break;
+                }
                 ShowHighlight(_highlightPrefab, pos);
                 pos += direction;
             }
         }
     }
 
-    void ShowKingMoves(GameObject gameObject)
+    void ShowKingMoves(GameObject pieceGO)
     {
         Vector2Int[] kingMoves = _movementData.kingMoves;
-        Vector2Int currentPos = Vector2Int.RoundToInt(gameObject.transform.position);
+        Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         foreach (Vector2Int move in kingMoves)
         {
             Vector2Int pos = currentPos + move;
             if (BoardUtils.SquareIsEmpty(pos))
             {
                 ShowHighlight(_highlightPrefab, pos);
+            }
+            if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+            {
+                ShowHighlight(_highlightCapturePrefab, pos);
             }
         }
     }
@@ -194,17 +215,5 @@ public class HighlightMoves : MonoBehaviour
         }
         activeHighlights.Clear();
         legalPositions.Clear();
-    }
-
-    // Overload to match Action<GameObject> delegate
-    public void ClearHighlights(GameObject pieceGO)
-    {
-        ClearHighlights();
-    }
-
-    // Overload to match Action<GameObject, Vector2Int, Vector2Int> delegate
-    public void ClearHighlights(GameObject piece, Vector2Int from, Vector2Int to)
-    {
-        ClearHighlights();
     }
 }
