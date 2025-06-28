@@ -475,6 +475,7 @@ GameObject:
   - component: {fileID: 1242518674}
   - component: {fileID: 1242518676}
   - component: {fileID: 1242518677}
+  - component: {fileID: 1242518678}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -560,6 +561,20 @@ MonoBehaviour:
   _movementData: {fileID: 11400000, guid: fa90a1c53fe88874f86fecc4e0e8b168, type: 2}
   _highlightPrefab: {fileID: 2699572044763447599, guid: 6ab5eba29e234e440bf176c5bb23654b, type: 3}
   _highlightCapturePrefab: {fileID: 5003668824578662479, guid: 09c1cb0abbe06f04c9e03be9616434d9, type: 3}
+--- !u!114 &1242518678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242518672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325c4cf222786a2428b47e06a7ed058f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _greenSquare: {fileID: 2090350667903705108, guid: d4b2db22da92dd64699266fbf66b2a85, type: 3}
+  _redSquare: {fileID: 2090350667903705108, guid: bab9ea2058d6fa445a6de3d17c563657, type: 3}
 --- !u!1 &1271453741
 GameObject:
   m_ObjectHideFlags: 0

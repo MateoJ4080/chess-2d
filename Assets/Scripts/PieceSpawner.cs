@@ -34,7 +34,7 @@ public class PieceSpawner : MonoBehaviour
                 // Find the child object containing the sprite
                 Transform visual = piece.transform.Find("Visual");
                 SpriteRenderer sr = visual.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = 1;
+                sr.sortingOrder = 2;
 
                 // Rename using chess notation (A1-H8)
                 char column = (char)('A' + piecePos.x);
@@ -60,5 +60,7 @@ public class PieceSpawner : MonoBehaviour
                 BoardGenerator.Instance.PositionToPiece[piecePos] = piece;
             }
         }
+        BoardState.UpdateThreatenedSquares();
+        BoardState.ColorThreatenedSquares();
     }
 }

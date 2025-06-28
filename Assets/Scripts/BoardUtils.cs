@@ -1,4 +1,6 @@
+using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.UIElements;
 
 public static class BoardUtils
@@ -42,5 +44,13 @@ public static class BoardUtils
 
         BoardGenerator.Instance.PiecesOnBoard[piece] = to;
         BoardGenerator.Instance.PositionToPiece[to] = piece;
+
+        BoardState.UpdateThreatenedSquares();
+    }
+
+    public static GameObject GetSquareAt(Vector2Int pos)
+    {
+        BoardGenerator.Instance.Squares.TryGetValue(pos, out GameObject square);
+        return square;
     }
 }
