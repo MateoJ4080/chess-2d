@@ -6,8 +6,9 @@ public class BoardState : MonoBehaviour
 {
     public static BoardState Instance { get; private set; }
 
-    public Dictionary<GameObject, Vector2Int[]> WhiteThreatenedSquares { get; private set; } = new();
-    public Dictionary<GameObject, Vector2Int[]> BlackThreatenedSquares { get; private set; } = new();
+    public Dictionary<Vector2Int, GameObject> WhiteThreatenedSquares { get; private set; } = new();
+    public Dictionary<Vector2Int, GameObject> BlackThreatenedSquares { get; private set; } = new();
+
     private PieceMovementData _movementData;
     [SerializeField] private GameObject _greenSquare;
     [SerializeField] private GameObject _redSquare;
@@ -46,23 +47,22 @@ public class BoardState : MonoBehaviour
                             pos + new Vector2Int(-1, 1 * direction)
                          };
 
-                        targetDict[piece] = pawnCaptures;
+                        targetDict[pawnCaptures[0]] = piece;
+                        targetDict[pawnCaptures[1]] = piece;
                         break;
 
                     case "Knight":
-                        List<Vector2Int> knightCaptures = new List<Vector2Int>();
-                        foreach (var targetPos in Instance._movementData.knightMoves)
+                        foreach (var move in Instance._movementData.knightMoves)
                         {
+                            Vector2Int targetPos = pos + move;
                             if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.PieceIsOpponent(targetPos, piece))
                             {
-                                knightCaptures.Add(pos + targetPos);
+                                targetDict[targetPos] = piece;
                             }
                         }
-                        targetDict[piece] = knightCaptures.ToArray();
                         break;
 
                     case "Bishop":
-                        List<Vector2Int> bishopCaptures = new List<Vector2Int>();
                         foreach (var move in Instance._movementData.bishopDirections)
                         {
                             for (int i = 1; i < 8; i++)
@@ -72,17 +72,18 @@ public class BoardState : MonoBehaviour
 
                                 if (BoardUtils.SquareIsEmpty(targetPos))
                                 {
-                                    bishopCaptures.Add(targetPos);
+
+                                    targetDict[targetPos] = piece;
                                 }
                                 else if (BoardUtils.PieceIsOpponent(targetPos, piece))
                                 {
-                                    bishopCaptures.Add(targetPos);
+
+                                    targetDict[targetPos] = piece;
                                     break;
                                 }
                                 else break;
                             }
                         }
-                        targetDict[piece] = bishopCaptures.ToArray();
                         break;
 
                     case "Rook":
@@ -96,17 +97,16 @@ public class BoardState : MonoBehaviour
                                 if (!BoardUtils.GetSquareAt(targetPos)) break;
                                 if (BoardUtils.SquareIsEmpty(targetPos))
                                 {
-                                    rookCaptures.Add(targetPos);
+                                    targetDict[targetPos] = piece;
                                 }
                                 else if (BoardUtils.PieceIsOpponent(targetPos, piece))
                                 {
-                                    rookCaptures.Add(targetPos);
+                                    targetDict[targetPos] = piece;
                                     break;
                                 }
                                 else break;
                             }
                         }
-                        targetDict[piece] = rookCaptures.ToArray();
                         break;
 
                     case "Queen":
@@ -120,17 +120,16 @@ public class BoardState : MonoBehaviour
                                 if (!BoardUtils.GetSquareAt(targetPos)) break;
                                 if (BoardUtils.SquareIsEmpty(targetPos))
                                 {
-                                    queenCaptures.Add(targetPos);
+                                    targetDict[targetPos] = piece;
                                 }
                                 else if (BoardUtils.PieceIsOpponent(targetPos, piece))
                                 {
-                                    queenCaptures.Add(targetPos);
+                                    targetDict[targetPos] = piece;
                                     break;
                                 }
                                 else break;
                             }
                         }
-                        targetDict[piece] = queenCaptures.ToArray();
                         break;
 
                     case "King":
@@ -142,11 +141,10 @@ public class BoardState : MonoBehaviour
                             {
                                 if (BoardUtils.SquareIsEmpty(newPos) || BoardUtils.PieceIsOpponent(newPos, piece))
                                 {
-                                    kingCaptures.Add(newPos);
+                                    targetDict[targetPos] = piece;
                                 }
                             }
                         }
-                        targetDict[piece] = kingCaptures.ToArray();
                         break;
                 }
             }
@@ -159,27 +157,23 @@ public class BoardState : MonoBehaviour
     {
         foreach (var entry in Instance.WhiteThreatenedSquares)
         {
-            foreach (var move in entry.Value)
+            Vector2Int move = entry.Key;
+            if (BoardUtils.GetSquareAt(move))
             {
-                if (BoardUtils.GetSquareAt(move))
-                {
-                    GameObject colorSquare = Instantiate(Instance._greenSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
-                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                    sr.sortingOrder = 1;
-                }
+                GameObject colorSquare = Instantiate(Instance._greenSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
+                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                sr.sortingOrder = 1;
             }
         }
 
         foreach (var entry in Instance.BlackThreatenedSquares)
         {
-            foreach (var move in entry.Value)
+            Vector2Int move = entry.Key;
+            if (BoardUtils.GetSquareAt(move))
             {
-                if (BoardUtils.GetSquareAt(move))
-                {
-                    GameObject colorSquare = Instantiate(Instance._redSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
-                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                    sr.sortingOrder = 1;
-                }
+                GameObject colorSquare = Instantiate(Instance._redSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
+                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                sr.sortingOrder = 1;
             }
         }
     }
