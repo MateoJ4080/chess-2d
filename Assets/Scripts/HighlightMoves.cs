@@ -186,11 +186,11 @@ public class HighlightMoves : MonoBehaviour
         foreach (Vector2Int move in kingMoves)
         {
             Vector2Int pos = currentPos + move;
-            if (BoardUtils.SquareIsEmpty(pos))
+            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.SquareIsThreatened(pos, pieceGO))
             {
                 ShowHighlight(_highlightPrefab, pos);
             }
-            if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+            if (BoardUtils.PieceIsOpponent(pos, pieceGO) && !BoardState.SquareIsThreatened(pos, pieceGO))
             {
                 ShowHighlight(_highlightCapturePrefab, pos);
             }

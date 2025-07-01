@@ -185,4 +185,14 @@ public class BoardState : MonoBehaviour
             Destroy(obj);
         }
     }
+
+    public static bool SquareIsThreatened(Vector2Int pos, GameObject pieceToMove)
+    {
+
+        ChessPiece pieceData = pieceToMove.GetComponent<ChessPiece>();
+        bool isWhite = pieceData.PieceData.IsWhite;
+        Dictionary<Vector2Int, GameObject> targetDict = isWhite ? Instance.BlackThreatenedSquares : Instance.WhiteThreatenedSquares;
+
+        return targetDict.ContainsKey(pos);
+    }
 }
