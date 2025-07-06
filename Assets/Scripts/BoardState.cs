@@ -56,10 +56,7 @@ public class BoardState : MonoBehaviour
                         foreach (var move in Instance._movementData.knightMoves)
                         {
                             Vector2Int targetPos = pos + move;
-                            if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.PieceIsOpponent(targetPos, piece))
-                            {
-                                targetDict[targetPos] = piece;
-                            }
+                            targetDict[targetPos] = piece;
                         }
                         break;
 
@@ -76,7 +73,7 @@ public class BoardState : MonoBehaviour
 
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.PieceIsOpponent(targetPos, piece))
+                                else if (BoardUtils.GetPieceAt(pos))
                                 {
 
                                     targetDict[targetPos] = piece;
@@ -100,7 +97,7 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.PieceIsOpponent(targetPos, piece))
+                                else if (BoardUtils.GetPieceAt(pos))
                                 {
                                     targetDict[targetPos] = piece;
                                     break;
@@ -123,7 +120,7 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.PieceIsOpponent(targetPos, piece))
+                                else if (BoardUtils.GetPieceAt(pos))
                                 {
                                     targetDict[targetPos] = piece;
                                     break;
@@ -135,12 +132,12 @@ public class BoardState : MonoBehaviour
 
                     case "King":
                         List<Vector2Int> kingCaptures = new List<Vector2Int>();
-                        foreach (var targetPos in Instance._movementData.kingMoves)
+                        foreach (var move in Instance._movementData.kingMoves)
                         {
-                            Vector2Int newPos = pos + targetPos;
-                            if (BoardUtils.GetSquareAt(newPos))
+                            Vector2Int targetPos = pos + move;
+                            if (BoardUtils.GetSquareAt(targetPos))
                             {
-                                if (BoardUtils.SquareIsEmpty(newPos) || BoardUtils.PieceIsOpponent(newPos, piece))
+                                if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.GetPieceAt(pos))
                                 {
                                     targetDict[targetPos] = piece;
                                 }
