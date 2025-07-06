@@ -28,6 +28,7 @@ public class HighlightMoves : MonoBehaviour
     private List<Vector2Int> legalPositions = new();
     public List<Vector2Int> LegalPositions => legalPositions;
 
+    [SerializeField] private BoardManager _boardManager;
     [SerializeField] private PieceMovementData _movementData;
     [SerializeField] private GameObject _highlightPrefab;
     [SerializeField] private GameObject _highlightCapturePrefab;
@@ -45,6 +46,11 @@ public class HighlightMoves : MonoBehaviour
 
     public void ShowMoves(GameObject pieceGO, string pieceName)
     {
+        // If king of this color is in check, don't show other pieces moves
+
+        // Play sound
+        // Mark the king with red background?
+
         PieceData pieceData = pieceGO.GetComponent<ChessPiece>().PieceData;
         bool isWhite = pieceData.IsWhite;
 
