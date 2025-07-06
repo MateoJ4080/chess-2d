@@ -8,10 +8,11 @@ public class BoardState : MonoBehaviour
 
     public Dictionary<Vector2Int, GameObject> WhiteThreatenedSquares { get; private set; } = new();
     public Dictionary<Vector2Int, GameObject> BlackThreatenedSquares { get; private set; } = new();
-
-    private PieceMovementData _movementData;
     [SerializeField] private GameObject _greenSquare;
     [SerializeField] private GameObject _redSquare;
+
+    [SerializeField] private BoardManager _boardManager;
+    private PieceMovementData _movementData;
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class BoardState : MonoBehaviour
             {
                 Vector2Int pos = Vector2Int.RoundToInt(piece.transform.position);
                 string pieceType = chessPiece.PieceData.PieceType;
-                int direction = chessPiece.PieceData.IsWhite ? 1 : -1;
+                int direction = (chessPiece.PieceData.IsWhite ^ Instance._boardManager.BoardIsInverted) ? 1 : -1;
                 bool isWhite = chessPiece.PieceData.IsWhite;
                 var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
 

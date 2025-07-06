@@ -75,8 +75,8 @@ public class HighlightMoves : MonoBehaviour
 
     void ShowPawnMoves(GameObject pieceGO, bool isWhite)
     {
-        int direction = isWhite ? 1 : -1;
-        int initialRow = isWhite ? 1 : 6;
+        int direction = (isWhite ^ _boardManager.BoardIsInverted) ? 1 : -1;
+        int initialRow = (isWhite ^ _boardManager.BoardIsInverted) ? 1 : 6;
 
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         Vector2Int forward = currentPos + new Vector2Int(0, direction);

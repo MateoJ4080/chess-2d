@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    public static PieceManager Instance { get; private set; }
-
     [SerializeField] private HighlightMoves _highlightMoves;
     private GameObject _selectedPiece;
+
+    public static PieceManager Instance { get; private set; }
 
     private void Awake()
     {
