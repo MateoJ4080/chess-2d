@@ -1,20 +1,57 @@
-using Unity.VisualScripting;
+using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
-public class PieceSpawner : MonoBehaviour
+public class PieceSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
     [SerializeField] BoardManager _boardManager;
     [SerializeField] private PieceData[] _piecesData;      // Array containing the scriptable object of each piece. Set in the inspector
 
-    private Vector2 _tileSize;
-    private float _tilePadding = 0.4f;
+    private bool spawned = false;
 
-    void Start()
+    IEnumerator Start()
     {
-        _tileSize = _referenceTile.GetComponent<SpriteRenderer>().bounds.size;
+        PieceDataManager.Initialize();
+
+        if (PhotonNetwork.IsMasterClient) // Avoids both clients assigning colors
+            PlayerManager.AssignRandomColors();
+
+        yield return new WaitUntil(() =>
+            PlayerManager.Instance != null &&
+            PlayerManager.Instance.ColorsAreAssigned);
+
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("Not master client, waiting for pieces to be spawned by master client...");
+            yield break; // Non-master clients will wait for the master client to spawn pieces
+        }
+        TrySpawnPieces();
+    }
+
+    void TrySpawnPieces()
+    {
+        if (spawned)
+        {
+            Debug.Log("Boolean spawned is already in true");
+            return;
+        }
+
+        if (!PlayerManager.Instance.ColorsAreAssigned)
+        {
+            Debug.LogError("Player colors are not assigned yet! Cannot spawn pieces.");
+            return;
+        }
+
+        if (PieceDataManager.Instance == null)
+        {
+            Debug.LogError("PieceDataManager.Instance is null! Cannot spawn pieces");
+            return;
+        }
+
         SpawnPieces();
+        spawned = true;
     }
 
     public void SpawnPieces()
@@ -24,47 +61,15 @@ public class PieceSpawner : MonoBehaviour
         {
             foreach (var pos in pieceData.InitialPositions)
             {
-                GameObject piece = Instantiate(pieceData.Prefab, _pieceContainer);
-
-                piece.AddComponent<Draggable>();
-
-                // Add ChessPiece component and assign the PieceData. This is to use "PieceType" string and set the ActivePiece in MoveHighlighter
-                var chessPiece = piece.AddComponent<ChessPiece>();
-                chessPiece.PieceData = pieceData;
-
-                // Position and direction
-                int posY = _boardManager.BoardIsInverted ? 7 - pos.y : pos.y;
-                Vector2Int piecePos = new(pos.x, posY);
-                piece.transform.localPosition = new Vector3(piecePos.x, posY, 0f);
-
-                // Find the child object containing the sprite
-                Transform visual = piece.transform.Find("Visual");
-                SpriteRenderer sr = visual.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = 2;
-
-                // Rename using chess notation (A1-H8)
-                char column = (char)('A' + piecePos.x);
-                int row = piecePos.y + 1;
-                piece.name = $"{pieceData.PieceName}_{column}{row}";
-
-                // Scale the child to fit the tile with padding
-                Vector2 pieceSize = sr.bounds.size;
-                float scaleX = _tileSize.x / pieceSize.x;
-                float scaleY = _tileSize.y / pieceSize.y;
-                float uniformScale = Mathf.Min(scaleX, scaleY);
-                visual.localScale = new Vector2(uniformScale - _tilePadding, uniformScale - _tilePadding);
-
-                // Set the collider to match the tile size (unaffected by visual scaling)
-                BoxCollider2D collider = piece.GetComponent<BoxCollider2D>();
-                collider.size = _tileSize;
-                collider.offset = Vector2.zero;
-
-                // Store the piece in dictionary
-                BoardGenerator.Instance.PiecesOnBoard[piece] = piecePos;
-                BoardGenerator.Instance.PositionToPiece[piecePos] = piece;
+                PhotonNetwork.Instantiate
+                (
+                    $"Prefabs/Pieces/{pieceData.name}",
+                    Vector3.zero,
+                    Quaternion.identity,
+                    0,
+                    new object[] { pieceData.name, pos.x, pos.y } // used in PieceSetup
+                );
             }
         }
-        BoardState.UpdateThreatenedSquares();
-        BoardState.ColorThreatenedSquares();
     }
 }

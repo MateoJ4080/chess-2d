@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
+using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -147,12 +149,13 @@ public class BoardState : MonoBehaviour
                 }
             }
         }
-        ClearColorSquares();
         ColorThreatenedSquares();
     }
 
     public static void ColorThreatenedSquares()
     {
+        ClearColorSquares();
+
         foreach (var entry in Instance.WhiteThreatenedSquares)
         {
             Vector2Int move = entry.Key;

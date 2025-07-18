@@ -54,7 +54,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         UIManager.ChangeNetworkText("In Room. Waiting for player...");
-        PhotonNetwork.LoadLevel("GameScene");
 
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
@@ -66,7 +65,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
         {
-            PlayerManager.AssignRandomColors();
             PhotonNetwork.LoadLevel("GameScene");
         }
     }

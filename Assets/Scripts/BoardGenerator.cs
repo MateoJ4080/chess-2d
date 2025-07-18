@@ -9,6 +9,13 @@ public class BoardGenerator : MonoBehaviour
     [SerializeField] private Transform _squaresContainer;
     [SerializeField] private Color _lightColor = Color.white;
     [SerializeField] private Color _darkColor = Color.gray;
+    [SerializeField] private SpriteRenderer _tileReference;
+    private Vector2 tileSize;
+    public Vector2 TileSize
+    {
+        get { return tileSize; }
+        set { tileSize = value; }
+    }
 
     [SerializeField] private int _boardWidth = 8;
     [SerializeField] private int _boardHeight = 8;
@@ -31,6 +38,8 @@ public class BoardGenerator : MonoBehaviour
     }
     void Start()
     {
+        tileSize = _tileReference.bounds.size;
+
         GenerateBoard();
     }
 

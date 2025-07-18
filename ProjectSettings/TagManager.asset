@@ -7,6 +7,8 @@ TagManager:
   - Piece
   - Highlight
   - ColorSquare
+  - PiecesContainer
+  - ColorInfoText
   layers:
   - Default
   - TransparentFX

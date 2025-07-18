@@ -1,11 +1,5 @@
 using System.Collections.Generic;
-using Mono.Cecil.Cil;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.UIElements;
 
 public class HighlightMoves : MonoBehaviour
 {
@@ -87,6 +81,7 @@ public class HighlightMoves : MonoBehaviour
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         Vector2Int forward = currentPos + new Vector2Int(0, direction);
         Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
+        Debug.Log($"IsWhite: {isWhite}. BoardInverted: {_boardManager.BoardIsInverted}");
 
         if (BoardUtils.SquareIsEmpty(forward))
         {
