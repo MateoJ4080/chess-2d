@@ -29,6 +29,15 @@ public class PieceManager : MonoBehaviour
             return;
         }
 
+        // If piece on target square, destroy and remove from dictionary
+        GameObject pieceToCapture = BoardUtils.GetPieceAt(to);
+        if (pieceToCapture != null)
+        {
+            Destroy(pieceToCapture);
+            BoardGenerator.Instance.PiecesOnBoard.Remove(pieceToCapture);
+        }
+
+        // Move the piece and update the board state
         MovePiece(from, to, piece);
 
         int pieceID = piece.GetComponent<PhotonView>().ViewID;
@@ -47,6 +56,9 @@ public class PieceManager : MonoBehaviour
     [PunRPC]
     public void SynqSquare(int fromX, int fromY, int toX, int toY, int pieceID)
     {
+
+        // The conversion depending on the color of the player will be done in the future
+        // For now, we assume the board will be inverted
         Vector2Int from = new(fromX, 7 - fromY);
         Vector2Int to = new(toX, 7 - toY);
 
@@ -57,19 +69,15 @@ public class PieceManager : MonoBehaviour
             return;
         }
 
-        // If there's a piece there, we remove it from the dictionary and destroy it
-        if (!BoardUtils.SquareIsEmpty(to))
+        // If piece on target square, destroy and remove from dictionary
+        GameObject pieceToCapture = BoardUtils.GetPieceAt(to);
+        if (pieceToCapture != null)
         {
-            var target = BoardUtils.GetPieceAt(to);
-            if (target != null)
-            {
-                BoardGenerator.Instance.PiecesOnBoard.Remove(target);
-                Destroy(target);
-            }
+            Destroy(pieceToCapture);
+            BoardGenerator.Instance.PiecesOnBoard.Remove(pieceToCapture);
         }
 
         var piece = view.gameObject;
-
         piece.transform.position = new(to.x, to.y);
         BoardUtils.RefreshBoardState(from, to, piece);
     }
