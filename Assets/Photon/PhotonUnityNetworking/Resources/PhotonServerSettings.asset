@@ -42,6 +42,7 @@ MonoBehaviour:
   - PositionOnSpawn
   - SynqSquare
   - SynqMove
+  - SyncMove
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

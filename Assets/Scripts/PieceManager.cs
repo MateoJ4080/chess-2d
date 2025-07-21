@@ -41,7 +41,7 @@ public class PieceManager : MonoBehaviour
         MovePiece(from, to, piece);
 
         int pieceID = piece.GetComponent<PhotonView>().ViewID;
-        photonView.RPC("SynqMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);
+        photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
@@ -54,7 +54,7 @@ public class PieceManager : MonoBehaviour
 
     // Synchronize the square movement across the network, depending on the color/point of view of the local player
     [PunRPC]
-    public void SynqMove(int fromX, int fromY, int toX, int toY, int pieceID)
+    public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID)
     {
 
         // The conversion depending on the color of the player will be done in the future
