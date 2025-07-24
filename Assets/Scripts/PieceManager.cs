@@ -22,8 +22,8 @@ public class PieceManager : MonoBehaviour
 
     public void TryMovePiece(GameObject piece, Vector2Int from, Vector2Int to)
     {
-        // Return piece to initial square if isn't legal move
-        if (!IsLegalMove(to))
+        // If isn't legal move or isn't player's turn, return piece to original position
+        if (!IsLegalMove(to) || !GameManager.Instance.ItsMyTurn())
         {
             piece.transform.position = new(from.x, from.y, 0);
             return;
@@ -39,6 +39,7 @@ public class PieceManager : MonoBehaviour
 
         // Move the piece and update the board state
         MovePiece(from, to, piece);
+        GameManager.Instance.SwitchTurn();
 
         int pieceID = piece.GetComponent<PhotonView>().ViewID;
         photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);
@@ -46,6 +47,7 @@ public class PieceManager : MonoBehaviour
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
     {
+        Debug.Log($"<color=green>Moving piece");
         piece.GetComponent<Draggable>().SnapToGrid();
         _highlightMoves.ClearHighlights();
 
@@ -57,7 +59,7 @@ public class PieceManager : MonoBehaviour
     public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID)
     {
 
-        // The conversion depending on the color of the player will be done in the future
+        // The conversion depending on the color of the player is still to be done
         // For now, we assume the board will be inverted
         Vector2Int from = new(fromX, 7 - fromY);
         Vector2Int to = new(toX, 7 - toY);

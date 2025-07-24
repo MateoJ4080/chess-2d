@@ -32,7 +32,10 @@ public class Draggable : MonoBehaviour
         _offset = transform.position - GetMouseWorldPos();
 
         _highlightMoves.ClearHighlights();
-        _highlightMoves.ShowMoves(gameObject);
+        if (BoardUtils.PlayerIsThisColor(gameObject))
+        {
+            _highlightMoves.ShowMoves(gameObject);
+        }
     }
 
     void OnMouseUp()

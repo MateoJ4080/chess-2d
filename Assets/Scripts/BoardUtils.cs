@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public static class BoardUtils
@@ -34,6 +35,15 @@ public static class BoardUtils
         return null;
     }
 
+    public static bool PlayerIsThisColor(GameObject piece)
+    {
+        if (piece == null) return false;
+
+        string playerColor = PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string;
+        bool isWhite = playerColor == "White";
+
+        return piece.GetComponent<ChessPiece>().PieceData.IsWhite == isWhite;
+    }
 
     public static void RefreshBoardState(Vector2Int from, Vector2Int to, GameObject piece)
     {

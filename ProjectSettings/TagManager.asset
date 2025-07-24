@@ -9,6 +9,7 @@ TagManager:
   - ColorSquare
   - PiecesContainer
   - ColorInfoText
+  - TurnInfoText
   layers:
   - Default
   - TransparentFX

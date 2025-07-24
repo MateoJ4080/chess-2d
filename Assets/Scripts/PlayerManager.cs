@@ -25,6 +25,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        Debug.Log("PlayerManager Awake");
+
         DontDestroyOnLoad(gameObject);
 
         if (Instance != null && Instance != this)
@@ -35,9 +37,22 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
+    // Check if colors are assigned by looking at room properties
+    public bool CheckColorsAssigned()
+    {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("ColorsAssigned"))
+        {
+            colorsAreAssigned = (bool)PhotonNetwork.CurrentRoom.CustomProperties["ColorsAssigned"];
+            return colorsAreAssigned;
+        }
+        return false;
+    }
+
     public static void AssignRandomColors()
     {
         Player[] players = PhotonNetwork.PlayerList;
+
+        Debug.Log($"[AssignRandomColors] | Players in room: {players.Length}");
 
         if (players.Length < 2)
         {
@@ -45,24 +60,39 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             return;
         }
 
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogWarning("Only the MasterClient should assign colors!");
+            return;
+        }
+
+        Debug.Log("Assigning colors to players...");
         bool firstIsWhite = Random.value < 0.5f;
 
-        // First color
         ExitGames.Client.Photon.Hashtable p1props = new();
         p1props["Color"] = firstIsWhite ? "White" : "Black";
         players[0].SetCustomProperties(p1props);
 
-        // Opposite color from the first
         ExitGames.Client.Photon.Hashtable p2props = new();
         p2props["Color"] = firstIsWhite ? "Black" : "White";
         players[1].SetCustomProperties(p2props);
 
-        Debug.Log($"Colors: Player1 is {players[0].CustomProperties["Color"]}, Player2 is {players[1].CustomProperties["Color"]}");
+        // Set room property to indicate colors are assigned
+        ExitGames.Client.Photon.Hashtable roomProps = new();
+        roomProps["ColorsAssigned"] = true;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProps);
+
+        Instance.ColorsAreAssigned = true;
+        Debug.Log("Colors assigned successfully!");
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    // Called when room properties change
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
-        Instance.ColorsAreAssigned = true;
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        if (propertiesThatChanged.ContainsKey("ColorsAssigned"))
+        {
+            colorsAreAssigned = (bool)propertiesThatChanged["ColorsAssigned"];
+            Debug.Log($"Colors assignment status updated: {colorsAreAssigned}");
+        }
     }
 }
