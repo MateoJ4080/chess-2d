@@ -54,7 +54,7 @@ public class PieceManager : MonoBehaviour
 
         // Move the piece and update the board state
         MovePiece(from, to, pieceGO);
-        GameManager.Instance.OnPieceMoved(pieceGO);
+        GameManager.Instance.OnPieceMoved(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 
         int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;

@@ -80,31 +80,37 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instance.state = GameState.Loading;
     }
 
-    public void OnPieceMoved(GameObject piece)
+    public void OnPieceMoved(GameObject piece, Vector2Int from)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
 
         if (data.PieceType == "King")
         {
-            DisableCastling(data.IsWhite ? "White" : "Black");
+            DisableCastling(data.IsWhite);
         }
         if (data.PieceType == "Rook")
         {
+            if (data.IsWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.King, data.IsWhite);
+            if (data.IsWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.Queen, data.IsWhite);
+
+            if (!data.IsWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.Queen, data.IsWhite);
+            if (!data.IsWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King, data.IsWhite);
+
             DisableRookSide(PieceData.RookSide.King, data.IsWhite);
         }
     }
 
-    void DisableCastling(string color)
+    void DisableCastling(bool isWhite)
     {
         var p = new ExitGames.Client.Photon.Hashtable();
 
-        if (color == "White")
+        if (isWhite)
         {
             p["whiteCK"] = false;
             p["whiteCQ"] = false;
         }
 
-        if (color == "Black")
+        if (!isWhite)
         {
             p["blackCK"] = false;
             p["blackCQ"] = false;
