@@ -8,6 +8,7 @@ public class PieceData : ScriptableObject
     [SerializeField] private bool isWhite;
     [SerializeField] private GameObject prefab;
     [SerializeField] private Vector2Int[] initialPositions;
+    public enum RookSide { King, Queen }
 
     // Getters
     public string PieceType => pieceType;

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using Mono.Cecil;
+using Photon.Pun;
 using UnityEngine;
 
-public class HighlightMoves : MonoBehaviour
+public class HighlightMoves : MonoBehaviourPunCallbacks
 {
     private GameObject activePiece;
     public GameObject ActivePiece
@@ -182,6 +184,8 @@ public class HighlightMoves : MonoBehaviour
 
     void ShowKingMoves(GameObject pieceGO)
     {
+        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
+
         Vector2Int[] kingMoves = _movementData.kingMoves;
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         foreach (Vector2Int move in kingMoves)
@@ -195,6 +199,26 @@ public class HighlightMoves : MonoBehaviour
             {
                 ShowHighlight(_highlightCapturePrefab, pos);
             }
+        }
+
+        // Castling
+        bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, pieceGO);
+        bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, pieceGO);
+
+        if (canCastleKingSide)
+        {
+            if (data.IsWhite)
+                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(2, 0));
+            if (!data.IsWhite)
+                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(-2, 0));
+        }
+
+        if (canCastleQueenSide)
+        {
+            if (data.IsWhite)
+                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(-2, 0));
+            if (!data.IsWhite)
+                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(2, 0));
         }
     }
 

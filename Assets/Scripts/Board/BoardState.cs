@@ -187,6 +187,7 @@ public class BoardState : MonoBehaviour
         }
     }
 
+    // *Might want to move it to BoardUtils later*
     public static bool SquareIsThreatened(Vector2Int pos, GameObject pieceToMove)
     {
 

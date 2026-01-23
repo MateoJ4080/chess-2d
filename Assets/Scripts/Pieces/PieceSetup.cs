@@ -76,6 +76,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         Vector2Int pos = new(x, y);
 
         int posY = _boardManager.BoardIsInverted ? 7 - pos.y : pos.y;
+
         Vector2Int piecePos = new(pos.x, posY);
         gameObject.transform.localPosition = new Vector3(x, posY, 0f);
 
@@ -87,5 +88,8 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         BoardGenerator.Instance.PiecesOnBoard[gameObject] = piecePos;
         BoardGenerator.Instance.PositionToPiece[piecePos] = gameObject;
         BoardState.UpdateThreatenedSquares();
+
+
+        Debug.Log($"<color=yellow> {pieceData.PieceName} added to ({piecePos.x}, {piecePos.y}). PositionToPiece count: {BoardGenerator.Instance.PositionToPiece.Count}");
     }
 }

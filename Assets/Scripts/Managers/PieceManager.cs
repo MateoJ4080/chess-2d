@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -20,16 +21,16 @@ public class PieceManager : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
-    public void TryMovePiece(GameObject piece, Vector2Int from, Vector2Int to)
+    public void TryMovePiece(GameObject pieceGO, Vector2Int from, Vector2Int to)
     {
         // If isn't legal move or isn't player's turn, return piece to original position
         if (!IsLegalMove(to) || !GameManager.Instance.ItsMyTurn())
         {
-            piece.transform.position = new(from.x, from.y, 0);
+            pieceGO.transform.position = new(from.x, from.y, 0);
             return;
         }
 
-        // If piece on target square, destroy and remove from dictionary
+        // If there's a piece on target square, destroy and remove from dictionary
         GameObject pieceToCapture = BoardUtils.GetPieceAt(to);
         if (pieceToCapture != null)
         {
@@ -37,20 +38,36 @@ public class PieceManager : MonoBehaviour
             BoardGenerator.Instance.PiecesOnBoard.Remove(pieceToCapture);
         }
 
+        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
+
+        // Castling
+        if (data.PieceType == "King" && to.x - from.x == 2)
+        {
+            Vector2Int rightRookPos = new(7, 0);
+            GameObject rightRook = BoardUtils.GetPieceAt(rightRookPos);
+
+            Debug.Log($"RightRook null: {rightRook == null}. Piece at (7,0): {BoardGenerator.Instance.PositionToPiece[new(7, 0)]}");
+
+            rightRook.transform.position = new(5, 0, 0);
+        }
+
+
         // Move the piece and update the board state
-        MovePiece(from, to, piece);
+        MovePiece(from, to, pieceGO);
+        GameManager.Instance.OnPieceMoved(pieceGO);
         GameManager.Instance.SwitchTurn();
 
-        int pieceID = piece.GetComponent<PhotonView>().ViewID;
+        int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
         photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
     {
-        Debug.Log($"<color=green>Moving piece");
+        var data = piece.GetComponent<ChessPiece>().PieceData;
+
+        Debug.Log($"Moved {data.PieceType} to ({to.x}, {to.y})");
         piece.GetComponent<Draggable>().SnapToGrid();
         _highlightMoves.ClearHighlights();
-
         BoardUtils.RefreshBoardState(from, to, piece);
     }
 
@@ -58,7 +75,6 @@ public class PieceManager : MonoBehaviour
     [PunRPC]
     public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID)
     {
-
         // The conversion depending on the color of the player is still to be done
         // For now, we assume the board will be inverted
         Vector2Int from = new(fromX, 7 - fromY);

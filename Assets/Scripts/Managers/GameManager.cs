@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 
@@ -59,9 +60,67 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnCreatedRoom()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        var props = new ExitGames.Client.Photon.Hashtable {
+            {"whiteCK", true},
+            {"whiteCQ", true},
+            {"blackCK", true},
+            {"blackCQ", true}
+        };
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+    }
+
     public void OnPressPlay()
     {
         Instance.state = GameState.Loading;
+    }
+
+    public void OnPieceMoved(GameObject piece)
+    {
+        var data = piece.GetComponent<ChessPiece>().PieceData;
+
+        if (data.PieceType == "King")
+        {
+            DisableCastling(data.IsWhite ? "White" : "Black");
+        }
+        if (data.PieceType == "Rook")
+        {
+            DisableRookSide(PieceData.RookSide.King, data.IsWhite);
+        }
+    }
+
+    void DisableCastling(string color)
+    {
+        var p = new ExitGames.Client.Photon.Hashtable();
+
+        if (color == "White")
+        {
+            p["whiteCK"] = false;
+            p["whiteCQ"] = false;
+        }
+
+        if (color == "Black")
+        {
+            p["blackCK"] = false;
+            p["blackCQ"] = false;
+        }
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(p);
+    }
+
+    void DisableRookSide(PieceData.RookSide side, bool isWhite)
+    {
+        var p = new ExitGames.Client.Photon.Hashtable();
+
+        if (isWhite) p[side == PieceData.RookSide.King ? "whiteCK" : "whiteCQ"] = false;
+        else p[side == PieceData.RookSide.King ? "blackCK" : "blackCQ"] = false;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(p);
     }
 
     // Handle turns
@@ -84,5 +143,74 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         ExitGames.Client.Photon.Hashtable turnProps = new() { { "Turn", "White" } };
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
+    }
+
+    public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)
+    {
+        var props = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        Vector2Int piecePos = Vector2Int.RoundToInt(pieceGO.transform.position);
+
+        // These variables are turn to false when a king or a rook moves
+        bool whiteCK = props.ContainsKey("whiteCK") && (bool)props["whiteCK"];
+        bool whiteCQ = props.ContainsKey("whiteCQ") && (bool)props["whiteCQ"];
+        bool blackCK = props.ContainsKey("blackCK") && (bool)props["blackCK"];
+        bool blackCQ = props.ContainsKey("blackCQ") && (bool)props["blackCQ"];
+
+        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
+        bool isWhite = data.IsWhite;
+
+        if (isWhite)
+        {
+            if (side == PieceData.RookSide.King)
+            {
+                Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
+                Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
+
+                bool castlePathIsThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+
+                return !castlePathIsThreatened && squaresAreEmpty && whiteCK;
+            }
+            if (side == PieceData.RookSide.Queen)
+            {
+
+                Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
+                Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
+
+                bool squaresAreThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+
+                return !squaresAreThreatened && squaresAreEmpty && whiteCQ;
+            }
+        }
+
+        if (!isWhite)
+        {
+            if (side == PieceData.RookSide.King)
+            {
+                Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
+                Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
+
+                bool squaresAreThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+
+                return !squaresAreThreatened && squaresAreEmpty && blackCK;
+            }
+
+            if (side == PieceData.RookSide.Queen)
+            {
+
+                Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
+                Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
+
+                bool squaresAreThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+
+                return !squaresAreThreatened && squaresAreEmpty && blackCQ;
+            }
+        }
+
+        return false;
     }
 }

@@ -6,8 +6,7 @@ public static class BoardUtils
     public static bool SquareIsEmpty(Vector2Int position)
     {
         // Debug.Log($"{position}: {BoardGenerator.Instance.Squares.ContainsKey(position)} and {!BoardGenerator.Instance.PositionToPiece.ContainsKey(position)}");
-        return BoardGenerator.Instance.Squares.ContainsKey(position) &&
-                !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(position);
+        return BoardGenerator.Instance.Squares.ContainsKey(position) && !BoardGenerator.Instance.PiecesOnBoard.ContainsValue(position);
     }
 
     public static bool PieceIsOpponent(Vector2Int position, GameObject movedPiece)
@@ -31,7 +30,7 @@ public static class BoardUtils
     public static GameObject GetPieceAt(Vector2Int position)
     {
         if (BoardGenerator.Instance.PositionToPiece.TryGetValue(position, out GameObject piece)) return piece;
-        Debug.Log($"GetPieceAt: Piece not found at ({position.x}, {position.y})");
+        else Debug.Log($"GetPieceAt: Piece not found at ({position.x}, {position.y})");
         return null;
     }
 
