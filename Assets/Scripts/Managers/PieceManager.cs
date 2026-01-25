@@ -41,16 +41,24 @@ public class PieceManager : MonoBehaviour
         var data = pieceGO.GetComponent<ChessPiece>().PieceData;
 
         // Castling
-        if (data.PieceType == "King" && to.x - from.x == 2)
+        if (data.PieceType == "King")
         {
-            Vector2Int rightRookPos = new(7, 0);
-            GameObject rightRook = BoardUtils.GetPieceAt(rightRookPos);
+            // Castle right
+            if (to.x - from.x == 2)
+            {
+                Vector2Int rightRookPos = new(7, 0);
+                GameObject rightRook = BoardUtils.GetPieceAt(rightRookPos);
+                rightRook.transform.position = new(to.x - 1, 0, 0);
+            }
 
-            Debug.Log($"RightRook null: {rightRook == null}. Piece at (7,0): {BoardGenerator.Instance.PositionToPiece[new(7, 0)]}");
-
-            rightRook.transform.position = new(5, 0, 0);
+            // Castle left
+            if (from.x - to.x == 2)
+            {
+                Vector2Int leftRookPos = new(0, 0);
+                GameObject leftRook = BoardUtils.GetPieceAt(leftRookPos);
+                leftRook.transform.position = new(to.x + 1, 0, 0);
+            }
         }
-
 
         // Move the piece and update the board state
         MovePiece(from, to, pieceGO);
