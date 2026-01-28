@@ -34,6 +34,15 @@ public static class BoardUtils
         return null;
     }
 
+    public static bool GetPieceAt(Vector2Int position, out GameObject piece)
+    {
+        if (BoardGenerator.Instance.PositionToPiece.TryGetValue(position, out piece))
+            return true;
+
+        Debug.Log($"GetPieceAt: Piece not found at ({position.x}, {position.y})");
+        return false;
+    }
+
     public static bool PlayerIsThisColor(GameObject piece)
     {
         if (piece == null) return false;
