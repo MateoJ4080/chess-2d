@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using ExitGames.Client.Photon;
-using Photon.Pun;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardState : MonoBehaviour
@@ -75,9 +72,8 @@ public class BoardState : MonoBehaviour
 
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.GetPieceAt(pos))
+                                else if (BoardUtils.GetPieceAt(targetPos))
                                 {
-
                                     targetDict[targetPos] = piece;
                                     break;
                                 }
@@ -99,7 +95,7 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.GetPieceAt(pos))
+                                else if (BoardUtils.GetPieceAt(targetPos))
                                 {
                                     targetDict[targetPos] = piece;
                                     break;
@@ -122,7 +118,7 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.GetPieceAt(pos))
+                                else if (BoardUtils.GetPieceAt(targetPos))
                                 {
                                     targetDict[targetPos] = piece;
                                     break;
