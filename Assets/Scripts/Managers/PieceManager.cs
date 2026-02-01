@@ -1,4 +1,3 @@
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -48,7 +47,12 @@ public class PieceManager : MonoBehaviour
             {
                 Vector2Int rightRookPos = new(7, 0);
                 GameObject rightRook = BoardUtils.GetPieceAt(rightRookPos);
-                rightRook.transform.position = new(to.x - 1, 0, 0);
+                rightRook.transform.position = new(5, 0, 0);
+                MovePiece(rightRookPos, new(5, 0), rightRook);
+
+                int id = rightRook.GetComponent<PhotonView>().ViewID;
+                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, id);
+
             }
 
             // Castle left
@@ -56,7 +60,12 @@ public class PieceManager : MonoBehaviour
             {
                 Vector2Int leftRookPos = new(0, 0);
                 GameObject leftRook = BoardUtils.GetPieceAt(leftRookPos);
-                leftRook.transform.position = new(to.x + 1, 0, 0);
+                leftRook.transform.position = new(3, 0, 0);
+                MovePiece(leftRookPos, new(3, 0), leftRook);
+
+                int id = leftRook.GetComponent<PhotonView>().ViewID;
+                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, id);
+
             }
         }
 
