@@ -34,9 +34,11 @@ public class BoardState : MonoBehaviour
             if (piece.TryGetComponent<ChessPiece>(out var chessPiece))
             {
                 Vector2Int pos = Vector2Int.RoundToInt(piece.transform.position);
-                string pieceType = chessPiece.PieceData.PieceType;
-                int direction = (chessPiece.PieceData.IsWhite ^ Instance._boardManager.BoardIsInverted) ? 1 : -1;
-                bool isWhite = chessPiece.PieceData.IsWhite;
+
+                var data = chessPiece.PieceData;
+                var pieceType = data.PieceType;
+                var direction = (data.IsWhite ^ Instance._boardManager.BoardIsInverted) ? 1 : -1;
+                var isWhite = data.IsWhite;
                 var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
 
                 switch (pieceType)
