@@ -3,6 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PieceMovementData", menuName = "Chess/PieceMovementData")]
 public class PieceMovementData : ScriptableObject
 {
+    public Vector2Int[] pawnMoves = new Vector2Int[]
+    {
+        new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(1, 1)
+    };
+
     public Vector2Int[] knightMoves = new Vector2Int[] {
         new Vector2Int(2, 1), new Vector2Int(1, 2),
         new Vector2Int(-1, 2), new Vector2Int(-2, 1),
