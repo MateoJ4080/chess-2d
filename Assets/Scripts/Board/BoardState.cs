@@ -44,13 +44,17 @@ public class BoardState : MonoBehaviour
                 switch (pieceType)
                 {
                     case "Pawn":
-                        Vector2Int[] pawnCaptures = new[] {
-                            pos + new Vector2Int(1, 1 * direction),
-                            pos + new Vector2Int(-1, 1 * direction)
-                         };
+                        foreach (var move in Instance._movementData.pawnMoves)
+                        {
+                            Vector2Int targetPos = pos + move * direction;
 
-                        targetDict[pawnCaptures[0]] = piece;
-                        targetDict[pawnCaptures[1]] = piece;
+                            if (!BoardUtils.GetSquareAt(targetPos)) break;
+
+                            if (move != new Vector2Int(0, 1))
+                            {
+                                targetDict[targetPos] = piece;
+                            }
+                        }
                         break;
 
                     case "Knight":
