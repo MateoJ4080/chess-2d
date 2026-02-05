@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Mono.Cecil;
 using Photon.Pun;
 using UnityEngine;
 
@@ -42,12 +41,13 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
 
     public void ShowMoves(GameObject pieceGO, string pieceName)
     {
+        PieceData pieceData = pieceGO.GetComponent<ChessPiece>().PieceData;
+
         // If king of this color is in check, don't show other pieces moves
 
         // Play sound
         // Mark the king with red background?
 
-        PieceData pieceData = pieceGO.GetComponent<ChessPiece>().PieceData;
         bool isWhite = pieceData.IsWhite;
 
         switch (pieceName)

@@ -35,8 +35,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
             Debug.Log("Not master client, waiting for pieces to be spawned by master client...");
             yield break; // Non-master clients will wait for the master client to spawn pieces
         }
-
-        Debug.Log("Trying to spawn pieces...");
         TrySpawnPieces();
     }
 
@@ -82,7 +80,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
     public void SpawnPieces()
     {
-        Debug.Log("Spawning pieces...");
         foreach (var pieceData in _piecesData)
         {
             foreach (var pos in pieceData.InitialPositions)

@@ -25,8 +25,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        Debug.Log("PlayerManager Awake");
-
         DontDestroyOnLoad(gameObject);
 
         if (Instance != null && Instance != this)

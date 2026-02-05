@@ -82,7 +82,6 @@ public class PieceManager : MonoBehaviour
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
 
-        Debug.Log($"Moved {data.PieceType} to ({to.x}, {to.y})");
         piece.GetComponent<Draggable>().SnapToGrid();
         _highlightMoves.ClearHighlights();
         BoardUtils.RefreshBoardState(from, to, piece);
