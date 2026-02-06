@@ -55,13 +55,18 @@ public class BoardState : MonoBehaviour
                     case "Pawn":
                         foreach (var move in Instance._movementData.pawnMoves)
                         {
+                            if (move == new Vector2Int(0, 1)) continue;
                             Vector2Int targetPos = pos + move * direction;
 
-                            if (!BoardUtils.GetSquareAt(targetPos)) break;
-
-                            if (move != new Vector2Int(0, 1))
+                            if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                            if (BoardUtils.SquareIsEmpty(targetPos))
                             {
                                 targetDict[targetPos] = piece;
+                            }
+                            else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                            {
+                                targetDict[targetPos] = piece;
+                                Instance.LookForCheck(piece, targetPiece);
                             }
                         }
                         break;
@@ -70,7 +75,16 @@ public class BoardState : MonoBehaviour
                         foreach (var move in Instance._movementData.knightMoves)
                         {
                             Vector2Int targetPos = pos + move;
-                            targetDict[targetPos] = piece;
+                            if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                            if (BoardUtils.SquareIsEmpty(targetPos))
+                            {
+                                targetDict[targetPos] = piece;
+                            }
+                            else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                            {
+                                targetDict[targetPos] = piece;
+                                Instance.LookForCheck(piece, targetPiece);
+                            }
                         }
                         break;
 
@@ -87,12 +101,13 @@ public class BoardState : MonoBehaviour
 
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.GetPieceAt(targetPos))
+                                else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                                 {
                                     targetDict[targetPos] = piece;
+                                    Instance.LookForCheck(piece, targetPiece);
+
                                     break;
                                 }
-                                else break;
                             }
                         }
                         break;
@@ -110,12 +125,13 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.GetPieceAt(targetPos))
+                                else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                                 {
                                     targetDict[targetPos] = piece;
+                                    Instance.LookForCheck(piece, targetPiece);
+
                                     break;
                                 }
-                                else break;
                             }
                         }
                         break;
@@ -136,12 +152,10 @@ public class BoardState : MonoBehaviour
                                 else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                                 {
                                     targetDict[targetPos] = piece;
-
                                     Instance.LookForCheck(piece, targetPiece);
 
                                     break;
                                 }
-                                else break;
                             }
                         }
                         break;
@@ -151,12 +165,10 @@ public class BoardState : MonoBehaviour
                         foreach (var move in Instance._movementData.kingMoves)
                         {
                             Vector2Int targetPos = pos + move;
-                            if (BoardUtils.GetSquareAt(targetPos))
+                            if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                            if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.GetPieceAt(pos))
                             {
-                                if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.GetPieceAt(pos))
-                                {
-                                    targetDict[targetPos] = piece;
-                                }
+                                targetDict[targetPos] = piece;
                             }
                         }
                         break;
@@ -263,13 +275,21 @@ public class BoardState : MonoBehaviour
 
     private void BuildCheckPath(Vector2Int from, Vector2Int to, bool isWhite)
     {
-        Vector2Int delta = to - from;
-        Vector2Int direction = new(
-            Math.Sign(delta.x),
-            Math.Sign(delta.y)
-        );
-
         var activePiece = BoardUtils.GetPieceAt(from);
+        var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
+
+        Vector2Int delta = to - from;
+        Vector2Int direction;
+
+        if (activeData.PieceType != "Knight")
+        {
+            direction = new(
+               Math.Sign(delta.x),
+               Math.Sign(delta.y)
+           );
+        }
+        else direction = delta;
+
         var targetDict = isWhite ? _whiteCheckPaths : _blackCheckPaths;
 
         List<Vector2Int> checkPath = new();
@@ -281,6 +301,7 @@ public class BoardState : MonoBehaviour
             {
                 checkPath.Add(pos);
             }
+            else break;
         }
         Debug.Log($"{checkPath.Count} tiles added to path");
         targetDict.Add(activePiece, checkPath);
