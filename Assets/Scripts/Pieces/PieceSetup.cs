@@ -65,7 +65,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 
         // Set parent and sorting order
         transform.SetParent(_piecesContainer, false);
-        sr.sortingOrder = 2;
+        sr.sortingOrder = 4;
 
         // Allow mouse dragging on piece
         gameObject.AddComponent<Draggable>();

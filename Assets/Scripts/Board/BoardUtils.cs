@@ -30,7 +30,6 @@ public static class BoardUtils
     public static GameObject GetPieceAt(Vector2Int position)
     {
         if (BoardGenerator.Instance.PositionToPiece.TryGetValue(position, out GameObject piece)) return piece;
-        else Debug.Log($"GetPieceAt: Piece not found at ({position.x}, {position.y})");
         return null;
     }
 
@@ -39,7 +38,6 @@ public static class BoardUtils
         if (BoardGenerator.Instance.PositionToPiece.TryGetValue(position, out piece))
             return true;
 
-        Debug.Log($"GetPieceAt: Piece not found at ({position.x}, {position.y})");
         return false;
     }
 

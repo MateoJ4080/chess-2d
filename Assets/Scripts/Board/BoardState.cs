@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +10,13 @@ public class BoardState : MonoBehaviour
     public Dictionary<Vector2Int, GameObject> BlackThreatenedSquares { get; private set; } = new();
     [SerializeField] private GameObject _greenSquare;
     [SerializeField] private GameObject _redSquare;
+    [SerializeField] private GameObject _yellowSquare;
 
     [SerializeField] private BoardManager _boardManager;
     private PieceMovementData _movementData;
+
+    private Dictionary<GameObject, List<Vector2Int>> _whiteCheckPaths = new();
+    private Dictionary<GameObject, List<Vector2Int>> _blackCheckPaths = new();
 
     private void Awake()
     {
@@ -29,6 +34,10 @@ public class BoardState : MonoBehaviour
     {
         Instance.WhiteThreatenedSquares.Clear();
         Instance.BlackThreatenedSquares.Clear();
+        Instance._whiteCheckPaths.Clear();
+        Instance._blackCheckPaths.Clear();
+
+
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
             if (piece.TryGetComponent<ChessPiece>(out var chessPiece))
@@ -124,9 +133,12 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                 }
-                                else if (BoardUtils.GetPieceAt(targetPos))
+                                else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                                 {
                                     targetDict[targetPos] = piece;
+
+                                    Instance.LookForCheck(piece, targetPiece);
+
                                     break;
                                 }
                                 else break;
@@ -154,6 +166,7 @@ public class BoardState : MonoBehaviour
         ColorThreatenedSquares();
     }
 
+    // *Debug purposes*
     public static void ColorThreatenedSquares()
     {
         ClearColorSquares();
@@ -179,6 +192,35 @@ public class BoardState : MonoBehaviour
                 sr.sortingOrder = 1;
             }
         }
+
+        foreach (var path in Instance._whiteCheckPaths)
+        {
+            Debug.Log($"Creating check path for {path.Key.name}");
+            foreach (var move in path.Value)
+            {
+                if (BoardUtils.GetSquareAt(move))
+                {
+                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
+                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                    sr.sortingOrder = 2;
+                }
+            }
+        }
+
+        foreach (var path in Instance._blackCheckPaths)
+        {
+            Debug.Log($"Creating check path for {path.Key.name}");
+            foreach (var move in path.Value)
+            {
+                Debug.Log($"Path tiles count: {path.Value.Count}");
+                if (BoardUtils.GetSquareAt(move))
+                {
+                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
+                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                    sr.sortingOrder = 2;
+                }
+            }
+        }
     }
 
     public static void ClearColorSquares()
@@ -192,11 +234,55 @@ public class BoardState : MonoBehaviour
     // *Might want to move it to BoardUtils later*
     public static bool SquareIsThreatened(Vector2Int pos, GameObject pieceToMove)
     {
-
         ChessPiece pieceData = pieceToMove.GetComponent<ChessPiece>();
         bool isWhite = pieceData.PieceData.IsWhite;
         Dictionary<Vector2Int, GameObject> targetDict = isWhite ? Instance.BlackThreatenedSquares : Instance.WhiteThreatenedSquares;
 
         return targetDict.ContainsKey(pos);
+    }
+
+    private void LookForCheck(GameObject activePiece, GameObject targetPiece)
+    {
+        Debug.Log($"<color=cyan>LookForCheck running... {activePiece.GetComponent<ChessPiece>().PieceData.PieceType}");
+
+        var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
+        var targetData = targetPiece.GetComponent<ChessPiece>().PieceData;
+
+        Debug.Log($"<color=cyan> PieceType == King: {targetData.PieceType == "King"}");
+        Debug.Log($"<color=cyan> Its enemy's color: {targetData.IsWhite != activeData.IsWhite}");
+
+        if (targetData.PieceType == "King" && targetData.IsWhite != activeData.IsWhite)
+        {
+            Debug.Log("<color=cyan>Check detected");
+            var from = Vector2Int.RoundToInt(activePiece.transform.position);
+            var to = Vector2Int.RoundToInt(targetPiece.transform.position);
+
+            BuildCheckPath(from, to, activeData.IsWhite);
+        }
+    }
+
+    private void BuildCheckPath(Vector2Int from, Vector2Int to, bool isWhite)
+    {
+        Vector2Int delta = to - from;
+        Vector2Int direction = new(
+            Math.Sign(delta.x),
+            Math.Sign(delta.y)
+        );
+
+        var activePiece = BoardUtils.GetPieceAt(from);
+        var targetDict = isWhite ? _whiteCheckPaths : _blackCheckPaths;
+
+        List<Vector2Int> checkPath = new();
+
+        for (int j = 0; j < 8; j++)
+        {
+            Vector2Int pos = from + direction * j;
+            if (BoardUtils.SquareIsEmpty(pos) || j == 0)
+            {
+                checkPath.Add(pos);
+            }
+        }
+        Debug.Log($"{checkPath.Count} tiles added to path");
+        targetDict.Add(activePiece, checkPath);
     }
 }
