@@ -84,7 +84,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
         {
             foreach (var pos in pieceData.InitialPositions)
             {
-                PhotonNetwork.Instantiate
+                PhotonNetwork.InstantiateRoomObject
                 (
                     $"Prefabs/Pieces/{pieceData.name}",
                     Vector3.zero,
