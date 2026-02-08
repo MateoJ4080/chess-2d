@@ -37,12 +37,6 @@ public class UIManager : MonoBehaviour
         Instance.loadingMenu.SetActive(true);
     }
 
-    void HideMenus()
-    {
-        Instance.mainMenu.SetActive(false);
-        Instance.loadingMenu.SetActive(false);
-    }
-
     public void ChangeNetworkText(string text)
     {
         Instance.NetworkStatusText.text = text;
