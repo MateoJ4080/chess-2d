@@ -320,4 +320,15 @@ public class BoardState : MonoBehaviour
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
+
+    public bool IsKingInCheck(bool isWhite)
+    {
+        var key = isWhite ? "whiteInCheck" : "blackInCheck";
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
+            return (bool)value;
+
+        Debug.Log("IsKingInCheck: King isn't registered");
+        return false;
+    }
 }
