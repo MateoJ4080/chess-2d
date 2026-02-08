@@ -1,35 +1,37 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Unity.VisualScripting;
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     void Start()
     {
-        UIManager.ChangeNetworkText("Connecting to Master...");
-
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        UIManager.ChangeNetworkText("In Master");
+        if (UIManager.Instance != null)
+            UIManager.Instance.ChangeNetworkText("In Master");
 
-        PhotonNetwork.JoinLobby();
+        if (!PhotonNetwork.InLobby && PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer)
+        {
+            PhotonNetwork.JoinLobby();
+        }
     }
 
     public override void OnJoinedLobby()
     {
-        UIManager.ChangeNetworkText("In Lobby");
-        UIManager.ShowMainMenu();
+        if (UIManager.Instance != null)
+            UIManager.Instance.ChangeNetworkText("In Lobby");
 
         base.OnJoinedLobby();
     }
@@ -38,11 +40,10 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InLobby)
         {
-            UIManager.ShowLoadingMenu();
-
+            UIManager.Instance.ShowLoadingMenu();
             PhotonNetwork.JoinRandomRoom();
         }
-        else Debug.Log($"OnPressPlay: Not in a lobby yet. Yo can only join a room if you are in a lobby.");
+        else Debug.Log($"OnPressPlay: Not in a lobby yet. You can only join a room if you are in one.");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -53,11 +54,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        UIManager.ChangeNetworkText("In Room. Waiting for player...");
+        UIManager.Instance.ChangeNetworkText("In Room. Waiting for player...");
 
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
-            UIManager.ChangeNetworkText("In Room with another player");
+            UIManager.Instance.ChangeNetworkText("In Room with another player");
         }
     }
 
@@ -67,5 +68,19 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel("GameScene");
         }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("OnPlayerLeftRoom");
+
+        PhotonNetwork.Disconnect();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log("OnDisconnected");
+
+        SceneManager.LoadScene("MenuScene");
     }
 }

@@ -20,13 +20,18 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    public static void ShowMainMenu()
+    void Start()
+    {
+        ShowMainMenu();
+    }
+
+    public void ShowMainMenu()
     {
         Instance.loadingMenu.SetActive(false);
         Instance.mainMenu.SetActive(true);
     }
 
-    public static void ShowLoadingMenu()
+    public void ShowLoadingMenu()
     {
         Instance.mainMenu.SetActive(false);
         Instance.loadingMenu.SetActive(true);
@@ -38,7 +43,7 @@ public class UIManager : MonoBehaviour
         Instance.loadingMenu.SetActive(false);
     }
 
-    public static void ChangeNetworkText(string text)
+    public void ChangeNetworkText(string text)
     {
         Instance.NetworkStatusText.text = text;
     }
