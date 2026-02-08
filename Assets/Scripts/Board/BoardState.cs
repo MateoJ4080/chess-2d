@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class BoardState : MonoBehaviour
@@ -305,5 +306,18 @@ public class BoardState : MonoBehaviour
         }
         Debug.Log($"{checkPath.Count} tiles added to path");
         targetDict.Add(activePiece, checkPath);
+    }
+
+    public void SetCheckStatus(bool isWhite, bool status)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        var props = new ExitGames.Client.Photon.Hashtable();
+
+        var kingInCheck = isWhite ? "whiteInCheck" : "blackInCheck";
+
+        props[kingInCheck] = status;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 }
