@@ -218,9 +218,12 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
 
     #endregion
 
-    void ShowHighlight(GameObject highlightPrefab, Vector2Int pos)
+    void ShowHighlight(Vector2Int pos)
     {
-        GameObject highlight = Instantiate(highlightPrefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
+        GameObject piece = BoardUtils.GetPieceAt(pos);
+        GameObject prefab = piece == null ? _highlightPrefab : _highlightCapturePrefab;
+
+        GameObject highlight = Instantiate(prefab, new Vector3(pos.x, pos.y, 0), Quaternion.identity);
         activeHighlights.Add(highlight);
         legalPositions.Add(pos);
     }
