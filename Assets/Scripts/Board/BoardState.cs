@@ -16,8 +16,8 @@ public class BoardState : MonoBehaviour
     [SerializeField] private BoardManager _boardManager;
     private PieceMovementData _movementData;
 
-    private Dictionary<GameObject, List<Vector2Int>> _whiteCheckPaths = new();
-    private Dictionary<GameObject, List<Vector2Int>> _blackCheckPaths = new();
+    public Dictionary<GameObject, List<Vector2Int>> WhiteCheckPaths { get; private set; } = new();
+    public Dictionary<GameObject, List<Vector2Int>> BlackCheckPaths { get; private set; } = new();
 
     private void Awake()
     {
@@ -35,8 +35,10 @@ public class BoardState : MonoBehaviour
     {
         Instance.WhiteThreatenedSquares.Clear();
         Instance.BlackThreatenedSquares.Clear();
-        Instance._whiteCheckPaths.Clear();
-        Instance._blackCheckPaths.Clear();
+        Instance.WhiteCheckPaths.Clear();
+        Instance.BlackCheckPaths.Clear();
+        Instance.SetCheckStatus(true, false); // First argument stands for 'isWhite'
+        Instance.SetCheckStatus(false, false);
 
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
@@ -205,7 +207,7 @@ public class BoardState : MonoBehaviour
             }
         }
 
-        foreach (var path in Instance._whiteCheckPaths)
+        foreach (var path in Instance.WhiteCheckPaths)
         {
             Debug.Log($"Creating check path for {path.Key.name}");
             foreach (var move in path.Value)
@@ -219,7 +221,7 @@ public class BoardState : MonoBehaviour
             }
         }
 
-        foreach (var path in Instance._blackCheckPaths)
+        foreach (var path in Instance.BlackCheckPaths)
         {
             Debug.Log($"Creating check path for {path.Key.name}");
             foreach (var move in path.Value)
@@ -270,6 +272,7 @@ public class BoardState : MonoBehaviour
             var to = Vector2Int.RoundToInt(targetPiece.transform.position);
 
             BuildCheckPath(from, to, activeData.IsWhite);
+            SetCheckStatus(targetData.IsWhite, true);
         }
     }
 
@@ -290,7 +293,7 @@ public class BoardState : MonoBehaviour
         }
         else direction = delta;
 
-        var targetDict = isWhite ? _whiteCheckPaths : _blackCheckPaths;
+        var targetDict = isWhite ? WhiteCheckPaths : BlackCheckPaths;
 
         List<Vector2Int> checkPath = new();
 

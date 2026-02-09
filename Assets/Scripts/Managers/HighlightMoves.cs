@@ -50,16 +50,16 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
                 ShowPawnMoves(pieceGO, isWhite);
                 break;
             case "Knight":
-                ShowKnightMoves(pieceGO);
+                ShowKnightMoves(pieceGO, isWhite);
                 break;
             case "Bishop":
-                ShowBishopMoves(pieceGO);
+                ShowBishopMoves(pieceGO, isWhite);
                 break;
             case "Rook":
-                ShowRookMoves(pieceGO);
+                ShowRookMoves(pieceGO, isWhite);
                 break;
             case "Queen":
-                ShowQueenMoves(pieceGO);
+                ShowQueenMoves(pieceGO, isWhite);
                 break;
             case "King":
                 ShowKingMoves(pieceGO);
@@ -69,6 +69,9 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
 
     #region ShowMoves Methods
 
+    //
+    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
+    //
     void ShowPawnMoves(GameObject pieceGO, bool isWhite)
     {
         int direction = (isWhite ^ _boardManager.BoardIsInverted) ? 1 : -1;
@@ -77,49 +80,80 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         Vector2Int forward = currentPos + new Vector2Int(0, direction);
         Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
-        Debug.Log($"IsWhite: {isWhite}. BoardInverted: {_boardManager.BoardIsInverted}");
 
-        if (BoardUtils.SquareIsEmpty(forward))
-        {
-            // Highlight for one square forward
-            ShowHighlight(_highlightPrefab, forward);
-
-            // Can move two squares forward if on initial row
-            if (currentPos.y == initialRow &&
-                BoardUtils.SquareIsEmpty(forward) &&
-                BoardUtils.SquareIsEmpty(doubleForward))
-            {
-                ShowHighlight(_highlightPrefab, doubleForward);
-            }
-        }
 
         Vector2Int topRight = currentPos + new Vector2Int(1, direction);
-        if (BoardUtils.PieceIsOpponent(topRight, pieceGO))
-            ShowHighlight(_highlightCapturePrefab, topRight);
-
         Vector2Int topLeft = currentPos + new Vector2Int(-1, direction);
-        if (BoardUtils.PieceIsOpponent(topLeft, pieceGO))
-            ShowHighlight(_highlightCapturePrefab, topLeft);
+
+        if (!BoardState.Instance.IsKingInCheck(isWhite))
+        {
+            if (BoardUtils.SquareIsEmpty(forward))
+                ShowHighlight(forward);
+
+            if (currentPos.y == initialRow && BoardUtils.SquareIsEmpty(forward) && BoardUtils.SquareIsEmpty(doubleForward))
+                ShowHighlight(doubleForward);
+
+            if (BoardUtils.PieceIsOpponent(topRight, pieceGO))
+                ShowHighlight(topRight);
+
+            if (BoardUtils.PieceIsOpponent(topLeft, pieceGO))
+                ShowHighlight(topLeft);
+        }
+
+        else
+        {
+            var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+            foreach (var array in targetDict)
+            {
+                if (BoardUtils.SquareIsEmpty(forward) && array.Value.Contains(forward))
+                    ShowHighlight(forward);
+
+                if (currentPos.y == initialRow && BoardUtils.SquareIsEmpty(forward) && BoardUtils.SquareIsEmpty(doubleForward) && array.Value.Contains(doubleForward))
+                    ShowHighlight(doubleForward);
+
+                if (BoardUtils.PieceIsOpponent(topRight, pieceGO) && array.Value.Contains(topRight))
+                    ShowHighlight(topRight);
+
+                if (BoardUtils.PieceIsOpponent(topLeft, pieceGO) && array.Value.Contains(topLeft))
+                    ShowHighlight(topLeft);
+
+            }
+        }
     }
 
-    void ShowKnightMoves(GameObject pieceGO)
+    //
+    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
+    //
+    void ShowKnightMoves(GameObject pieceGO, bool isWhite)
     {
         Vector2Int[] knightMoves = _movementData.knightMoves;
         foreach (Vector2Int move in knightMoves)
         {
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + move;
-            if (BoardUtils.SquareIsEmpty(pos))
+            if (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
-                ShowHighlight(_highlightPrefab, pos);
-            }
-            if (BoardUtils.PieceIsOpponent(pos, pieceGO))
-            {
-                ShowHighlight(_highlightCapturePrefab, pos);
+                if (!BoardState.Instance.IsKingInCheck(isWhite))
+                {
+                    ShowHighlight(pos);
+                }
+
+                else
+                {
+                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    foreach (var array in targetDict)
+                    {
+                        if (!array.Value.Contains(pos)) continue;
+                        else ShowHighlight(pos);
+                    }
+                }
             }
         }
     }
 
-    void ShowBishopMoves(GameObject pieceGO)
+    //
+    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
+    //
+    void ShowBishopMoves(GameObject pieceGO, bool isWhite)
     {
         Vector2Int[] bishopDirections = _movementData.bishopDirections;
         foreach (Vector2Int direction in bishopDirections)
@@ -127,18 +161,31 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
             while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
-                if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+                if (!BoardState.Instance.IsKingInCheck(isWhite))
                 {
-                    ShowHighlight(_highlightCapturePrefab, pos);
-                    break;
+                    ShowHighlight(pos);
+                    if (BoardUtils.PieceIsOpponent(pos, pieceGO)) break;
                 }
-                ShowHighlight(_highlightPrefab, pos);
+
+                else
+                {
+                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    foreach (var array in targetDict)
+                    {
+                        if (!array.Value.Contains(pos)) continue;
+                        else ShowHighlight(pos);
+                    }
+                }
+
                 pos += direction;
             }
         }
     }
 
-    void ShowRookMoves(GameObject pieceGO)
+    //
+    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
+    //
+    void ShowRookMoves(GameObject pieceGO, bool isWhite)
     {
         Vector2Int[] rookDirections = _movementData.rookDirections;
         foreach (Vector2Int direction in rookDirections)
@@ -146,18 +193,31 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
             while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
-                if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+                if (!BoardState.Instance.IsKingInCheck(isWhite))
                 {
-                    ShowHighlight(_highlightCapturePrefab, pos);
-                    break;
+                    ShowHighlight(pos);
+                    if (BoardUtils.PieceIsOpponent(pos, pieceGO)) break;
                 }
-                ShowHighlight(_highlightPrefab, pos);
+
+                else
+                {
+                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    foreach (var array in targetDict)
+                    {
+                        if (!array.Value.Contains(pos)) continue;
+                        else ShowHighlight(pos);
+                    }
+                }
+
                 pos += direction;
             }
         }
     }
 
-    void ShowQueenMoves(GameObject pieceGO)
+    //
+    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
+    //
+    void ShowQueenMoves(GameObject pieceGO, bool isWhite)
     {
         Vector2Int[] queenDirections = _movementData.queenDirections;
         foreach (Vector2Int direction in queenDirections)
@@ -165,12 +225,22 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(pieceGO.transform.position) + direction;
             while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, pieceGO))
             {
-                if (BoardUtils.PieceIsOpponent(pos, pieceGO))
+                if (!BoardState.Instance.IsKingInCheck(isWhite))
                 {
-                    ShowHighlight(_highlightCapturePrefab, pos);
-                    break;
+                    ShowHighlight(pos);
+                    if (BoardUtils.PieceIsOpponent(pos, pieceGO)) break;
                 }
-                ShowHighlight(_highlightPrefab, pos);
+
+                else
+                {
+                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    foreach (var array in targetDict)
+                    {
+                        if (!array.Value.Contains(pos)) continue;
+                        else ShowHighlight(pos);
+                    }
+                }
+
                 pos += direction;
             }
         }
@@ -187,11 +257,11 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = currentPos + move;
             if (BoardUtils.SquareIsEmpty(pos) && !BoardState.SquareIsThreatened(pos, pieceGO))
             {
-                ShowHighlight(_highlightPrefab, pos);
+                ShowHighlight(pos);
             }
             if (BoardUtils.PieceIsOpponent(pos, pieceGO) && !BoardState.SquareIsThreatened(pos, pieceGO))
             {
-                ShowHighlight(_highlightCapturePrefab, pos);
+                ShowHighlight(pos);
             }
         }
 
@@ -202,17 +272,17 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
         if (canCastleKingSide)
         {
             if (data.IsWhite)
-                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(2, 0));
+                ShowHighlight(currentPos + new Vector2Int(2, 0));
             if (!data.IsWhite)
-                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(-2, 0));
+                ShowHighlight(currentPos + new Vector2Int(-2, 0));
         }
 
         if (canCastleQueenSide)
         {
             if (data.IsWhite)
-                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(-2, 0));
+                ShowHighlight(currentPos + new Vector2Int(-2, 0));
             if (!data.IsWhite)
-                ShowHighlight(_highlightPrefab, currentPos + new Vector2Int(2, 0));
+                ShowHighlight(currentPos + new Vector2Int(2, 0));
         }
     }
 
