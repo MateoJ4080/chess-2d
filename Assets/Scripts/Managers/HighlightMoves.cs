@@ -42,12 +42,6 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
     public void ShowMoves(GameObject pieceGO, string pieceName)
     {
         PieceData pieceData = pieceGO.GetComponent<ChessPiece>().PieceData;
-
-        // If king of this color is in check, don't show other pieces moves
-
-        // Play sound
-        // Mark the king with red background?
-
         bool isWhite = pieceData.IsWhite;
 
         switch (pieceName)

@@ -38,7 +38,6 @@ public class BoardState : MonoBehaviour
         Instance._whiteCheckPaths.Clear();
         Instance._blackCheckPaths.Clear();
 
-
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
             if (piece.TryGetComponent<ChessPiece>(out var chessPiece))
@@ -262,7 +261,7 @@ public class BoardState : MonoBehaviour
         var targetData = targetPiece.GetComponent<ChessPiece>().PieceData;
 
         Debug.Log($"<color=cyan> PieceType == King: {targetData.PieceType == "King"}");
-        Debug.Log($"<color=cyan> Its enemy's color: {targetData.IsWhite != activeData.IsWhite}");
+        Debug.Log($"<color=cyan> Its enemy color: {targetData.IsWhite != activeData.IsWhite}");
 
         if (targetData.PieceType == "King" && targetData.IsWhite != activeData.IsWhite)
         {
