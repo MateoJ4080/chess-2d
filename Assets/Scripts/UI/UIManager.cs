@@ -1,12 +1,13 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject loadingMenu;
-    [SerializeField] private GameObject NetworkMenu;
-    [SerializeField] private TextMeshProUGUI NetworkStatusText;
+    [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private GameObject _loadingMenu;
+    [SerializeField] private TextMeshProUGUI _networkStatusText;
 
     public static UIManager Instance { get; private set; }
 
@@ -27,18 +28,18 @@ public class UIManager : MonoBehaviour
 
     public void ShowMainMenu()
     {
-        Instance.loadingMenu.SetActive(false);
-        Instance.mainMenu.SetActive(true);
+        _loadingMenu.SetActive(false);
+        _mainMenu.SetActive(true);
     }
 
     public void ShowLoadingMenu()
     {
-        Instance.mainMenu.SetActive(false);
-        Instance.loadingMenu.SetActive(true);
+        _loadingMenu.SetActive(true);
     }
 
     public void ChangeNetworkText(string text)
     {
-        Instance.NetworkStatusText.text = text;
+        _networkStatusText.text = text;
+    }
     }
 }
