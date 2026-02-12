@@ -87,7 +87,7 @@ public class UIManager : MonoBehaviour
     void UpdateDebugNetworkTexts()
     {
         _debugTextState.text = $"State: {PhotonNetwork.NetworkClientState}";
-        _debugTextConnection.text = $"Connection: {PhotonNetwork.IsConnected}";
+        _debugTextConnection.text = $"Connected: {PhotonNetwork.IsConnected}";
         _debugTextReady.text = $"Ready: {PhotonNetwork.IsConnectedAndReady}";
         _debugTextLobby.text = $"Lobby: {PhotonNetwork.InLobby}";
         _debugTextRoom.text = $"Room: {PhotonNetwork.InRoom}";
