@@ -44,6 +44,11 @@ public class UIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "MainMenu")
+        {
+            _mainMenu.SetActive(true);
+        }
+
         if (scene.name == "GameScene")
         {
             _loadingMenu.SetActive(false);
