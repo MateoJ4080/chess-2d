@@ -47,6 +47,7 @@ public class UIManager : MonoBehaviour
         if (scene.name == "MenuScene")
         {
             _mainMenu.SetActive(true);
+            _networkStatusText.transform.parent.gameObject.SetActive(true);
         }
 
         if (scene.name == "GameScene")
