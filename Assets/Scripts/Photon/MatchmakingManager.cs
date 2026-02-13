@@ -2,12 +2,22 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
+    private readonly Dictionary<string, RoomInfo> cachedRooms = new();
+    public static MatchmakingManager Instance;
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         DontDestroyOnLoad(gameObject);
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -22,7 +32,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (UIManager.Instance != null)
             UIManager.Instance.ChangeNetworkText("In Master");
 
-        if (!PhotonNetwork.InLobby && PhotonNetwork.NetworkClientState == ClientState.ConnectedToMasterServer)
+        if (!PhotonNetwork.InLobby && PhotonNetwork.NetworkClientState != ClientState.JoiningLobby)
         {
             PhotonNetwork.JoinLobby();
         }
@@ -33,23 +43,27 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (UIManager.Instance != null)
             UIManager.Instance.ChangeNetworkText("In Lobby");
 
+        Debug.Log("OnJoinedLobby");
         base.OnJoinedLobby();
     }
 
     public void OnPressPlay()
     {
-        if (PhotonNetwork.InLobby)
+        if (!PhotonNetwork.InLobby)
         {
-            UIManager.Instance.ShowLoadingMenu();
-            PhotonNetwork.JoinRandomRoom();
+            Debug.Log("Not in lobby");
+            return;
         }
-        else Debug.Log($"OnPressPlay: Not in a lobby yet. You can only join a room if you are in one.");
-    }
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        RoomOptions options = new RoomOptions { MaxPlayers = 2 };
-        PhotonNetwork.CreateRoom(null, options);
+        if (cachedRooms.Count > 0)
+        {
+            foreach (var room in cachedRooms.Values)
+            {
+                PhotonNetwork.JoinRoom(room.Name);
+                break;
+            }
+        }
+        else PhotonNetwork.CreateRoom("null", new RoomOptions { MaxPlayers = 2 });
     }
 
     public override void OnJoinedRoom()
@@ -60,6 +74,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             UIManager.Instance.ChangeNetworkText("In Room with another player");
         }
+    }
+
+    public override void OnCreatedRoom()
+    {
+        UIManager.Instance.ChangeNetworkText("In Room. Waiting for player...");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -74,13 +93,24 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnPlayerLeftRoom");
 
-        PhotonNetwork.Disconnect();
+        PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnDisconnected(DisconnectCause cause)
+    public override void OnLeftRoom()
     {
-        Debug.Log("OnDisconnected");
+        Debug.Log("OnLeftRoom");
 
         SceneManager.LoadScene("MenuScene");
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (var room in roomList)
+        {
+            if (room.RemovedFromList)
+                cachedRooms.Remove(room.Name);
+            else
+                cachedRooms[room.Name] = room;
+        }
     }
 }
