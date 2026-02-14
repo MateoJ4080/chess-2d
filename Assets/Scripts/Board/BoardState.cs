@@ -115,7 +115,7 @@ public class BoardState : MonoBehaviour
                         break;
 
                     case "Rook":
-                        List<Vector2Int> rookCaptures = new List<Vector2Int>();
+                        List<Vector2Int> rookCaptures = new();
                         foreach (var move in Instance._movementData.rookDirections)
                         {
                             for (int i = 1; i < 8; i++)
@@ -139,7 +139,7 @@ public class BoardState : MonoBehaviour
                         break;
 
                     case "Queen":
-                        List<Vector2Int> queenCaptures = new List<Vector2Int>();
+                        List<Vector2Int> queenCaptures = new();
                         foreach (var move in Instance._movementData.queenDirections)
                         {
                             for (int i = 1; i < 8; i++)
@@ -163,7 +163,7 @@ public class BoardState : MonoBehaviour
                         break;
 
                     case "King":
-                        List<Vector2Int> kingCaptures = new List<Vector2Int>();
+                        List<Vector2Int> kingCaptures = new();
                         foreach (var move in Instance._movementData.kingMoves)
                         {
                             Vector2Int targetPos = pos + move;
