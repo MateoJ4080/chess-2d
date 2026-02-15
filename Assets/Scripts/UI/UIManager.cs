@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _mainMenu;
     [SerializeField] private GameObject _loadingMenu;
 
-    // Debug texts
+    // Debug - Network texts
     [SerializeField] private TextMeshProUGUI _networkStatusText;
     [SerializeField] private TextMeshProUGUI _debugTextState;
     [SerializeField] private TextMeshProUGUI _debugTextConnection;
@@ -18,6 +18,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugTextMaster;
     [SerializeField] private TextMeshProUGUI _debugTextScene;
 
+    // Debug - Room properties
+    [SerializeField] private TextMeshProUGUI _isWhiteCheckOnceText;
+    [SerializeField] private TextMeshProUGUI _isWhiteCheckTwiceText;
+    [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
+    [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
 
     public static UIManager Instance { get; private set; }
 
@@ -66,6 +71,7 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateDebugNetworkTexts();
+        UpdateRoomPropertiesTexts();
     }
 
     public void ShowMainMenu()
@@ -94,5 +100,25 @@ public class UIManager : MonoBehaviour
         _debugTextRoom.text = $"Room: {PhotonNetwork.InRoom}";
         _debugTextMaster.text = $"Master: {PhotonNetwork.IsMasterClient}";
         _debugTextScene.text = $"Scene: {SceneManager.GetActiveScene().name}";
+    }
+
+    void UpdateRoomPropertiesTexts()
+    {
+        if (!PhotonNetwork.InRoom)
+            return;
+
+        var props = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        if (props.TryGetValue("whiteInCheckOnce", out var value))
+            _isWhiteCheckOnceText.text = $"whiteCheckOnce: {value}";
+
+        if (props.TryGetValue("whiteInCheckTwice", out value))
+            _isWhiteCheckTwiceText.text = $"whiteCheckTwice: {value}";
+
+        if (props.TryGetValue("blackInCheckOnce", out value))
+            _isBlackCheckOnceText.text = $"blackCheckOnce: {value}";
+
+        if (props.TryGetValue("blackInCheckTwice", out value))
+            _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
     }
 }
