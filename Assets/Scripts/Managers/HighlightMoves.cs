@@ -69,18 +69,16 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
 
     #region ShowMoves Methods
 
-    //
-    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
-    //
     void ShowPawnMoves(GameObject pieceGO, bool isWhite)
     {
+        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+
         int direction = (isWhite ^ _boardManager.BoardIsInverted) ? 1 : -1;
         int initialRow = (isWhite ^ _boardManager.BoardIsInverted) ? 1 : 6;
 
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         Vector2Int forward = currentPos + new Vector2Int(0, direction);
         Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
-
 
         Vector2Int topRight = currentPos + new Vector2Int(1, direction);
         Vector2Int topLeft = currentPos + new Vector2Int(-1, direction);
@@ -121,11 +119,10 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
         }
     }
 
-    //
-    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
-    //
     void ShowKnightMoves(GameObject pieceGO, bool isWhite)
     {
+        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+
         Vector2Int[] knightMoves = _movementData.knightMoves;
         foreach (Vector2Int move in knightMoves)
         {
@@ -150,11 +147,10 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
         }
     }
 
-    //
-    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
-    //
     void ShowBishopMoves(GameObject pieceGO, bool isWhite)
     {
+        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+
         Vector2Int[] bishopDirections = _movementData.bishopDirections;
         foreach (Vector2Int direction in bishopDirections)
         {
@@ -182,11 +178,10 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
         }
     }
 
-    //
-    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
-    //
     void ShowRookMoves(GameObject pieceGO, bool isWhite)
     {
+        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+
         Vector2Int[] rookDirections = _movementData.rookDirections;
         foreach (Vector2Int direction in rookDirections)
         {
@@ -214,11 +209,10 @@ public class HighlightMoves : MonoBehaviourPunCallbacks
         }
     }
 
-    //
-    // TO DO: TAKE IN CONSIDERATION DOUBLE CHECKS TOO
-    //
     void ShowQueenMoves(GameObject pieceGO, bool isWhite)
     {
+        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+
         Vector2Int[] queenDirections = _movementData.queenDirections;
         foreach (Vector2Int direction in queenDirections)
         {
