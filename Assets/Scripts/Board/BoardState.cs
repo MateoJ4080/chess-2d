@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Photon.Pun;
+using Unity.Properties;
 using UnityEngine;
 
 public class BoardState : MonoBehaviour
@@ -18,6 +19,9 @@ public class BoardState : MonoBehaviour
 
     public Dictionary<GameObject, List<Vector2Int>> WhiteCheckPaths { get; private set; } = new();
     public Dictionary<GameObject, List<Vector2Int>> BlackCheckPaths { get; private set; } = new();
+
+    private static int _whiteChecks;
+    private static int _blackChecks;
 
     private void Awake()
     {
@@ -37,8 +41,9 @@ public class BoardState : MonoBehaviour
         Instance.BlackThreatenedSquares.Clear();
         Instance.WhiteCheckPaths.Clear();
         Instance.BlackCheckPaths.Clear();
-        Instance.SetCheckStatus(true, false); // First argument stands for 'isWhite'
-        Instance.SetCheckStatus(false, false);
+
+        _whiteChecks = 0;
+        _blackChecks = 0;
 
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
@@ -100,14 +105,12 @@ public class BoardState : MonoBehaviour
 
                                 if (BoardUtils.SquareIsEmpty(targetPos))
                                 {
-
                                     targetDict[targetPos] = piece;
                                 }
                                 else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                                 {
                                     targetDict[targetPos] = piece;
                                     Instance.LookForCheck(piece, targetPiece);
-
                                     break;
                                 }
                             }
@@ -115,7 +118,6 @@ public class BoardState : MonoBehaviour
                         break;
 
                     case "Rook":
-                        List<Vector2Int> rookCaptures = new();
                         foreach (var move in Instance._movementData.rookDirections)
                         {
                             for (int i = 1; i < 8; i++)
@@ -131,7 +133,6 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                     Instance.LookForCheck(piece, targetPiece);
-
                                     break;
                                 }
                             }
@@ -139,7 +140,6 @@ public class BoardState : MonoBehaviour
                         break;
 
                     case "Queen":
-                        List<Vector2Int> queenCaptures = new();
                         foreach (var move in Instance._movementData.queenDirections)
                         {
                             for (int i = 1; i < 8; i++)
@@ -155,7 +155,6 @@ public class BoardState : MonoBehaviour
                                 {
                                     targetDict[targetPos] = piece;
                                     Instance.LookForCheck(piece, targetPiece);
-
                                     break;
                                 }
                             }
@@ -163,7 +162,6 @@ public class BoardState : MonoBehaviour
                         break;
 
                     case "King":
-                        List<Vector2Int> kingCaptures = new();
                         foreach (var move in Instance._movementData.kingMoves)
                         {
                             Vector2Int targetPos = pos + move;
@@ -177,9 +175,12 @@ public class BoardState : MonoBehaviour
                 }
             }
         }
+
+        Instance.SetCheckStatus(true, _whiteChecks);
+        Instance.SetCheckStatus(false, _blackChecks);
+
         ColorThreatenedSquares();
     }
-
     // *Debug purposes*
     public static void ColorThreatenedSquares()
     {
@@ -257,22 +258,24 @@ public class BoardState : MonoBehaviour
 
     private void LookForCheck(GameObject activePiece, GameObject targetPiece)
     {
-        Debug.Log($"<color=cyan>LookForCheck running... {activePiece.GetComponent<ChessPiece>().PieceData.PieceType}");
-
         var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
         var targetData = targetPiece.GetComponent<ChessPiece>().PieceData;
 
-        Debug.Log($"<color=cyan> PieceType == King: {targetData.PieceType == "King"}");
-        Debug.Log($"<color=cyan> Its enemy color: {targetData.IsWhite != activeData.IsWhite}");
+        Debug.Log($"LookForCheck called by {activeData.PieceType}");
 
         if (targetData.PieceType == "King" && targetData.IsWhite != activeData.IsWhite)
         {
             Debug.Log("<color=cyan>Check detected");
+
             var from = Vector2Int.RoundToInt(activePiece.transform.position);
             var to = Vector2Int.RoundToInt(targetPiece.transform.position);
 
             BuildCheckPath(from, to, activeData.IsWhite);
-            SetCheckStatus(targetData.IsWhite, true);
+
+            if (targetData.IsWhite)
+                _whiteChecks++;
+            else
+                _blackChecks++;
         }
     }
 
@@ -306,31 +309,40 @@ public class BoardState : MonoBehaviour
             }
             else break;
         }
-        Debug.Log($"{checkPath.Count} tiles added to path");
         targetDict.Add(activePiece, checkPath);
     }
 
-    public void SetCheckStatus(bool isWhite, bool status)
+    public void SetCheckStatus(bool isWhite, int checksAmount)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        Debug.Log($"SetCheckStatus - checksAmount: {checksAmount}");
 
+        if (!PhotonNetwork.IsMasterClient) return;
         var props = new ExitGames.Client.Photon.Hashtable();
 
-        var kingInCheck = isWhite ? "whiteInCheck" : "blackInCheck";
+        var checkOnce = isWhite ? "whiteInCheckOnce" : "blackInCheckOnce";
+        var checkTwice = isWhite ? "whiteInCheckTwice" : "blackInCheckTwice";
 
-        props[kingInCheck] = status;
+        if (checksAmount == 0)
+        {
+            props[checkOnce] = false;
+            props[checkTwice] = false;
+        }
+        else if (checksAmount > 0)
+        {
+            props[checkOnce] = true;
+            props[checkTwice] = checksAmount >= 2;
+        }
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
     public bool IsKingInCheck(bool isWhite)
     {
-        var key = isWhite ? "whiteInCheck" : "blackInCheck";
+        var checkOnceKey = isWhite ? "whiteInCheckOnce" : "blackInCheckOnce";
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(checkOnceKey, out var value))
             return (bool)value;
 
-        Debug.Log("IsKingInCheck: King isn't registered");
         return false;
     }
 }
