@@ -9,7 +9,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
     [SerializeField] BoardManager _boardManager;
-    [SerializeField] private PieceData[] _piecesData;      // Array containing the scriptable object of each piece. Set in the inspector
+    [SerializeField] private PieceData[] _piecesData; // Array containing the scriptable object of each piece. Set in the inspector
     [SerializeField] private TextMeshProUGUI currentTurnTMP;
 
     private bool spawned = false;
@@ -64,13 +64,13 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
         if (!PlayerManager.Instance.ColorsAreAssigned)
         {
-            Debug.LogError("Player colors are not assigned yet! Cannot spawn pieces.");
+            Debug.LogError("Player colors are not assigned yet. Cannot spawn pieces.");
             return;
         }
 
         if (PieceDataManager.Instance == null)
         {
-            Debug.LogError("PieceDataManager.Instance is null! Cannot spawn pieces");
+            Debug.LogError("PieceDataManager.Instance is null. Cannot spawn pieces");
             return;
         }
 
