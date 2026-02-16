@@ -338,9 +338,9 @@ public class BoardState : MonoBehaviour
 
     public bool IsKingInCheck(bool isWhite)
     {
-        var checkOnceKey = isWhite ? "whiteInCheckOnce" : "blackInCheckOnce";
+        var key = isWhite ? "whiteInCheckOnce" : "blackInCheckOnce";
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(checkOnceKey, out var value))
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
             return (bool)value;
 
         return false;
