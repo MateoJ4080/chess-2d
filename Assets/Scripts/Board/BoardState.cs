@@ -345,4 +345,14 @@ public class BoardState : MonoBehaviour
 
         return false;
     }
+
+    public bool IsKingInDoubleCheck(bool isWhite)
+    {
+        var key = isWhite ? "whiteInCheckTwice" : "blackInCheckTwice";
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
+            return (bool)value;
+
+        return false;
+    }
 }
