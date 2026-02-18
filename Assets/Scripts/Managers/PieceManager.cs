@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    [SerializeField] private HighlightMoves _highlightMoves;
     [SerializeField] private BoardManager _boardManager;
     private GameObject _selectedPiece;
     private PhotonView photonView;
@@ -23,7 +22,7 @@ public class PieceManager : MonoBehaviour
     public void TryMovePiece(GameObject pieceGO, Vector2Int from, Vector2Int to)
     {
         // If isn't legal move or isn't player's turn, return piece to original position
-        if (!IsLegalMove(to) || !GameManager.Instance.ItsMyTurn())
+        if (!IsLegalMove(pieceGO, to) || !GameManager.Instance.ItsMyTurn())
         {
             pieceGO.transform.position = new(from.x, from.y, 0);
             return;
@@ -38,6 +37,8 @@ public class PieceManager : MonoBehaviour
         }
 
         var data = pieceGO.GetComponent<ChessPiece>().PieceData;
+        int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
+
 
         // Castling
         if (data.PieceType == "King")
@@ -50,8 +51,7 @@ public class PieceManager : MonoBehaviour
                 rightRook.transform.position = new(5, 0, 0);
                 MovePiece(rightRookPos, new(5, 0), rightRook);
 
-                int id = rightRook.GetComponent<PhotonView>().ViewID;
-                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, id);
+                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID);
 
             }
 
@@ -63,25 +63,22 @@ public class PieceManager : MonoBehaviour
                 leftRook.transform.position = new(3, 0, 0);
                 MovePiece(leftRookPos, new(3, 0), leftRook);
 
-                int id = leftRook.GetComponent<PhotonView>().ViewID;
-                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, id);
+                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID);
 
             }
         }
 
-        // Move the piece and update the board state
+        HighlightMoves.Instance.ClearHighlights();
         MovePiece(from, to, pieceGO);
         GameManager.Instance.OnPieceMoved(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 
-        int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
         photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
     {
         piece.GetComponent<Draggable>().SnapToGrid();
-        _highlightMoves.ClearHighlights();
         BoardUtils.RefreshBoardState(from, to, piece);
     }
 
@@ -115,9 +112,12 @@ public class PieceManager : MonoBehaviour
     }
 
     // Check if this is a highlighted and legal square for the piece to move
-    public bool IsLegalMove(Vector2Int targetPosition)
+    public bool IsLegalMove(GameObject pieceGO, Vector2Int targetPosition)
     {
-        return _highlightMoves.LegalPositions.Contains(targetPosition);
+        if (CalculateMoves.Instance.LegalMovesByPiece.TryGetValue(pieceGO, out var pieceMoves))
+            return pieceMoves.Contains(targetPosition);
+
+        return false;
     }
 
     // Select and Deselect

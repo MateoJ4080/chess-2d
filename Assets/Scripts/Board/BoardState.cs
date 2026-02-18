@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Photon.Pun;
-using Unity.Properties;
 using UnityEngine;
 
 public class BoardState : MonoBehaviour
@@ -224,10 +223,8 @@ public class BoardState : MonoBehaviour
 
         foreach (var path in Instance.BlackCheckPaths)
         {
-            Debug.Log($"Creating check path for {path.Key.name}");
             foreach (var move in path.Value)
             {
-                Debug.Log($"Path tiles count: {path.Value.Count}");
                 if (BoardUtils.GetSquareAt(move))
                 {
                     GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity);
@@ -261,12 +258,8 @@ public class BoardState : MonoBehaviour
         var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
         var targetData = targetPiece.GetComponent<ChessPiece>().PieceData;
 
-        Debug.Log($"LookForCheck called by {activeData.PieceType}");
-
         if (targetData.PieceType == "King" && targetData.IsWhite != activeData.IsWhite)
         {
-            Debug.Log("<color=cyan>Check detected");
-
             var from = Vector2Int.RoundToInt(activePiece.transform.position);
             var to = Vector2Int.RoundToInt(targetPiece.transform.position);
 
@@ -314,8 +307,6 @@ public class BoardState : MonoBehaviour
 
     public void SetCheckStatus(bool isWhite, int checksAmount)
     {
-        Debug.Log($"SetCheckStatus - checksAmount: {checksAmount}");
-
         if (!PhotonNetwork.IsMasterClient) return;
         var props = new ExitGames.Client.Photon.Hashtable();
 
@@ -355,4 +346,11 @@ public class BoardState : MonoBehaviour
 
         return false;
     }
+
+    // private void LookForCheckMate(bool isWhite)
+    // {
+    //     var threatsDict = isWhite ? Instance.BlackThreatenedSquares : Instance.WhiteThreatenedSquares;
+
+
+    // }
 }

@@ -97,6 +97,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
         GameManager.Instance.PiecesAreSpawned = true;
         GameManager.Instance.UpdateGameState(GameManager.GameState.InGame);
 
+        CalculateMoves.Instance.CalculateAllMoves();
         GameManager.AssignFirstTurnWhite();
     }
 }

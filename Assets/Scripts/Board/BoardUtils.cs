@@ -22,8 +22,6 @@ public static class BoardUtils
                 return movedPieceColor != capturedPieceColor;
             }
         }
-
-        // return PieceManager.Instance.IsLegalMove(position) &&
         return false;
     }
 
@@ -48,18 +46,23 @@ public static class BoardUtils
         string playerColor = PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string;
         bool isWhite = playerColor == "White";
 
-        return piece.GetComponent<ChessPiece>().PieceData.IsWhite == isWhite;
+        var pieceData = piece.GetComponent<ChessPiece>().PieceData;
+
+        Debug.Log($"PlayerIsThisColor: {pieceData.IsWhite == isWhite}");
+
+        return pieceData.IsWhite == isWhite;
     }
 
     public static void RefreshBoardState(Vector2Int from, Vector2Int to, GameObject piece)
     {
-        BoardGenerator.Instance.PositionToPiece.Remove(from);
         BoardGenerator.Instance.PiecesOnBoard.Remove(piece);
-
         BoardGenerator.Instance.PiecesOnBoard[piece] = to;
+
+        BoardGenerator.Instance.PositionToPiece.Remove(from);
         BoardGenerator.Instance.PositionToPiece[to] = piece;
 
         BoardState.UpdateThreatenedSquares();
+        CalculateMoves.Instance.CalculateAllMoves();
     }
 
     public static GameObject GetSquareAt(Vector2Int pos)

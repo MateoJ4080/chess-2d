@@ -1,5 +1,3 @@
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Draggable : MonoBehaviour
@@ -8,15 +6,11 @@ public class Draggable : MonoBehaviour
     private bool _isDragging = false;
     private Camera _cam;
 
-    [SerializeField] private HighlightMoves _highlightMoves;
-
     private Vector2Int _firstPosition;
 
     void Start()
     {
         _cam = Camera.main;
-        if (_highlightMoves == null)
-            _highlightMoves = FindAnyObjectByType<HighlightMoves>();
     }
 
     void Update()
@@ -31,10 +25,11 @@ public class Draggable : MonoBehaviour
         _firstPosition = Vector2Int.RoundToInt(transform.position);
         _offset = transform.position - GetMouseWorldPos();
 
-        _highlightMoves.ClearHighlights();
+        HighlightMoves.Instance.ClearHighlights();
         if (BoardUtils.PlayerIsThisColor(gameObject))
         {
-            _highlightMoves.ShowMoves(gameObject);
+            Debug.Log("PlayerIsThisColor true");
+            HighlightMoves.Instance.ShowMoves(gameObject);
         }
     }
 
