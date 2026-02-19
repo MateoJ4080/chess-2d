@@ -12,16 +12,21 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         _boardManager = FindFirstObjectByType<BoardManager>();
+
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
         {
             string color = colorObj.ToString();
             if (color == "Black")
                 _boardManager.BoardIsInverted = true;
 
-            TextMeshProUGUI colorInfoText = GameObject.FindGameObjectWithTag("ColorInfoText").GetComponent<TextMeshProUGUI>();
-            colorInfoText.text = "Color: " + color;
+            UIManager.Instance.UpdateColorText(color);
         }
-        else Debug.LogError("PlayerManager: Player color not set!");
+        else
+        {
+            UIManager.Instance.UpdateColorText("not found");
+
+            Debug.LogError("PlayerManager: Player color not set");
+        }
 
         PieceDataManager.Initialize();
         SetupPiece();
@@ -29,8 +34,6 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     void SetupPiece()
     {
-        Debug.Log($"BoardIsInverted: {_boardManager.BoardIsInverted}");
-
         if (_boardManager == null) _boardManager = FindFirstObjectByType<BoardManager>();
         if (_piecesContainer == null) _piecesContainer = GameObject.FindGameObjectWithTag("PiecesContainer").transform; string pieceDataName = (string)photonView.InstantiationData[0];
         if (pieceDataName == null) Debug.Log("pieceDataName is null");
@@ -41,14 +44,14 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         Transform visual = transform.Find("Visual");
         if (visual == null)
         {
-            Debug.LogError("Visual child not found on piece prefab!");
+            Debug.LogError("Visual child not found on piece prefab");
             return;
         }
 
         SpriteRenderer sr = visual.GetComponent<SpriteRenderer>();
         if (sr == null)
         {
-            Debug.LogError("SpriteRenderer not found on Visual child!");
+            Debug.LogError("SpriteRenderer not found on Visual child");
             return;
         }
 

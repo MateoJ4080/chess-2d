@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 7736431347275608702}
   - component: {fileID: 6543344363503177578}
   - component: {fileID: -1327880709592379074}
-  - component: {fileID: 4803507847766179397}
+  - component: {fileID: 7407175405423762721}
   m_Layer: 0
   m_Name: Black_Bishop
   m_TagString: Piece
@@ -194,7 +194,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4803507847766179397
+--- !u!114 &7407175405423762721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,4 +205,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 021c5392ba3c2eb4390a74df182cb0f3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::PieceSetup
+  colorInfoText: {fileID: 0}

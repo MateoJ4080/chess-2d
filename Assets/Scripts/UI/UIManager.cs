@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
     [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
 
+    [SerializeField] private TextMeshProUGUI colorInfoText;
+
     public static UIManager Instance { get; private set; }
 
     void Awake()
@@ -120,5 +122,10 @@ public class UIManager : MonoBehaviour
 
         if (props.TryGetValue("blackInCheckTwice", out value))
             _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
+    }
+
+    public void UpdateColorText(string color)
+    {
+        colorInfoText.text = "Color: " + color;
     }
 }
