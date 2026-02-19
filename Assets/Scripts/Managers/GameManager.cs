@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instance.state = GameState.Loading;
     }
 
-    public void OnPieceMoved(GameObject piece, Vector2Int from)
+    public void OnPieceMovedBySelf(GameObject piece, Vector2Int from)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
 

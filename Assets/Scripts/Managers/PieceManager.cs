@@ -70,7 +70,7 @@ public class PieceManager : MonoBehaviour
 
         HighlightMoves.Instance.ClearHighlights();
         MovePiece(from, to, pieceGO);
-        GameManager.Instance.OnPieceMoved(pieceGO, from);
+        GameManager.Instance.OnPieceMovedBySelf(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 
         photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);

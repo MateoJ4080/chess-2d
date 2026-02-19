@@ -206,4 +206,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021c5392ba3c2eb4390a74df182cb0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PieceSetup
-  colorInfoText: {fileID: 0}
