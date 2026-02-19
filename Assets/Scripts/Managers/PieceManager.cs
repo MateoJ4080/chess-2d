@@ -22,7 +22,7 @@ public class PieceManager : MonoBehaviour
     public void TryMovePiece(GameObject pieceGO, Vector2Int from, Vector2Int to)
     {
         // If isn't legal move or isn't player's turn, return piece to original position
-        if (!IsLegalMove(pieceGO, to) || !GameManager.Instance.ItsMyTurn())
+        if (!IsLegalMove(pieceGO, to) || !GameManager.Instance.ItsMyTurn() || !BoardUtils.PlayerIsThisColor(pieceGO))
         {
             pieceGO.transform.position = new(from.x, from.y, 0);
             return;

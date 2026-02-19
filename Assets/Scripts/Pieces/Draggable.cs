@@ -26,9 +26,8 @@ public class Draggable : MonoBehaviour
         _offset = transform.position - GetMouseWorldPos();
 
         HighlightMoves.Instance.ClearHighlights();
-        if (BoardUtils.PlayerIsThisColor(gameObject))
+        if (BoardUtils.PlayerIsThisColor(gameObject) && GameManager.Instance.ItsMyTurn())
         {
-            Debug.Log("PlayerIsThisColor true");
             HighlightMoves.Instance.ShowMoves(gameObject);
         }
     }
