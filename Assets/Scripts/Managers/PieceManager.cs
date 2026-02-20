@@ -119,21 +119,4 @@ public class PieceManager : MonoBehaviour
 
         return false;
     }
-
-    // Select and Deselect
-    public void SelectPiece(GameObject piece)
-    {
-        if (_selectedPiece == piece || !piece.CompareTag("Piece")) return;
-
-        DeselectCurrentPiece();
-        _selectedPiece = piece;
-    }
-
-    public void DeselectCurrentPiece()
-    {
-        if (_selectedPiece != null)
-        {
-            _selectedPiece = null;
-        }
-    }
 }
