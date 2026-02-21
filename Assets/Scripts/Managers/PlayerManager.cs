@@ -85,4 +85,25 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             Debug.Log($"Colors assignment status updated: {colorsAreAssigned}");
         }
     }
+
+    // Debug colors (give each player a specific color)
+
+
+    // Hashtable p1props = new();
+    //     p1props["Color"] = "Black";
+    //     players[0].SetCustomProperties(p1props);
+
+    //     Hashtable p2props = new();
+    //     p2props["Color"] = "White";
+    //     players[1].SetCustomProperties(p2props);
+
+    // Normal method
+
+    // Hashtable p1props = new();
+    //     p1props["Color"] = firstIsWhite ? "White" : "Black";
+    //     players[0].SetCustomProperties(p1props);
+
+    //     Hashtable p2props = new();
+    //     p2props["Color"] = firstIsWhite ? "Black" : "White";
+    //     players[1].SetCustomProperties(p2props);
 }
