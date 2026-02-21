@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
@@ -347,10 +348,49 @@ public class BoardState : MonoBehaviour
         return false;
     }
 
-    // private void LookForCheckMate(bool isWhite)
-    // {
-    //     var threatsDict = isWhite ? Instance.BlackThreatenedSquares : Instance.WhiteThreatenedSquares;
+    public void EvaluateEndgameState(bool isWhite)
+    {
+        foreach (var legalMoves in CalculateMoves.Instance.LegalMovesByPiece)
+        {
+            if (legalMoves.Key == null)
+                continue;
 
+            var pieceData = legalMoves.Key.GetComponent<ChessPiece>().PieceData;
 
-    // }
+            // Only consider the side being evaluated
+            if (pieceData.IsWhite != isWhite)
+                continue;
+
+            if (legalMoves.Value.Count > 0)
+            {
+                break;
+            }
+        }
+
+        bool inCheck = IsKingCurrentlyInCheck(isWhite);
+        if (inCheck)
+            Debug.Log("<color=red>Checkmate");
+        else
+            Debug.Log("<color=red>Stalemate");
+    }
+
+    bool IsKingCurrentlyInCheck(bool isWhite)
+    {
+        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
+        {
+            if (piece == null)
+                continue;
+
+            var data = piece.GetComponent<ChessPiece>().PieceData;
+            if (data.PieceType != "King" || data.IsWhite != isWhite)
+                continue;
+
+            Vector2Int kingPos = Vector2Int.RoundToInt(piece.transform.position);
+            var threats = isWhite ? BlackThreatenedSquares : WhiteThreatenedSquares;
+            return threats.ContainsKey(kingPos);
+        }
+
+        return false;
+    }
+
 }

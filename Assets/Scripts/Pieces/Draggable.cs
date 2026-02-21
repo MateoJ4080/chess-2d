@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class Draggable : MonoBehaviour
@@ -26,10 +27,11 @@ public class Draggable : MonoBehaviour
         _offset = transform.position - GetMouseWorldPos();
 
         HighlightMoves.Instance.ClearHighlights();
-        if (BoardUtils.PlayerIsThisColor(gameObject) && GameManager.Instance.ItsMyTurn())
-        {
-            HighlightMoves.Instance.ShowMoves(gameObject);
-        }
+
+        Debug.Log($"[Draggable] Turn: {PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string}");
+        Debug.Log($"[Draggable] Color: {PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string}");
+
+        HighlightMoves.Instance.ShowMoves(gameObject);
     }
 
     void OnMouseUp()

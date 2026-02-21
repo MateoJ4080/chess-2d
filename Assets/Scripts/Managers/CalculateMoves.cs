@@ -31,7 +31,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
     public void CalculateAllMoves()
     {
-        LegalMovesByPiece.Clear();
+        legalMovesByPiece.Clear();
 
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {

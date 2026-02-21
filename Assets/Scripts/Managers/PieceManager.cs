@@ -4,7 +4,6 @@ using UnityEngine;
 public class PieceManager : MonoBehaviour
 {
     [SerializeField] private BoardManager _boardManager;
-    private GameObject _selectedPiece;
     private PhotonView photonView;
 
     public static PieceManager Instance { get; private set; }
@@ -102,8 +101,8 @@ public class PieceManager : MonoBehaviour
         GameObject pieceToCapture = BoardUtils.GetPieceAt(to);
         if (pieceToCapture != null)
         {
-            Destroy(pieceToCapture);
             BoardGenerator.Instance.PiecesOnBoard.Remove(pieceToCapture);
+            Destroy(pieceToCapture);
         }
 
         var piece = view.gameObject;
@@ -114,8 +113,8 @@ public class PieceManager : MonoBehaviour
     // Check if this is a highlighted and legal square for the piece to move
     public bool IsLegalMove(GameObject pieceGO, Vector2Int targetPosition)
     {
-        if (CalculateMoves.Instance.LegalMovesByPiece.TryGetValue(pieceGO, out var pieceMoves))
-            return pieceMoves.Contains(targetPosition);
+        if (CalculateMoves.Instance.LegalMovesByPiece.TryGetValue(pieceGO, out var legalMoves))
+            return legalMoves.Contains(targetPosition);
 
         return false;
     }

@@ -28,13 +28,12 @@ public class HighlightMoves : MonoBehaviour
 
         if (pieceGO == null) return;
 
-        ShowPieceLegalMoves(pieceGO);
+        if (BoardUtils.PlayerIsThisColor(pieceGO) && GameManager.Instance.ItsMyTurn())
+            ShowPieceLegalMoves(pieceGO);
     }
 
     void ShowPieceLegalMoves(GameObject pieceGO)
     {
-        Debug.Log($"ShowPieceLegalMoves: Piece null: {pieceGO == null}");
-
         if (CalculateMoves.Instance.LegalMovesByPiece.TryGetValue(pieceGO, out var pieceMoves))
         {
             Debug.Log($"ShowPieceLegalMoves: Piece found in hashmap");

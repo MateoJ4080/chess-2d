@@ -94,8 +94,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             if (!data.IsWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.Queen, data.IsWhite);
             if (!data.IsWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King, data.IsWhite);
-
-            DisableRookSide(PieceData.RookSide.King, data.IsWhite);
         }
     }
 

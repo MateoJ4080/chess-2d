@@ -48,14 +48,11 @@ public static class BoardUtils
 
         var pieceData = piece.GetComponent<ChessPiece>().PieceData;
 
-        Debug.Log($"PlayerIsThisColor: {pieceData.IsWhite == isWhite}");
-
         return pieceData.IsWhite == isWhite;
     }
 
     public static void RefreshBoardState(Vector2Int from, Vector2Int to, GameObject piece)
     {
-        BoardGenerator.Instance.PiecesOnBoard.Remove(piece);
         BoardGenerator.Instance.PiecesOnBoard[piece] = to;
 
         BoardGenerator.Instance.PositionToPiece.Remove(from);
@@ -63,6 +60,9 @@ public static class BoardUtils
 
         BoardState.UpdateThreatenedSquares();
         CalculateMoves.Instance.CalculateAllMoves();
+
+        var pieceData = piece.GetComponent<ChessPiece>().PieceData;
+        BoardState.Instance.EvaluateEndgameState(!pieceData.IsWhite); // Evaluate new turn player movements to see if it can move or it's the end of the game
     }
 
     public static GameObject GetSquareAt(Vector2Int pos)
