@@ -330,10 +330,19 @@ public class BoardState : MonoBehaviour
 
     public bool IsKingInCheck(bool isWhite)
     {
-        var key = isWhite ? "whiteInCheckOnce" : "blackInCheckOnce";
+        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
+        {
+            if (piece == null)
+                continue;
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
-            return (bool)value;
+            var data = piece.GetComponent<ChessPiece>().PieceData;
+            if (data.PieceType != "King" || data.IsWhite != isWhite)
+                continue;
+
+            Vector2Int kingPos = Vector2Int.RoundToInt(piece.transform.position);
+            var threats = isWhite ? BlackThreatenedSquares : WhiteThreatenedSquares;
+            return threats.ContainsKey(kingPos);
+        }
 
         return false;
     }
@@ -363,34 +372,14 @@ public class BoardState : MonoBehaviour
 
             if (legalMoves.Value.Count > 0)
             {
-                break;
+                return;
             }
         }
 
-        bool inCheck = IsKingCurrentlyInCheck(isWhite);
+        bool inCheck = IsKingInCheck(isWhite);
         if (inCheck)
             Debug.Log("<color=red>Checkmate");
         else
             Debug.Log("<color=red>Stalemate");
     }
-
-    bool IsKingCurrentlyInCheck(bool isWhite)
-    {
-        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
-        {
-            if (piece == null)
-                continue;
-
-            var data = piece.GetComponent<ChessPiece>().PieceData;
-            if (data.PieceType != "King" || data.IsWhite != isWhite)
-                continue;
-
-            Vector2Int kingPos = Vector2Int.RoundToInt(piece.transform.position);
-            var threats = isWhite ? BlackThreatenedSquares : WhiteThreatenedSquares;
-            return threats.ContainsKey(kingPos);
-        }
-
-        return false;
-    }
-
 }
