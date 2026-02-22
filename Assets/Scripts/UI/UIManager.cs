@@ -7,8 +7,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _loadingPanel;
+    [SerializeField] private GameObject _optionsPanel;
 
     // Debug - Network texts
+    [SerializeField] private GameObject _networkStatusPanel;
     [SerializeField] private TextMeshProUGUI _networkStatusText;
     [SerializeField] private TextMeshProUGUI _debugTextState;
     [SerializeField] private TextMeshProUGUI _debugTextConnection;
@@ -54,16 +56,15 @@ public class UIManager : MonoBehaviour
         if (scene.name == "MenuScene")
         {
             _mainMenuPanel.SetActive(true);
-            _networkStatusText.transform.parent.gameObject.SetActive(true);
+            _networkStatusPanel.SetActive(true);
         }
 
         if (scene.name == "GameScene")
         {
             _loadingPanel.SetActive(false);
-            _networkStatusText.transform.parent.gameObject.SetActive(false);
+            _networkStatusPanel.SetActive(false);
         }
     }
-
 
     void Start()
     {
@@ -79,10 +80,18 @@ public class UIManager : MonoBehaviour
     public void ShowMainMenuPanel()
     {
         _loadingPanel.SetActive(false);
+        _optionsPanel.SetActive(false);
         _mainMenuPanel.SetActive(true);
+        _networkStatusPanel.SetActive(true);
     }
 
+    public void ShowOptionsPanel()
     {
+        _mainMenuPanel.SetActive(false);
+        _loadingPanel.SetActive(false);
+        _optionsPanel.SetActive(true);
+    }
+
     public void ShowLoadingPanel()
     {
         _mainMenuPanel.SetActive(false);
