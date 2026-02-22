@@ -103,6 +103,11 @@ public class UIManager : MonoBehaviour
         _networkStatusText.text = text;
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     void UpdateDebugNetworkTexts()
     {
         _debugTextState.text = $"State: {PhotonNetwork.NetworkClientState}";
