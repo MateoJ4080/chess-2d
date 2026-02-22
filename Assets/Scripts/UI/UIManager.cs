@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _mainMenu;
-    [SerializeField] private GameObject _loadingMenu;
+    [SerializeField] private GameObject _mainMenuPanel;
+    [SerializeField] private GameObject _loadingPanel;
 
     // Debug - Network texts
     [SerializeField] private TextMeshProUGUI _networkStatusText;
@@ -53,13 +53,13 @@ public class UIManager : MonoBehaviour
     {
         if (scene.name == "MenuScene")
         {
-            _mainMenu.SetActive(true);
+            _mainMenuPanel.SetActive(true);
             _networkStatusText.transform.parent.gameObject.SetActive(true);
         }
 
         if (scene.name == "GameScene")
         {
-            _loadingMenu.SetActive(false);
+            _loadingPanel.SetActive(false);
             _networkStatusText.transform.parent.gameObject.SetActive(false);
         }
     }
@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        ShowMainMenu();
+        ShowMainMenuPanel();
     }
 
     void Update()
@@ -76,16 +76,17 @@ public class UIManager : MonoBehaviour
         UpdateRoomPropertiesTexts();
     }
 
-    public void ShowMainMenu()
+    public void ShowMainMenuPanel()
     {
-        _loadingMenu.SetActive(false);
-        _mainMenu.SetActive(true);
+        _loadingPanel.SetActive(false);
+        _mainMenuPanel.SetActive(true);
     }
 
-    public void ShowLoadingMenu()
     {
-        _mainMenu.SetActive(false);
-        _loadingMenu.SetActive(true);
+    public void ShowLoadingPanel()
+    {
+        _mainMenuPanel.SetActive(false);
+        _loadingPanel.SetActive(true);
     }
 
     public void ChangeNetworkText(string text)
