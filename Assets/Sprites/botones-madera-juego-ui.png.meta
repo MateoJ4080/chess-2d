@@ -1,0 +1,910 @@
+fileFormatVersion: 2
+guid: 00f5ef6ac116e08418a2ab77f0ca76bc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4808590859846052807
+    second: botones-madera-juego-ui_0
+  - first:
+      213: -1441400981605080424
+    second: botones-madera-juego-ui_1
+  - first:
+      213: -5286356260767227218
+    second: botones-madera-juego-ui_2
+  - first:
+      213: -1021665418787861194
+    second: botones-madera-juego-ui_3
+  - first:
+      213: 5310474208790790450
+    second: botones-madera-juego-ui_4
+  - first:
+      213: 1810434826882994001
+    second: botones-madera-juego-ui_5
+  - first:
+      213: -6946190759131512043
+    second: botones-madera-juego-ui_6
+  - first:
+      213: 7305963301308714549
+    second: botones-madera-juego-ui_7
+  - first:
+      213: 7483655976985625057
+    second: botones-madera-juego-ui_8
+  - first:
+      213: -6769318642195466779
+    second: botones-madera-juego-ui_9
+  - first:
+      213: -50053803615085393
+    second: botones-madera-juego-ui_10
+  - first:
+      213: 324930542875799854
+    second: botones-madera-juego-ui_11
+  - first:
+      213: 5406816644654086569
+    second: botones-madera-juego-ui_12
+  - first:
+      213: -9118394441730276032
+    second: botones-madera-juego-ui_13
+  - first:
+      213: 2782587459297955027
+    second: botones-madera-juego-ui_14
+  - first:
+      213: 215367388031452390
+    second: botones-madera-juego-ui_15
+  - first:
+      213: -9105488185120558582
+    second: botones-madera-juego-ui_16
+  - first:
+      213: 4780519712101855625
+    second: botones-madera-juego-ui_17
+  - first:
+      213: -1493010815209098476
+    second: botones-madera-juego-ui_18
+  - first:
+      213: 8594108397724257816
+    second: botones-madera-juego-ui_19
+  - first:
+      213: -6044782604208366532
+    second: botones-madera-juego-ui_20
+  - first:
+      213: 4691129644699715667
+    second: botones-madera-juego-ui_21
+  - first:
+      213: 2664912630674503296
+    second: botones-madera-juego-ui_22
+  - first:
+      213: -3078616269039404152
+    second: botones-madera-juego-ui_23
+  - first:
+      213: 1862063309738801126
+    second: botones-madera-juego-ui_24
+  - first:
+      213: 5374034082016337519
+    second: botones-madera-juego-ui_25
+  - first:
+      213: 7787247252735754263
+    second: botones-madera-juego-ui_26
+  - first:
+      213: 4159479869185154535
+    second: botones-madera-juego-ui_27
+  - first:
+      213: 1267709424949763408
+    second: botones-madera-juego-ui_28
+  - first:
+      213: -2044456302549920249
+    second: botones-madera-juego-ui_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_0
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1572
+        width: 916
+        height: 298
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cb6057f8eb8bb240800000000000000
+      internalID: 4808590859846052807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_1
+      rect:
+        serializedVersion: 2
+        x: 1072
+        y: 1582
+        width: 807
+        height: 297
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 892a780b17d1ffbe0800000000000000
+      internalID: -1441400981605080424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_2
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1301
+        width: 222
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea2aec83df613a6b0800000000000000
+      internalID: -5286356260767227218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_3
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 1302
+        width: 222
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d49d1f6b052d1f0800000000000000
+      internalID: -1021665418787861194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_4
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 1302
+        width: 222
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23149d3282892b940800000000000000
+      internalID: 5310474208790790450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_5
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 1302
+        width: 222
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15f4b5902e4ff1910800000000000000
+      internalID: 1810434826882994001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_6
+      rect:
+        serializedVersion: 2
+        x: 1121
+        y: 1301
+        width: 223
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5138ddb9e4c2a9f90800000000000000
+      internalID: -6946190759131512043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_7
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 1302
+        width: 222
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53ecb84f9eef36560800000000000000
+      internalID: 7305963301308714549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_8
+      rect:
+        serializedVersion: 2
+        x: 1645
+        y: 1302
+        width: 222
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e1057106794bd760800000000000000
+      internalID: 7483655976985625057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_9
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 1017
+        width: 234
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e572807f8c8e02a0800000000000000
+      internalID: -6769318642195466779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_10
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 1017
+        width: 234
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fac9ddfa45c2e4ff0800000000000000
+      internalID: -50053803615085393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_11
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 1017
+        width: 234
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2179c07b92628400800000000000000
+      internalID: 324930542875799854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_12
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 1017
+        width: 234
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a9b64e771fd80b40800000000000000
+      internalID: 5406816644654086569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_13
+      rect:
+        serializedVersion: 2
+        x: 1118
+        y: 1017
+        width: 234
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04545ca0194f47180800000000000000
+      internalID: -9118394441730276032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_14
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 1017
+        width: 234
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dc49eb2d8cbd9620800000000000000
+      internalID: 2782587459297955027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_15
+      rect:
+        serializedVersion: 2
+        x: 1633
+        y: 1017
+        width: 235
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e481d39f732df200800000000000000
+      internalID: 215367388031452390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_16
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 751
+        width: 267
+        height: 259
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a027f531dbec2a180800000000000000
+      internalID: -9105488185120558582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_17
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 751
+        width: 268
+        height: 259
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98175919951d75240800000000000000
+      internalID: 4780519712101855625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_18
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 751
+        width: 268
+        height: 259
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41335a9e292c74be0800000000000000
+      internalID: -1493010815209098476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_19
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 740
+        width: 202
+        height: 234
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81e4e8fdd08644770800000000000000
+      internalID: 8594108397724257816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_20
+      rect:
+        serializedVersion: 2
+        x: 1366
+        y: 748
+        width: 221
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3c13b38f3e9c1ca0800000000000000
+      internalID: -6044782604208366532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_21
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 748
+        width: 221
+        height: 229
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35881a3ae8d3a1140800000000000000
+      internalID: 4691129644699715667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_22
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 577
+        width: 940
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0863ec41bebabf420800000000000000
+      internalID: 2664912630674503296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_23
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 477
+        width: 196
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88bfa2480de8645d0800000000000000
+      internalID: -3078616269039404152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_24
+      rect:
+        serializedVersion: 2
+        x: 1359
+        y: 465
+        width: 234
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e7f44ee6b067d910800000000000000
+      internalID: 1862063309738801126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_25
+      rect:
+        serializedVersion: 2
+        x: 1637
+        y: 465
+        width: 234
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6e1d655687649a40800000000000000
+      internalID: 5374034082016337519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_26
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 427
+        width: 940
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71083752e1cd11c60800000000000000
+      internalID: 7787247252735754263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_27
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 277
+        width: 940
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ed5b2537e079b930800000000000000
+      internalID: 4159479869185154535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_28
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 124
+        width: 807
+        height: 296
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05d9b80610fc79110800000000000000
+      internalID: 1267709424949763408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: botones-madera-juego-ui_29
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 127
+        width: 940
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70614b723d1a0a3e0800000000000000
+      internalID: -2044456302549920249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      botones-madera-juego-ui_0: 4808590859846052807
+      botones-madera-juego-ui_1: -1441400981605080424
+      botones-madera-juego-ui_10: -50053803615085393
+      botones-madera-juego-ui_11: 324930542875799854
+      botones-madera-juego-ui_12: 5406816644654086569
+      botones-madera-juego-ui_13: -9118394441730276032
+      botones-madera-juego-ui_14: 2782587459297955027
+      botones-madera-juego-ui_15: 215367388031452390
+      botones-madera-juego-ui_16: -9105488185120558582
+      botones-madera-juego-ui_17: 4780519712101855625
+      botones-madera-juego-ui_18: -1493010815209098476
+      botones-madera-juego-ui_19: 8594108397724257816
+      botones-madera-juego-ui_2: -5286356260767227218
+      botones-madera-juego-ui_20: -6044782604208366532
+      botones-madera-juego-ui_21: 4691129644699715667
+      botones-madera-juego-ui_22: 2664912630674503296
+      botones-madera-juego-ui_23: -3078616269039404152
+      botones-madera-juego-ui_24: 1862063309738801126
+      botones-madera-juego-ui_25: 5374034082016337519
+      botones-madera-juego-ui_26: 7787247252735754263
+      botones-madera-juego-ui_27: 4159479869185154535
+      botones-madera-juego-ui_28: 1267709424949763408
+      botones-madera-juego-ui_29: -2044456302549920249
+      botones-madera-juego-ui_3: -1021665418787861194
+      botones-madera-juego-ui_4: 5310474208790790450
+      botones-madera-juego-ui_5: 1810434826882994001
+      botones-madera-juego-ui_6: -6946190759131512043
+      botones-madera-juego-ui_7: 7305963301308714549
+      botones-madera-juego-ui_8: 7483655976985625057
+      botones-madera-juego-ui_9: -6769318642195466779
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
