@@ -93,6 +93,7 @@ public class UIManager : MonoBehaviour
         _mainMenuPanel.SetActive(false);
         _loadingPanel.SetActive(false);
         _optionsPanel.SetActive(true);
+        _networkStatusPanel.SetActive(false);
     }
 
     public void ShowLoadingPanel()
