@@ -11,7 +11,7 @@ public class Draggable : MonoBehaviour
 
     void Start()
     {
-        _cam = Camera.main;
+        _cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void Update()
