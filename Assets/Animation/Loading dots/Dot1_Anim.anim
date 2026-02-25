@@ -49,7 +49,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: GameObject
+    path: Dot 1
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -92,7 +92,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: GameObject (1)
+    path: Dot 2
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -135,7 +135,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: GameObject (2)
+    path: Dot 3
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -146,7 +146,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1482111001
+      path: 2679507669
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -155,7 +155,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2766423756
+      path: 113204079
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -164,7 +164,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2412320015
+      path: 1907911673
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -229,7 +229,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: GameObject
+    path: Dot 1
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -268,7 +268,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: GameObject
+    path: Dot 1
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -307,7 +307,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: GameObject
+    path: Dot 1
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -355,7 +355,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: GameObject (1)
+    path: Dot 2
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -403,7 +403,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: GameObject (1)
+    path: Dot 2
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -451,7 +451,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: GameObject (1)
+    path: Dot 2
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -499,7 +499,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: GameObject (2)
+    path: Dot 3
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -547,7 +547,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: GameObject (2)
+    path: Dot 3
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -595,7 +595,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: GameObject (2)
+    path: Dot 3
     classID: 224
     script: {fileID: 0}
     flags: 0
