@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
 
     [SerializeField] private TextMeshProUGUI colorInfoText;
+    [SerializeField] private Transform _networkTextRefMainMenu;
+    [SerializeField] private Transform _networkTextRefLoading;
 
     public static UIManager Instance { get; private set; }
 
@@ -83,6 +85,7 @@ public class UIManager : MonoBehaviour
         _optionsPanel.SetActive(false);
         _mainMenuPanel.SetActive(true);
         _networkStatusPanel.SetActive(true);
+        _networkStatusPanel.transform.position = _networkTextRefMainMenu.position;
     }
 
     public void ShowOptionsPanel()
@@ -96,6 +99,7 @@ public class UIManager : MonoBehaviour
     {
         _mainMenuPanel.SetActive(false);
         _loadingPanel.SetActive(true);
+        _networkStatusPanel.transform.position = _networkTextRefLoading.position;
     }
 
     public void ChangeNetworkText(string text)

@@ -1,0 +1,511 @@
+fileFormatVersion: 2
+guid: d315f6e82517fe842b691f114214fec2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 91185472605268854
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_0
+  - first:
+      213: -2254037623550120928
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_1
+  - first:
+      213: 8962730121248166384
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_2
+  - first:
+      213: 1386373556483521481
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_3
+  - first:
+      213: -8870527192812785391
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_4
+  - first:
+      213: -1972255469086890340
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_5
+  - first:
+      213: 5389707114605431342
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_6
+  - first:
+      213: -6607027722014251726
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_7
+  - first:
+      213: 5888879895638808255
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_8
+  - first:
+      213: 2113658236079130113
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_9
+  - first:
+      213: -6140903732823195735
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_10
+  - first:
+      213: -388984309305549626
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_11
+  - first:
+      213: 5218145814654704694
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_12
+  - first:
+      213: -4736354771550839338
+    second: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_0
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 1486
+        width: 394
+        height: 413
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b205744b4f34100800000000000000
+      internalID: 91185472605268854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_1
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 1486
+        width: 394
+        height: 413
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02cede949bc08b0e0800000000000000
+      internalID: -2254037623550120928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_2
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 1486
+        width: 397
+        height: 413
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f1d0b60f83026c70800000000000000
+      internalID: 8962730121248166384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_3
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 1484
+        width: 394
+        height: 415
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cbf13087636d3310800000000000000
+      internalID: 1386373556483521481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_4
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 1022
+        width: 394
+        height: 414
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11173f5248e85e480800000000000000
+      internalID: -8870527192812785391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_5
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 1022
+        width: 395
+        height: 414
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9621cea91421a4e0800000000000000
+      internalID: -1972255469086890340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_6
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 1022
+        width: 398
+        height: 414
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2ac37990161cca40800000000000000
+      internalID: 5389707114605431342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_7
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 1022
+        width: 394
+        height: 412
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 235ae28da4f1f44a0800000000000000
+      internalID: -6607027722014251726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_8
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 558
+        width: 394
+        height: 414
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb69d70801189b150800000000000000
+      internalID: 5888879895638808255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_9
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 558
+        width: 395
+        height: 414
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 106431297f8355d10800000000000000
+      internalID: 2113658236079130113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_10
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 556
+        width: 866
+        height: 415
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9aff335479027caa0800000000000000
+      internalID: -6140903732823195735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_11
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 94
+        width: 395
+        height: 413
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cc54a4e4dc0a9af0800000000000000
+      internalID: -388984309305549626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_12
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 94
+        width: 394
+        height: 413
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63c5fa4b8f39a6840800000000000000
+      internalID: 5218145814654704694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_13
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 92
+        width: 867
+        height: 415
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dd5c77fd66154eb0800000000000000
+      internalID: -4736354771550839338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 7b86e9681f87f45499edebe42eef8e7c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: False
+    nameFileIdTable:
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_0: 91185472605268854
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_1: -2254037623550120928
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_10: -6140903732823195735
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_11: -388984309305549626
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_12: 5218145814654704694
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_13: -4736354771550839338
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_2: 8962730121248166384
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_3: 1386373556483521481
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_4: -8870527192812785391
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_5: -1972255469086890340
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_6: 5389707114605431342
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_7: -6607027722014251726
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_8: 5888879895638808255
+      conjunto-oscuro-elementos-boton-juego-barra-progreso-botones-diferentes-formas-brillantes-juegos-aplicaciones_9: 2113658236079130113
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

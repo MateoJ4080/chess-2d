@@ -113,4 +113,10 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                 cachedRooms[room.Name] = room;
         }
     }
+
+    public void CancelMatchmaking()
+    {
+        PhotonNetwork.LeaveRoom();
+        UIManager.Instance.ShowMainMenuPanel();
+    }
 }
