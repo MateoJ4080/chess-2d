@@ -57,8 +57,7 @@ public class UIManager : MonoBehaviour
     {
         if (scene.name == "MenuScene")
         {
-            _mainMenuPanel.SetActive(true);
-            _networkStatusPanel.SetActive(true);
+            ShowMainMenuPanel();
         }
 
         if (scene.name == "GameScene")
