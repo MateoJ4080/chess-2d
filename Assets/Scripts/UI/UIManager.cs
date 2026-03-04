@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
     [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
 
-    [SerializeField] private TextMeshProUGUI colorInfoText;
+    [SerializeField] private TextMeshProUGUI _colorInfoText;
     [SerializeField] private Transform _networkTextRefMainMenu;
     [SerializeField] private Transform _networkTextRefLoading;
 
@@ -140,6 +140,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateColorText(string color)
     {
-        colorInfoText.text = "Color: " + color;
+        _colorInfoText.text = "Color: " + color;
     }
 }
