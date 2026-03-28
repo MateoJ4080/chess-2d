@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Panels")]
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _loadingPanel;
     [SerializeField] private GameObject _optionsPanel;
 
-    // Debug - Network texts
+    [Header("Debug - Network")]
     [SerializeField] private GameObject _networkStatusPanel;
     [SerializeField] private TextMeshProUGUI _networkStatusText;
     [SerializeField] private TextMeshProUGUI _debugTextState;
@@ -20,12 +21,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _debugTextMaster;
     [SerializeField] private TextMeshProUGUI _debugTextScene;
 
-    // Debug - Room properties
+    [Header("Debug - Room Properties")]
     [SerializeField] private TextMeshProUGUI _isWhiteCheckOnceText;
     [SerializeField] private TextMeshProUGUI _isWhiteCheckTwiceText;
     [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
     [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
-
     [SerializeField] private TextMeshProUGUI _colorInfoText;
     [SerializeField] private Transform _networkTextRefMainMenu;
     [SerializeField] private Transform _networkTextRefLoading;
