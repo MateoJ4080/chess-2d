@@ -98,8 +98,8 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void ShowLoadingPanel() => _loadingPanel.SetActive(true);
     public void HideLoadingPanel() => _loadingPanel.SetActive(false);
 
-    public void ShowPanel() => _networkStatusPanel.SetActive(true);
-    public void HidePanel() => _networkStatusPanel.SetActive(false);
+    public void ShowNetworkStatusPanel() => _networkStatusPanel.SetActive(true);
+    public void HideNetworkStatusPanel() => _networkStatusPanel.SetActive(false);
 
     public void ShowMatchList()
     {
