@@ -119,6 +119,16 @@ public class UIManager : MonoBehaviourPunCallbacks
         }
     }
 
+    [ContextMenu("TestShowMatchList")]
+    private void TestShowMatchList()
+    {
+        for (int i = 1; i <= 5; i++)
+        {
+            var item = Instantiate(_matchItemPrefab, _matchItemContainer);
+            item.GetComponent<MatchItem>().SetData("A" + i, "B" + i, i * 250, i * 250);
+        }
+    }
+
     public void ShowLoadingPanel()
     {
         _mainMenuPanel.SetActive(false);
