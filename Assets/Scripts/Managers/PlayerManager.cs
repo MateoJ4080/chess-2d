@@ -88,6 +88,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     // Debug colors (give each player a specific color)
 
+    // Debug method:
 
     // Hashtable p1props = new();
     //     p1props["Color"] = "Black";
@@ -97,7 +98,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     //     p2props["Color"] = "White";
     //     players[1].SetCustomProperties(p2props);
 
-    // Normal method
+    // Normal method:
 
     // Hashtable p1props = new();
     //     p1props["Color"] = firstIsWhite ? "White" : "Black";

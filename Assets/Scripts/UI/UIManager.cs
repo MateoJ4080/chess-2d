@@ -1,14 +1,24 @@
+using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviourPunCallbacks
 {
+    private Dictionary<string, RoomInfo> _rooms = new Dictionary<string, RoomInfo>();
+
+    [Header("Match List")]
+    [SerializeField] private Transform _matchItemContainer;
+    [SerializeField] private GameObject _matchItemPrefab;
+
     [Header("Panels")]
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _loadingPanel;
     [SerializeField] private GameObject _optionsPanel;
+    [SerializeField] private GameObject _matchListPanel;
 
     [Header("Debug - Network")]
     [SerializeField] private GameObject _networkStatusPanel;
@@ -43,13 +53,15 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void OnDisable()
+    public override void OnDisable()
     {
+        base.OnEnable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -93,6 +105,18 @@ public class UIManager : MonoBehaviour
         _loadingPanel.SetActive(false);
         _optionsPanel.SetActive(true);
         _networkStatusPanel.SetActive(false);
+    }
+
+    public void ShowMatchList()
+    {
+        _mainMenuPanel.SetActive(false);
+        _networkStatusPanel.SetActive(false);
+        _matchListPanel.SetActive(true);
+        foreach (var room in _rooms)
+        {
+            var item = Instantiate(_matchItemPrefab, Vector3.zero, Quaternion.identity, _matchItemContainer);
+            item.GetComponent<MatchItem>().SetData(room.Value);
+        }
     }
 
     public void ShowLoadingPanel()
@@ -141,5 +165,21 @@ public class UIManager : MonoBehaviour
     public void UpdateColorText(string color)
     {
         _colorInfoText.text = "Color: " + color;
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+        foreach (RoomInfo room in roomList)
+        {
+            if (room.RemovedFromList)
+            {
+                _rooms.Remove(room.Name);
+            }
+            else
+            {
+                _rooms[room.Name] = room;
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ public class MatchItem : MonoBehaviour
 
     public void SetData(RoomInfo room)
     {
-        player1Text.text = $"{GetProp(room, RoomProps.P1Name)} {GetProp(room, RoomProps.P1Elo)}";
+        player1Text.text = $"{GetProp(room, RoomProps.P1Name)} ({GetProp(room, RoomProps.P1Elo)})";
         player2Text.text = $"{GetProp(room, RoomProps.P2Name)} ({GetProp(room, RoomProps.P2Elo)})";
     }
 
