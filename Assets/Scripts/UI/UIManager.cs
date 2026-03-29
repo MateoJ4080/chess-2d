@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -69,7 +68,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (scene.name == "MenuScene")
         {
-            ShowMainMenuPanel();
+            ShowMenuPanel();
         }
 
         if (scene.name == "GameScene")
@@ -81,7 +80,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        ShowMainMenuPanel();
+        ShowMenuPanel();
     }
 
     void Update()
@@ -90,34 +89,32 @@ public class UIManager : MonoBehaviourPunCallbacks
         UpdateRoomPropertiesTexts();
     }
 
-    public void ShowMainMenuPanel()
-    {
-        _loadingPanel.SetActive(false);
-        _optionsPanel.SetActive(false);
-        _mainMenuPanel.SetActive(true);
-        _networkStatusPanel.SetActive(true);
-        _networkStatusPanel.transform.position = _networkTextRefMainMenu.position;
-    }
+    public void ShowMenuPanel() => _mainMenuPanel.SetActive(true);
+    public void HideMenuPanel() => _mainMenuPanel.SetActive(false);
 
-    public void ShowOptionsPanel()
-    {
-        _mainMenuPanel.SetActive(false);
-        _loadingPanel.SetActive(false);
-        _optionsPanel.SetActive(true);
-        _networkStatusPanel.SetActive(false);
-    }
+    public void ShowOptionsPanel() => _optionsPanel.SetActive(true);
+    public void HideOptionsPanel() => _optionsPanel.SetActive(false);
+
+    public void ShowLoadingPanel() => _loadingPanel.SetActive(true);
+    public void HideLoadingPanel() => _loadingPanel.SetActive(false);
+
+    public void ShowPanel() => _networkStatusPanel.SetActive(true);
+    public void HidePanel() => _networkStatusPanel.SetActive(false);
 
     public void ShowMatchList()
     {
-        _mainMenuPanel.SetActive(false);
-        _networkStatusPanel.SetActive(false);
+        foreach (Transform child in _matchItemContainer)
+            Destroy(child.gameObject);
+
         _matchListPanel.SetActive(true);
+
         foreach (var room in _rooms)
         {
             var item = Instantiate(_matchItemPrefab, Vector3.zero, Quaternion.identity, _matchItemContainer);
             item.GetComponent<MatchItem>().SetData(room.Value);
         }
     }
+    public void HideMatchList() => _matchListPanel.SetActive(false);
 
     [ContextMenu("TestShowMatchList")]
     private void TestShowMatchList()
@@ -129,17 +126,9 @@ public class UIManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void ShowLoadingPanel()
-    {
-        _mainMenuPanel.SetActive(false);
-        _loadingPanel.SetActive(true);
-        _networkStatusPanel.transform.position = _networkTextRefLoading.position;
-    }
+    public void ChangeNetworkText(string text) => _networkStatusText.text = text;
 
-    public void ChangeNetworkText(string text)
-    {
-        _networkStatusText.text = text;
-    }
+    public void UpdateColorText(string color) => _colorInfoText.text = "Color: " + color;
 
     void UpdateDebugNetworkTexts()
     {
@@ -172,10 +161,6 @@ public class UIManager : MonoBehaviourPunCallbacks
             _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
     }
 
-    public void UpdateColorText(string color)
-    {
-        _colorInfoText.text = "Color: " + color;
-    }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
