@@ -3213,6 +3213,54 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1001826151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1001826153}
+  - component: {fileID: 1001826152}
+  m_Layer: 0
+  m_Name: BoardState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1001826152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001826151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325c4cf222786a2428b47e06a7ed058f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoardState
+  _greenSquare: {fileID: 2090350667903705108, guid: d4b2db22da92dd64699266fbf66b2a85, type: 3}
+  _redSquare: {fileID: 2090350667903705108, guid: bab9ea2058d6fa445a6de3d17c563657, type: 3}
+  _yellowSquare: {fileID: 961063354550261679, guid: 5f0d796f8f127fd4b86fbe0c34cb3110, type: 3}
+  _boardManager: {fileID: 0}
+--- !u!4 &1001826153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001826151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 231.46489, y: 25.66359, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1005138428
 GameObject:
   m_ObjectHideFlags: 0
@@ -7607,3 +7655,4 @@ SceneRoots:
   - {fileID: 1696223699}
   - {fileID: 131412570}
   - {fileID: 2079691580}
+  - {fileID: 1001826153}

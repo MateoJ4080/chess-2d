@@ -14,7 +14,13 @@ public class BoardState : MonoBehaviour
     [SerializeField] private GameObject _redSquare;
     [SerializeField] private GameObject _yellowSquare;
 
-    [SerializeField] private BoardManager _boardManager;
+    private bool boardIsInverted;
+    public bool BoardIsInverted
+    {
+        get => boardIsInverted;
+        set => boardIsInverted = value;
+    }
+
     private PieceMovementData _movementData;
 
     public Dictionary<GameObject, List<Vector2Int>> WhiteCheckPaths { get; private set; } = new();
@@ -32,6 +38,7 @@ public class BoardState : MonoBehaviour
         }
         Instance = this;
 
+        DontDestroyOnLoad(this);
         _movementData = ScriptableObject.CreateInstance<PieceMovementData>();
     }
 
@@ -53,7 +60,7 @@ public class BoardState : MonoBehaviour
 
                 var data = chessPiece.PieceData;
                 var pieceType = data.PieceType;
-                var direction = (data.IsWhite ^ Instance._boardManager.BoardIsInverted) ? 1 : -1;
+                var direction = (data.IsWhite ^ Instance.BoardIsInverted) ? 1 : -1;
                 var isWhite = data.IsWhite;
                 var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
 

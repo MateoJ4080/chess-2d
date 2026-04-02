@@ -8,7 +8,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
-    [SerializeField] BoardManager _boardManager;
     [SerializeField] private PieceData[] _piecesData; // Array containing the scriptable object of each piece. Set in the inspector
     [SerializeField] private TextMeshProUGUI currentTurnTMP;
 
@@ -16,7 +15,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
     IEnumerator Start()
     {
-        currentTurnTMP = GameObject.FindGameObjectWithTag("TurnInfoText").GetComponent<TextMeshProUGUI>(); ;
+        currentTurnTMP = GameObject.FindGameObjectWithTag("TurnInfoText").GetComponent<TextMeshProUGUI>();
 
         PieceDataManager.Initialize();
 

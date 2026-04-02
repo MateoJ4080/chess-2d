@@ -4,20 +4,20 @@ using System.Collections;
 
 public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
-    private BoardManager _boardManager;
+    private BoardState _boardState;
     private Transform _piecesContainer;
 
     private readonly float tilePadding = 0.4f;
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        _boardManager = FindFirstObjectByType<BoardManager>();
+        _boardState = FindFirstObjectByType<BoardState>();
 
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
         {
             string color = colorObj.ToString();
             if (color == "Black")
-                _boardManager.BoardIsInverted = true;
+                _boardState.BoardIsInverted = true;
 
             UIManager.Instance.UpdateColorText(color);
         }
@@ -34,7 +34,6 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     void SetupPiece()
     {
-        if (_boardManager == null) _boardManager = FindFirstObjectByType<BoardManager>();
         if (_piecesContainer == null) _piecesContainer = GameObject.FindGameObjectWithTag("PiecesContainer").transform; string pieceDataName = (string)photonView.InstantiationData[0];
         if (pieceDataName == null) Debug.Log("pieceDataName is null");
 
@@ -78,7 +77,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         int y = (int)photonView.InstantiationData[2];
         Vector2Int pos = new(x, y);
 
-        int posY = _boardManager.BoardIsInverted ? 7 - pos.y : pos.y;
+        int posY = _boardState.BoardIsInverted ? 7 - pos.y : pos.y;
 
         Vector2Int piecePos = new(pos.x, posY);
         gameObject.transform.localPosition = new Vector3(x, posY, 0f);

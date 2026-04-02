@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    [SerializeField] private BoardManager _boardManager;
     private PhotonView photonView;
 
     public static PieceManager Instance { get; private set; }
@@ -15,6 +14,7 @@ public class PieceManager : MonoBehaviour
             return;
         }
         Instance = this;
+
         photonView = GetComponent<PhotonView>();
     }
 
