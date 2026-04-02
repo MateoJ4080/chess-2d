@@ -126,6 +126,5 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public void CancelMatchmaking()
     {
         PhotonNetwork.LeaveRoom();
-        UIManager.Instance.ShowMenuPanel();
     }
 }
