@@ -76,7 +76,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         Instance.ColorsAreAssigned = true;
     }
 
-    // Called when room properties change
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         if (propertiesThatChanged.ContainsKey("ColorsAssigned"))
@@ -84,6 +83,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             colorsAreAssigned = (bool)propertiesThatChanged["ColorsAssigned"];
             Debug.Log($"Colors assignment status updated: {colorsAreAssigned}");
         }
+    }
+
+    public void SetSelfNickname(string text)
+    {
+        Debug.Log($"SetSelfNickname to {text}");
+        PhotonNetwork.NickName = text;
     }
 
     // Debug colors (give each player a specific color)

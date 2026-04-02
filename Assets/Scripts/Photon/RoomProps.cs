@@ -1,5 +1,6 @@
 public static class RoomProps
 {
+    // CustomPropertiesForLobby
     public const string P1Name = "p1";
     public const string P2Name = "p2";
     public const string P1Elo = "e1";

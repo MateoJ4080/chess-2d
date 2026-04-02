@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
@@ -59,11 +60,19 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             foreach (var room in cachedRooms.Values)
             {
+                // TO REVIEW
                 PhotonNetwork.JoinRoom(room.Name);
                 break;
             }
         }
-        else PhotonNetwork.CreateRoom("null", new RoomOptions { MaxPlayers = 2 });
+        else
+        {
+            PhotonNetwork.CreateRoom("null", new RoomOptions
+            {
+                MaxPlayers = 20,
+                CustomRoomPropertiesForLobby = new string[] { RoomProps.P1Name, RoomProps.P2Name, RoomProps.P1Elo, RoomProps.P2Elo }
+            });
+        }
     }
 
     public override void OnJoinedRoom()

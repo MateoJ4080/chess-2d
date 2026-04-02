@@ -1,5 +1,7 @@
 using System;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class GameManager : MonoBehaviourPunCallbacks
@@ -126,7 +128,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(p);
     }
 
-    // Handle turns
     public bool ItsMyTurn()
     {
         return PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string == PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string;
@@ -215,5 +216,27 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         return false;
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        {
+            if (!PhotonNetwork.IsMasterClient) return;
+            var props = PhotonNetwork.CurrentRoom.CustomProperties;
+
+            if (PhotonNetwork.PlayerList.Length == 2 &&
+                !props.ContainsKey(RoomProps.P1Name) &&
+                !props.ContainsKey(RoomProps.P2Name))
+            {
+                var p1 = PhotonNetwork.PlayerList[0];
+                var p2 = PhotonNetwork.PlayerList[1];
+
+                PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
+                {
+                    { RoomProps.P1Name, p1.NickName },
+                    { RoomProps.P2Name, p2.NickName }
+                });
+            }
+        }
     }
 }
