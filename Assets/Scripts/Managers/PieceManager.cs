@@ -37,6 +37,7 @@ public class PieceManager : MonoBehaviour
 
         var data = pieceGO.GetComponent<ChessPiece>().PieceData;
         int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
+        bool isWhite = data.IsWhite;
 
 
         // Castling
@@ -50,7 +51,7 @@ public class PieceManager : MonoBehaviour
                 rightRook.transform.position = new(5, 0, 0);
                 MovePiece(rightRookPos, new(5, 0), rightRook);
 
-                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID);
+                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID, isWhite);
 
             }
 
@@ -62,8 +63,7 @@ public class PieceManager : MonoBehaviour
                 leftRook.transform.position = new(3, 0, 0);
                 MovePiece(leftRookPos, new(3, 0), leftRook);
 
-                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID);
-
+                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID, isWhite);
             }
         }
 
@@ -72,7 +72,7 @@ public class PieceManager : MonoBehaviour
         GameManager.Instance.OnPieceMovedBySelf(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 
-        photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID);
+        photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
@@ -81,19 +81,17 @@ public class PieceManager : MonoBehaviour
         BoardUtils.RefreshBoardState(from, to, piece);
     }
 
-    // Synchronize the square movement across the network, depending on the color/point of view of the local player
+    // Synchronize a piece move across the network, depending on the color/point of view of the local player
     [PunRPC]
-    public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID)
+    public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID, bool isMoveFromWhite)
     {
-        // The conversion depending on the color of the player is still to be done
-        // For now, we assume the board will be inverted
-        Vector2Int from = new(fromX, 7 - fromY);
-        Vector2Int to = new(toX, 7 - toY);
+        Vector2Int from = TransformPos(new(fromX, fromY), isMoveFromWhite);
+        Vector2Int to = TransformPos(new(toX, toY), isMoveFromWhite);
 
         var view = PhotonView.Find(pieceID);
         if (view == null)
         {
-            Debug.LogError("SynqSquare: PhotonView not found for ID " + pieceID);
+            Debug.LogError("[PunRPC] SyncMove: PhotonView not found for ID " + pieceID);
             return;
         }
 
@@ -117,5 +115,10 @@ public class PieceManager : MonoBehaviour
             return legalMoves.Contains(targetPosition);
 
         return false;
+    }
+
+    private Vector2Int TransformPos(Vector2Int pos, bool moveFromWhite)
+    {
+        return BoardState.Instance.IsBoardInverted == moveFromWhite ? new Vector2Int(pos.x, 7 - pos.y) : pos;
     }
 }
