@@ -14,11 +14,11 @@ public class BoardState : MonoBehaviour
     [SerializeField] private GameObject _redSquare;
     [SerializeField] private GameObject _yellowSquare;
 
-    private bool boardIsInverted;
-    public bool BoardIsInverted
+    private bool _isBoardInverted;
+    public bool IsBoardInverted
     {
-        get => boardIsInverted;
-        set => boardIsInverted = value;
+        get => _isBoardInverted;
+        set => _isBoardInverted = value;
     }
 
     private PieceMovementData _movementData;
@@ -60,7 +60,7 @@ public class BoardState : MonoBehaviour
 
                 var data = chessPiece.PieceData;
                 var pieceType = data.PieceType;
-                var direction = (data.IsWhite ^ Instance.BoardIsInverted) ? 1 : -1;
+                var direction = (data.IsWhite ^ Instance.IsBoardInverted) ? 1 : -1;
                 var isWhite = data.IsWhite;
                 var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
 
