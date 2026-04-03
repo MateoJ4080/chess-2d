@@ -3245,7 +3245,6 @@ MonoBehaviour:
   _greenSquare: {fileID: 2090350667903705108, guid: d4b2db22da92dd64699266fbf66b2a85, type: 3}
   _redSquare: {fileID: 2090350667903705108, guid: bab9ea2058d6fa445a6de3d17c563657, type: 3}
   _yellowSquare: {fileID: 961063354550261679, guid: 5f0d796f8f127fd4b86fbe0c34cb3110, type: 3}
-  _boardManager: {fileID: 0}
 --- !u!4 &1001826153
 Transform:
   m_ObjectHideFlags: 0
@@ -3318,7 +3317,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'blackCheckTwice:'
+  m_text: 'bCheckTwice:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3966,7 +3965,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'whiteCheckTwice:'
+  m_text: 'wCheckTwice:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4240,7 +4239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'whiteCheckOnce:'
+  m_text: 'wCheckOnce:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6624,7 +6623,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'blackCheckOnce:'
+  m_text: 'bCheckOnce:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
