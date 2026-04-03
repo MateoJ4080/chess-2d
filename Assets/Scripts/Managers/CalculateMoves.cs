@@ -15,7 +15,6 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
     public Dictionary<GameObject, List<Vector2Int>> LegalMovesByPiece => legalMovesByPiece;
 
     [SerializeField] private PieceMovementData _movementData;
-    private BoardState _boardState;
 
     public static CalculateMoves Instance { get; private set; }
 
@@ -27,8 +26,6 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             return;
         }
         Instance = this;
-
-        _boardState = FindFirstObjectByType<BoardState>();
     }
 
     public void CalculateAllMoves()
@@ -68,8 +65,8 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
     {
         if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
 
-        int direction = (isWhite ^ _boardState.IsBoardInverted) ? 1 : -1;
-        int initialRow = (isWhite ^ _boardState.IsBoardInverted) ? 1 : 6;
+        int direction = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : -1;
+        int initialRow = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : 6;
 
         Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
         Vector2Int forward = currentPos + new Vector2Int(0, direction);

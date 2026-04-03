@@ -1,18 +1,11 @@
 using UnityEngine;
 using Photon.Pun;
-using System.Collections;
 
 public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
-    private BoardState _boardState;
     private Transform _piecesContainer;
 
     private readonly float tilePadding = 0.4f;
-
-    void Awake()
-    {
-        _boardState = FindFirstObjectByType<BoardState>();
-    }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
@@ -20,7 +13,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             string color = colorObj.ToString();
             if (color == "Black")
-                _boardState.IsBoardInverted = true;
+                BoardState.Instance.IsBoardInverted = true;
 
             UIManager.Instance.UpdateColorText(color);
         }
@@ -80,7 +73,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         int y = (int)photonView.InstantiationData[2];
         Vector2Int pos = new(x, y);
 
-        int posY = _boardState.IsBoardInverted ? 7 - pos.y : pos.y;
+        int posY = BoardState.Instance.IsBoardInverted ? 7 - pos.y : pos.y;
 
         Vector2Int piecePos = new(pos.x, posY);
         gameObject.transform.localPosition = new Vector3(x, posY, 0f);
