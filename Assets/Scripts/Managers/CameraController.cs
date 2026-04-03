@@ -4,13 +4,11 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera _cam;
 
-    private float _initialSize;
     private ScreenOrientation _lastOrientation;
 
     void Awake()
     {
         _cam = GetComponent<Camera>();
-        _initialSize = _cam.orthographicSize;
     }
 
     void Start()
