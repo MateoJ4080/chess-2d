@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
-    [SerializeField] private Camera _cam;
+    private Camera _cam;
     [SerializeField] private Texture2D _defaultCursor;
     [SerializeField] private Texture2D _handCursor;
 
     [SerializeField] private Vector2 _hotspot;
     private Texture2D _currentCursor;
+
+    void Awake()
+    {
+        _cam = Camera.main;
+    }
 
     void Start()
     {

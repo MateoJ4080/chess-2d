@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BoardGenerator : MonoBehaviour
 {
-    [SerializeField] private Camera _mainCamera;
     [SerializeField] private GameObject _squarePrefab; // Square sprite with SpriteRenderer
     [SerializeField] private Transform _squaresContainer;
     [SerializeField] private Color _lightColor = Color.white;
     [SerializeField] private Color _darkColor = Color.gray;
     [SerializeField] private SpriteRenderer _tileReference;
+    private Camera _cam;
     private Vector2 tileSize;
     public Vector2 TileSize
     {
@@ -34,7 +34,7 @@ public class BoardGenerator : MonoBehaviour
             return;
         }
         Instance = this;
-
+        _cam = Camera.main;
     }
     void Start()
     {
@@ -61,7 +61,6 @@ public class BoardGenerator : MonoBehaviour
             }
         }
         // "0.5f" as offset to center the board, because the tiles are positioned by their left-bottom corner
-        _mainCamera.transform.position = new Vector3(_boardWidth / 2f - 0.5f, _boardHeight / 2f - 0.5f, -10f);
-        // OnBoardGenerated?.invoke();
+        _cam.transform.position = new Vector3(_boardWidth / 2f - 0.5f, _boardHeight / 2f - 0.5f, -10f);
     }
 }

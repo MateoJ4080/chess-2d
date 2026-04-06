@@ -9,9 +9,9 @@ public class Draggable : MonoBehaviour
 
     private Vector2Int _firstPosition;
 
-    void Start()
+    void Awake()
     {
-        _cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        _cam = Camera.main;
     }
 
     void Update()
