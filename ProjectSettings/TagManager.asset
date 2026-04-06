@@ -10,6 +10,7 @@ TagManager:
   - PiecesContainer
   - ColorInfoText
   - TurnInfoText
+  - HighlightsContainer
   layers:
   - Default
   - TransparentFX
