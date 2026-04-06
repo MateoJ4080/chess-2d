@@ -24,8 +24,6 @@ public class HighlightMoves : MonoBehaviour
     // Overload to match Action<GameObject> delegate
     public void ShowMoves(GameObject pieceGO)
     {
-        Debug.Log("ShowMoves");
-
         if (pieceGO == null) return;
 
         if (BoardUtils.PlayerIsThisColor(pieceGO) && GameManager.Instance.ItsMyTurn())
@@ -36,8 +34,6 @@ public class HighlightMoves : MonoBehaviour
     {
         if (CalculateMoves.Instance.LegalMovesByPiece.TryGetValue(pieceGO, out var pieceMoves))
         {
-            Debug.Log($"ShowPieceLegalMoves: Piece found in hashmap");
-
             foreach (var pos in pieceMoves)
             {
                 ShowHighlight(pos);
