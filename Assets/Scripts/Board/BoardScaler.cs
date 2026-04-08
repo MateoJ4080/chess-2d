@@ -14,13 +14,19 @@ public class BoardScaler : MonoBehaviour
         UIManager.Instance.ShowPlayerPanelsParent();
         _topPanel = GameObject.FindGameObjectWithTag("TopPanel").GetComponent<RectTransform>();
         _bottomPanel = GameObject.FindGameObjectWithTag("BottomPanel").GetComponent<RectTransform>();
-        Camera.main.orthographicSize = Camera.main.orthographicSize / boardPercentageOfScreen;
     }
 
-    void Update()
+    void Start()
     {
-        // _boardContainer.transform.localScale = new(boardPercentageOfScreen, boardPercentageOfScreen);
+        ScalePanelsAndBoard();
+    }
 
+    void ScalePanelsAndBoard()
+    {
+        // Board / Camera
+        Camera.main.orthographicSize = Camera.main.orthographicSize / boardPercentageOfScreen;
+
+        // Panels
         if (_boardContainer != null)
         {
             float desiredHeightTop = ((RectTransform)_topPanel.parent).rect.height * (1 - boardPercentageOfScreen) / 2;
