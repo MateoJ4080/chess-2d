@@ -11,6 +11,7 @@ public class BoardScaler : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
+        UIManager.Instance.ShowPlayerPanelsParent();
         _topPanel = GameObject.FindGameObjectWithTag("TopPanel").GetComponent<RectTransform>();
         _bottomPanel = GameObject.FindGameObjectWithTag("BottomPanel").GetComponent<RectTransform>();
     }
@@ -30,10 +31,10 @@ public class BoardScaler : MonoBehaviour
             _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ((RectTransform)_bottomPanel.parent).rect.height * 0.85f);
 
             var percentage = _topPanel.rect.height / ((RectTransform)_topPanel.parent).rect.height;
-            Debug.Log($"<color=yellow> : {percentage}");
-            Debug.Log($"<color=yellow> TopPanelHeight: {_topPanel.rect.height}");
-            Debug.Log($"<color=yellow> BottomPanelHeight: {_bottomPanel.rect.height}");
-            Debug.Log($"<color=yellow> ParentHeight: {((RectTransform)_topPanel.parent).rect.height}");
+            Debug.Log($"<color=yellow>Percentage : {percentage}");
+            Debug.Log($"<color=yellow>TopPanelHeight: {_topPanel.rect.height}");
+            Debug.Log($"<color=yellow>BottomPanelHeight: {_bottomPanel.rect.height}");
+            Debug.Log($"<color=yellow>ParentHeight: {((RectTransform)_topPanel.parent).rect.height}");
         }
         else Debug.LogError("_boardContainer not assigned");
     }

@@ -1768,6 +1768,7 @@ MonoBehaviour:
   _loadingPanel: {fileID: 1653673162}
   _optionsPanel: {fileID: 1748700183}
   _matchListPanel: {fileID: 2085945777}
+  _playerPanelsParent: {fileID: 818868534}
   _networkStatusPanel: {fileID: 1270578758}
   _networkStatusText: {fileID: 1630148456}
   _debugTextState: {fileID: 618663514}
@@ -3075,12 +3076,12 @@ GameObject:
   - component: {fileID: 818868535}
   - component: {fileID: 818868537}
   m_Layer: 5
-  m_Name: IngamePanels
+  m_Name: IngamePlayerPanels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &818868535
 RectTransform:
   m_ObjectHideFlags: 0
