@@ -1,13 +1,15 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Camera _cam;
-
+    private Camera _cam;
     private ScreenOrientation _lastOrientation;
 
     void Awake()
     {
+        DontDestroyOnLoad(this);
+
         _cam = GetComponent<Camera>();
     }
 
@@ -25,6 +27,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    // UI units to pixels: = UI units * scale factor
     void AdjustForOrientation()
     {
         if (BoardGenerator.Instance == null) return;
@@ -42,12 +45,10 @@ public class CameraController : MonoBehaviour
 
         float finalSize = Mathf.Max(sizeByHeight, sizeByWidth);
 
-        float sideOffsetPercent = 0.1f; // 10%
-        finalSize *= 1f + sideOffsetPercent;
+        // float sideOffsetPercent = 0.1f; // 10%
+        // finalSize *= 1f + sideOffsetPercent;
 
-        Debug.Log($"AdjustForOrientation → boardWidth: {boardWidth}, boardHeight: {boardHeight}, aspect: {screenAspect}, finalSize: {finalSize}");
-
-        _cam.orthographicSize = finalSize;
+        _cam.orthographicSize = sizeByHeight;
     }
 }
 

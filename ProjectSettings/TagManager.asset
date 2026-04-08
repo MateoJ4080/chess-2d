@@ -11,6 +11,9 @@ TagManager:
   - ColorInfoText
   - TurnInfoText
   - HighlightsContainer
+  - BoardContainer
+  - TopPanel
+  - BottomPanel
   layers:
   - Default
   - TransparentFX

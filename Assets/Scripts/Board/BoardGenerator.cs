@@ -35,7 +35,9 @@ public class BoardGenerator : MonoBehaviour
         }
         Instance = this;
         _cam = Camera.main;
+
     }
+
     void Start()
     {
         tileSize = _tileReference.bounds.size;

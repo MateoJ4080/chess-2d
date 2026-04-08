@@ -44,7 +44,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (UIManager.Instance != null)
             UIManager.Instance.ChangeNetworkText("In Lobby");
 
-        Debug.Log("OnJoinedLobby");
         base.OnJoinedLobby();
     }
 

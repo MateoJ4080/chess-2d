@@ -57,7 +57,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        Debug.Log("Assigning colors to players...");
         bool firstIsWhite = Random.value < 0.5f;
 
         Hashtable p1props = new();
@@ -81,7 +80,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey("ColorsAssigned"))
         {
             colorsAreAssigned = (bool)propertiesThatChanged["ColorsAssigned"];
-            Debug.Log($"Colors assignment status updated: {colorsAreAssigned}");
         }
     }
 
