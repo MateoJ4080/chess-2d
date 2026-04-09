@@ -109,6 +109,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         Debug.Log("OnLeftRoom");
 
         SceneManager.LoadScene("MenuScene");
+        UIManager.Instance.HidePlayerPanelsParent();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
