@@ -14,6 +14,11 @@ public class BoardScaler : MonoBehaviour
         _bottomPanel = GameObject.FindGameObjectWithTag("BottomPanel").GetComponent<RectTransform>();
     }
 
+    void Start()
+    {
+        CameraController.Instance.AdjustForOrientation();
+    }
+
     void Update()
     {
         ScalePanelsAndBoard();

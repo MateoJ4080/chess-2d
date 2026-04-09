@@ -24,11 +24,6 @@ public class CameraController : MonoBehaviour
         _cam = GetComponent<Camera>();
     }
 
-    void Start()
-    {
-        AdjustForOrientation();
-    }
-
     void Update()
     {
         if (Screen.orientation != _lastOrientation)
@@ -39,7 +34,7 @@ public class CameraController : MonoBehaviour
     }
 
     // UI units to pixels: = UI units * scale factor
-    void AdjustForOrientation()
+    public void AdjustForOrientation()
     {
         if (BoardGenerator.Instance == null) return;
 
