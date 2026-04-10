@@ -34,8 +34,8 @@ public class BoardScaler : MonoBehaviour
 
             _topPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, desiredHeightTop);
             _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, desiredHeightBottom);
-            _topPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ((RectTransform)_topPanel.parent).rect.height * 0.85f);
-            _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ((RectTransform)_bottomPanel.parent).rect.height * 0.85f);
+            _topPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ((RectTransform)_topPanel.parent).rect.height * boardPercentage);
+            _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, ((RectTransform)_bottomPanel.parent).rect.height * boardPercentage);
 
             // Debug
             Debug.Log($"<color=yellow>TopPanelHeight: {_topPanel.rect.height}");
