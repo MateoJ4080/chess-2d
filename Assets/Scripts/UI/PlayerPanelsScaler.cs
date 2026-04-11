@@ -8,6 +8,7 @@ public class PlayerPanelsScaler : MonoBehaviour
 
     void Awake()
     {
+        UIManager.Instance.ShowPlayerPanelsParent();
         _topPanel = GameObject.FindGameObjectWithTag("TopPanel").GetComponent<RectTransform>();
         _bottomPanel = GameObject.FindGameObjectWithTag("BottomPanel").GetComponent<RectTransform>();
     }
