@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoardScaler : MonoBehaviour
+public class PlayerPanelsScaler : MonoBehaviour
 {
     [SerializeField] private GameObject _boardContainer;
     private RectTransform _topPanel;
