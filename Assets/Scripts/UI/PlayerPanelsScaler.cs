@@ -20,10 +20,10 @@ public class PlayerPanelsScaler : MonoBehaviour
 
     void Update()
     {
-        ScalePanelsAndBoard();
+        ScalePanels();
     }
 
-    void ScalePanelsAndBoard()
+    void ScalePanels()
     {
         if (_boardContainer != null)
         {
