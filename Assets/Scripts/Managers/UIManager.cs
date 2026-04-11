@@ -18,7 +18,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _loadingPanel;
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _matchListPanel;
-    [SerializeField] private GameObject _playerPanelsParent;
 
     [Header("Debug - Network")]
     [SerializeField] private GameObject _networkStatusPanel;
@@ -101,9 +100,6 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowNetworkStatusPanel() => _networkStatusPanel.SetActive(true);
     public void HideNetworkStatusPanel() => _networkStatusPanel.SetActive(false);
-
-    public void ShowPlayerPanelsParent() => _playerPanelsParent.SetActive(true);
-    public void HidePlayerPanelsParent() => _playerPanelsParent.SetActive(false);
 
     public void ShowMatchList()
     {

@@ -3,7 +3,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
@@ -107,9 +106,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("OnLeftRoom");
-
         SceneManager.LoadScene("MenuScene");
-        UIManager.Instance.HidePlayerPanelsParent();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
