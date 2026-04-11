@@ -4,6 +4,7 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
@@ -19,6 +20,12 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _matchListPanel;
     [SerializeField] private GameObject _playerPanelsParent;
+
+    [Header("Ingame Panels")]
+    [SerializeField] private TextMeshProUGUI _selfNickname;
+    [SerializeField] private TextMeshProUGUI _selfElo;
+    [SerializeField] private TextMeshProUGUI _opponentNickname;
+    [SerializeField] private TextMeshProUGUI _opponentElo;
 
     [Header("Debug - Network")]
     [SerializeField] private GameObject _networkStatusPanel;
@@ -169,7 +176,6 @@ public class UIManager : MonoBehaviourPunCallbacks
             _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
     }
 
-
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         foreach (RoomInfo room in roomList)
@@ -183,5 +189,16 @@ public class UIManager : MonoBehaviourPunCallbacks
                 _rooms[room.Name] = room;
             }
         }
+    }
+
+    public void UpdatePlayerPanels(string selfName, string selfElo, string opponentName, string opponentElo)
+    {
+        _selfNickname.text = selfName;
+        _selfElo.text = selfElo;
+        _opponentNickname.text = opponentName;
+        _opponentElo.text = opponentElo;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_selfNickname.rectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_opponentNickname.rectTransform);
     }
 }

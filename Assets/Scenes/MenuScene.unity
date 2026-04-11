@@ -1423,7 +1423,7 @@ GameObject:
   - component: {fileID: 383470494}
   - component: {fileID: 383470493}
   m_Layer: 5
-  m_Name: PlayerStats2
+  m_Name: PlayerStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1874,6 +1874,10 @@ MonoBehaviour:
   _optionsPanel: {fileID: 1748700183}
   _matchListPanel: {fileID: 2085945777}
   _playerPanelsParent: {fileID: 818868534}
+  _selfNickname: {fileID: 569268216}
+  _selfElo: {fileID: 1474317025}
+  _opponentNickname: {fileID: 797299199}
+  _opponentElo: {fileID: 2061943495}
   _networkStatusPanel: {fileID: 1270578758}
   _networkStatusText: {fileID: 1630148456}
   _debugTextState: {fileID: 618663514}
@@ -1918,7 +1922,7 @@ GameObject:
   - component: {fileID: 569268216}
   - component: {fileID: 569268215}
   m_Layer: 5
-  m_Name: P2Nickname (TMP)
+  m_Name: PlayerNickname (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1940,8 +1944,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 68.2, y: -34}
-  m_SizeDelta: {x: 136.4, y: 40.22}
+  m_AnchoredPosition: {x: 58.155, y: -34}
+  m_SizeDelta: {x: 116.31, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &569268215
 MonoBehaviour:
@@ -1977,7 +1981,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player2
+  m_text: Player
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3336,7 +3340,7 @@ GameObject:
   - component: {fileID: 797299199}
   - component: {fileID: 797299198}
   m_Layer: 5
-  m_Name: P1Nickname (TMP)
+  m_Name: OppNickname (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3358,8 +3362,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 68.2, y: -34}
-  m_SizeDelta: {x: 0, y: 40.22}
+  m_AnchoredPosition: {x: 86.83, y: -34}
+  m_SizeDelta: {x: 173.66, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &797299198
 MonoBehaviour:
@@ -3395,7 +3399,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player1
+  m_text: Opponent
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5741,7 +5745,7 @@ GameObject:
   - component: {fileID: 1474317025}
   - component: {fileID: 1474317024}
   m_Layer: 5
-  m_Name: P2Elo (TMP)
+  m_Name: PlayerElo (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5763,7 +5767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 193.68, y: -34}
+  m_AnchoredPosition: {x: 173.59, y: -34}
   m_SizeDelta: {x: 84.56, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1474317024
@@ -7880,7 +7884,7 @@ GameObject:
   - component: {fileID: 2061943495}
   - component: {fileID: 2061943494}
   m_Layer: 5
-  m_Name: P1Elo (TMP)
+  m_Name: OppElo (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7902,8 +7906,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 193.68, y: -34}
-  m_SizeDelta: {x: 0, y: 40.22}
+  m_AnchoredPosition: {x: 230.94, y: -34}
+  m_SizeDelta: {x: 84.56, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2061943494
 MonoBehaviour:
@@ -8355,7 +8359,7 @@ GameObject:
   - component: {fileID: 2089253385}
   - component: {fileID: 2089253384}
   m_Layer: 5
-  m_Name: PlayerStats1
+  m_Name: OpponentStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

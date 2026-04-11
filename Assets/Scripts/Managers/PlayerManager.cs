@@ -34,6 +34,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
+    public override void OnConnectedToMaster()
+    {
+        Hashtable props = new()
+        {
+            { PlayerProps.Elo, 200 },
+            { PlayerProps.IsPlayer, true }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+
     // Check if colors are assigned by looking at room properties
     public bool CheckColorsAssigned()
     {
