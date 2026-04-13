@@ -121,11 +121,11 @@ public class UIManager : MonoBehaviourPunCallbacks
 
         foreach (var room in _rooms)
         {
-            Debug.Log($"p1: {(room.Value.CustomProperties.TryGetValue(RoomProps.P1Name, out object p1) ? p1.ToString() : "null")}");
-            Debug.Log($"p2: {(room.Value.CustomProperties.TryGetValue(RoomProps.P2Name, out object p2) ? p2.ToString() : "null")}");
-
-            var item = Instantiate(_matchItemPrefab, Vector3.zero, Quaternion.identity, _matchItemContainer);
-            item.GetComponent<MatchItem>().SetData(room.Value);
+            if (room.Value.PlayerCount <= 2) // Should change conditional to something like "matchHasStarted" later
+            {
+                var item = Instantiate(_matchItemPrefab, Vector3.zero, Quaternion.identity, _matchItemContainer);
+                item.GetComponent<MatchItem>().SetData(room.Value);
+            }
         }
     }
 
