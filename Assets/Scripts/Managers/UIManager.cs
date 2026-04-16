@@ -191,6 +191,15 @@ public class UIManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void UpdatePlayerPanels(string selfText, string opponentText)
+    {
+        _selfNickname.text = selfText;
+        _opponentNickname.text = opponentText;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_selfNickname.rectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_opponentNickname.rectTransform);
+    }
+
     public void UpdatePlayerPanels(string selfName, string selfElo, string opponentName, string opponentElo)
     {
         _selfNickname.text = selfName;

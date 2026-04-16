@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerPanelsManager : MonoBehaviour
 {
-    string _selfName;
-    string _selfElo;
-    string _opponentName;
-    string _opponentElo;
+    string _selfText;
+    string _opponentText;
 
     void Start()
     {
@@ -17,17 +15,15 @@ public class PlayerPanelsManager : MonoBehaviour
 
     void UpdatePanels()
     {
-        _selfName = PhotonNetwork.LocalPlayer.NickName;
-        _selfElo = $"({PhotonNetwork.LocalPlayer.CustomProperties[PlayerProps.Elo]})";
+        _selfText = $"{PhotonNetwork.LocalPlayer.NickName} ({PhotonNetwork.LocalPlayer.CustomProperties[PlayerProps.Elo]})";
         foreach (var p in PhotonNetwork.PlayerList)
         {
             if (!p.IsLocal)
             {
-                _opponentName = p.NickName;
-                _opponentElo = $"({p.CustomProperties[PlayerProps.Elo]})";
+                _opponentText = $"{p.NickName} ({p.CustomProperties[PlayerProps.Elo]})";
             }
         }
 
-        UIManager.Instance.UpdatePlayerPanels(_selfName, _selfElo, _opponentName, _opponentElo);
+        UIManager.Instance.UpdatePlayerPanels(_selfText, _opponentText);
     }
 }
