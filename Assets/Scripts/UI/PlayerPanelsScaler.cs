@@ -27,25 +27,27 @@ public class PlayerPanelsScaler : MonoBehaviour
     {
         if (_boardContainer != null)
         {
-            float boardPercentage = CameraController.Instance.finalOrthographicSize == 4 ? 1 : CameraController.Instance.boardHeightPercentage;
-            float boardHeightInScreen = Screen.width > Screen.height ? ((RectTransform)_topPanel.parent).rect.height * boardPercentage : ((RectTransform)_topPanel.parent).rect.width;
+            float rawBoardPercentage = CameraController.Instance.boardHeightPercentage;
+
+            float parentRectWidth = ((RectTransform)_topPanel.parent).rect.width;
+            float parentRectHeight = ((RectTransform)_topPanel.parent).rect.height;
 
             // Position
+            float boardLength = Screen.width > Screen.height ? parentRectHeight * rawBoardPercentage : parentRectWidth;
             float topPanelHeight = _topPanel.rect.height;
             float bottomPanelHeight = _bottomPanel.rect.height;
-            float topY = ((RectTransform)_topPanel.parent).anchoredPosition.y + (boardHeightInScreen / 2) + (topPanelHeight / 2);
-            float bottomY = ((RectTransform)_bottomPanel.parent).anchoredPosition.y - (boardHeightInScreen / 2) - (bottomPanelHeight / 2);
+            float topY = ((RectTransform)_topPanel.parent).anchoredPosition.y + (boardLength / 2) + (topPanelHeight / 2);
+            float bottomY = ((RectTransform)_bottomPanel.parent).anchoredPosition.y - (boardLength / 2) - (bottomPanelHeight / 2);
             _topPanel.anchoredPosition = new(0, topY);
             _bottomPanel.anchoredPosition = new(0, bottomY);
 
             // Height
-            float desiredHeightTop = ((RectTransform)_topPanel.parent).rect.height * (1 - boardPercentage) / 2;
-            float desiredHeightBottom = ((RectTransform)_bottomPanel.parent).rect.height * (1 - boardPercentage) / 2;
-            _topPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, desiredHeightTop);
-            _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, desiredHeightBottom);
+            float desiredHeight = Screen.width > Screen.height ? parentRectHeight * (1 - rawBoardPercentage) / 2 : parentRectWidth * (1 - rawBoardPercentage) / 2;
+            _topPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, desiredHeight);
+            _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, desiredHeight);
 
             // Width
-            float desiredWidth = Screen.width > Screen.height ? ((RectTransform)_topPanel.parent).rect.height * boardPercentage : ((RectTransform)_topPanel.parent).rect.width;
+            float desiredWidth = Screen.width > Screen.height ? parentRectHeight * rawBoardPercentage : parentRectWidth;
             _topPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, desiredWidth);
             _bottomPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, desiredWidth);
         }
