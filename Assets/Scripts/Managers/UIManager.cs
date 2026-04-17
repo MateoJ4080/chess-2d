@@ -27,6 +27,10 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _opponentNickname;
     [SerializeField] private TextMeshProUGUI _opponentElo;
 
+    [Header("Timers")]
+    [SerializeField] private TextMeshProUGUI _selfTimer;
+    [SerializeField] private TextMeshProUGUI _opponentTimer;
+
     [Header("Debug - Network")]
     [SerializeField] private GameObject _networkStatusPanel;
     [SerializeField] private TextMeshProUGUI _networkStatusText;
@@ -209,5 +213,21 @@ public class UIManager : MonoBehaviourPunCallbacks
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(_selfNickname.rectTransform);
         LayoutRebuilder.ForceRebuildLayoutImmediate(_opponentNickname.rectTransform);
+    }
+
+    public void UpdateTimers(double self, double opponent)
+    {
+        if (_selfTimer != null && _opponentTimer != null)
+        {
+            _selfTimer.text = FormatTime(self);
+            _opponentTimer.text = FormatTime(opponent);
+        }
+    }
+
+    string FormatTime(double time)
+    {
+        int minutes = (int)(time / 60);
+        int seconds = (int)(time % 60);
+        return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }

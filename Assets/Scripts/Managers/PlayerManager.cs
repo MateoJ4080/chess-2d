@@ -96,7 +96,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     public void SetSelfNickname(string text)
     {
-        Debug.Log($"SetSelfNickname to {text}");
         PhotonNetwork.NickName = text;
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    private PhotonView photonView;
+    private PhotonView _photonView;
 
     public static PieceManager Instance { get; private set; }
     private void Awake()
@@ -15,7 +15,7 @@ public class PieceManager : MonoBehaviour
         }
         Instance = this;
 
-        photonView = GetComponent<PhotonView>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     public void TryMovePiece(GameObject pieceGO, Vector2Int from, Vector2Int to)
@@ -51,7 +51,7 @@ public class PieceManager : MonoBehaviour
                 rightRook.transform.position = new(5, 0, 0);
                 MovePiece(rightRookPos, new(5, 0), rightRook);
 
-                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID, isWhite);
+                _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID, isWhite);
 
             }
 
@@ -63,16 +63,17 @@ public class PieceManager : MonoBehaviour
                 leftRook.transform.position = new(3, 0, 0);
                 MovePiece(leftRookPos, new(3, 0), leftRook);
 
-                photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID, isWhite);
+                _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID, isWhite);
             }
         }
 
         HighlightMoves.Instance.ClearHighlights();
         MovePiece(from, to, pieceGO);
+        TimeManager.Instance.OnPieceMovedBySelf();
         GameManager.Instance.OnPieceMovedBySelf(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 
-        photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
+        _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)

@@ -68,7 +68,17 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CreateRoom("null", new RoomOptions
             {
                 MaxPlayers = 20,
-                CustomRoomPropertiesForLobby = new string[] { RoomProps.P1Name, RoomProps.P2Name, RoomProps.P1Elo, RoomProps.P2Elo }
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+                {
+                    {RoomProps.MatchTime, (double)180}
+                },
+                CustomRoomPropertiesForLobby = new string[] {
+                    RoomProps.P1Name,
+                    RoomProps.P2Name,
+                    RoomProps.P1Elo,
+                    RoomProps.P2Elo,
+                    RoomProps.MatchTime
+                }
             });
         }
     }
@@ -106,9 +116,9 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         Debug.Log("OnLeftRoom");
+        UIManager.Instance.HidePlayerPanelsParent();
 
         SceneManager.LoadScene("MenuScene");
-        UIManager.Instance.HidePlayerPanelsParent();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

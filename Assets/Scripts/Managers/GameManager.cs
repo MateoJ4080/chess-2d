@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameOver
     }
 
-    public PlayerColor currentTurn { get; private set; }
+    public PlayerColor CurrentTurn { get; private set; }
     public GameState state;
 
     private bool piecesAreSpawned = false;
@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         get => piecesAreSpawned;
         set => piecesAreSpawned = value;
     }
-
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -66,7 +65,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        var props = new ExitGames.Client.Photon.Hashtable {
+        var props = new Hashtable {
             {"whiteCK", true},
             {"whiteCQ", true},
             {"blackCK", true},
@@ -81,10 +80,47 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instance.state = GameState.Loading;
     }
 
+    public bool ItsMyTurn()
+    {
+        var roomProps = PhotonNetwork.CurrentRoom.CustomProperties;
+        var playerProps = PhotonNetwork.LocalPlayer.CustomProperties;
+
+        if (!roomProps.ContainsKey("Turn") || !playerProps.ContainsKey("Color"))
+            return false;
+
+        return (string)roomProps["Turn"] == (string)playerProps["Color"];
+    }
+
+    public void SwitchTurn()
+    {
+        CurrentTurn = PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string == PlayerColor.White.ToString() ? PlayerColor.Black : PlayerColor.White;
+
+        // Assign new turn to room properties
+        Hashtable turnProps = new() { { "Turn", CurrentTurn.ToString() } };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
+    }
+
+    public void SyncTurnTimerRPC(double duration)
+    {
+        photonView.RPC("SyncTimer", RpcTarget.Others, duration);
+    }
+
+    [PunRPC]
+    void SyncTimer(double duration)
+    {
+        TimeManager.Instance.OnRemoteTurn(duration);
+    }
+
+    public static void AssignFirstTurnWhite()
+    {
+        Hashtable turnProps = new() { { "Turn", "White" } };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
+    }
     public void OnPieceMovedBySelf(GameObject piece, Vector2Int from)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
 
+        // Castling   
         if (data.PieceType == "King")
         {
             DisableCastling(data.IsWhite);
@@ -101,7 +137,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void DisableCastling(bool isWhite)
     {
-        var p = new ExitGames.Client.Photon.Hashtable();
+        var p = new Hashtable();
 
         if (isWhite)
         {
@@ -120,33 +156,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void DisableRookSide(PieceData.RookSide side, bool isWhite)
     {
-        var p = new ExitGames.Client.Photon.Hashtable();
+        var p = new Hashtable();
 
         if (isWhite) p[side == PieceData.RookSide.King ? "whiteCK" : "whiteCQ"] = false;
         else p[side == PieceData.RookSide.King ? "blackCK" : "blackCQ"] = false;
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(p);
-    }
-
-    public bool ItsMyTurn()
-    {
-        return PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string == PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string;
-    }
-
-    public void SwitchTurn()
-    {
-        currentTurn = PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string == PlayerColor.White.ToString() ? PlayerColor.Black : PlayerColor.White;
-        Debug.Log($"<color=yellow>Switching turn to {currentTurn}");
-
-        // Assign new turn to room properties
-        ExitGames.Client.Photon.Hashtable turnProps = new() { { "Turn", currentTurn.ToString() } };
-        PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
-    }
-
-    public static void AssignFirstTurnWhite()
-    {
-        ExitGames.Client.Photon.Hashtable turnProps = new() { { "Turn", "White" } };
-        PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
     public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)
