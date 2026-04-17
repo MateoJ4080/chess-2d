@@ -116,6 +116,9 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void ShowPlayerPanelsParent() => _playerPanelsParent.SetActive(true);
     public void HidePlayerPanelsParent() => _playerPanelsParent.SetActive(false);
 
+    public void ShowMatchEndPanel() => _matchEndPanel.SetActive(true);
+    public void HideMatchEndPanel() => _matchEndPanel.SetActive(false);
+
     public void ShowMatchList()
     {
         foreach (Transform child in _matchItemContainer)
