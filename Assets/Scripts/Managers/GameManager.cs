@@ -1,8 +1,8 @@
-using System;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -258,5 +258,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnGameEnded(GameResult result, bool turn)
     {
         UpdateGameState(GameState.GameOver);
+        UIManager.Instance.SetResultText(result);
+        UIManager.Instance.ShowMatchEndPanel();
+    }
+
+    public void BackToMenu()
+    {
+        PhotonNetwork.LeaveRoom();
+
+        UpdateGameState(GameState.MainMenu);
+        SceneManager.LoadScene("MenuScene");
     }
 }

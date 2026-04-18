@@ -21,7 +21,12 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _matchListPanel;
     [SerializeField] private GameObject _playerPanelsParent;
 
-    [Header("Ingame Panels")]
+    [Header("Match End Panel")]
+    [SerializeField] private GameObject _matchEndPanel;
+    [SerializeField] private TextMeshProUGUI _matchResult;
+    [SerializeField] private GameObject _matchResultEmoji;
+
+    [Header("Player Texts")]
     [SerializeField] private TextMeshProUGUI _selfNickname;
     [SerializeField] private TextMeshProUGUI _selfElo;
     [SerializeField] private TextMeshProUGUI _opponentNickname;
