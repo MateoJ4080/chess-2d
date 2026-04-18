@@ -254,4 +254,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    public void OnGameEnded(GameResult result, bool turn)
+    {
+        UpdateGameState(GameState.GameOver);
+    }
 }
