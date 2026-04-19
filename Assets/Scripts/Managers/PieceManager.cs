@@ -69,7 +69,7 @@ public class PieceManager : MonoBehaviour
 
         HighlightMoves.Instance.ClearHighlights();
         MovePiece(from, to, pieceGO);
-        TimeManager.Instance.OnPieceMovedBySelf();
+        TimerManager.Instance.OnPieceMovedBySelf();
         GameManager.Instance.OnPieceMovedBySelf(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 

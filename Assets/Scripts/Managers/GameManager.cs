@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void SyncTimer(double duration)
     {
-        TimeManager.Instance.OnRemoteTurn(duration);
+        TimerManager.Instance.OnRemoteTurn(duration);
     }
 
     public static void AssignFirstTurnWhite()

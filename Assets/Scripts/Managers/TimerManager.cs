@@ -1,11 +1,9 @@
-using System.Data.Common;
-using System.Timers;
 using Photon.Pun;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviourPun
+public class TimerManager : MonoBehaviourPun
 {
-    public static TimeManager Instance { get; private set; }
+    public static TimerManager Instance { get; private set; }
 
     private double _selfTime;
     private double _opponentTime;
