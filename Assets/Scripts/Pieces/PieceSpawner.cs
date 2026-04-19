@@ -92,8 +92,13 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
                 );
             }
         }
+        GameManager.Instance.SetGameStateNetwork(GameManager.GameState.InGame);
+        ExitGames.Client.Photon.Hashtable props = new()
+        {
+            { "GameState", GameManager.GameState.InGame.ToString() }
+        };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
         GameManager.Instance.PiecesAreSpawned = true;
-        GameManager.Instance.UpdateGameState(GameManager.GameState.InGame);
 
         CalculateMoves.Instance.CalculateAllMoves();
         GameManager.AssignFirstTurnWhite();

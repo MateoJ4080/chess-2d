@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public PlayerColor CurrentTurn { get; private set; }
-    public GameState state;
+    public GameState State { get; private set; }
 
     private bool piecesAreSpawned = false;
     public bool PiecesAreSpawned
@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void UpdateGameState(GameState newState)
     {
-        state = newState;
+        State = newState;
 
-        switch (state)
+        switch (State)
         {
             case GameState.MainMenu:
                 break;
@@ -58,6 +58,20 @@ public class GameManager : MonoBehaviourPunCallbacks
             case GameState.GameOver:
                 break;
         }
+
+        Debug.Log($"GameState updated to {State}");
+    }
+
+    public void SetGameStateNetwork(GameState newState)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Hashtable prop = new()
+        {
+            { "GameState", newState.ToString() }
+        };
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
     }
 
     public override void OnCreatedRoom()
@@ -77,7 +91,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void OnPressPlay()
     {
-        Instance.state = GameState.Loading;
+        UpdateGameState(GameState.Loading);
     }
 
     public bool ItsMyTurn()
@@ -255,9 +269,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public override void OnRoomPropertiesUpdate(Hashtable properties)
+    {
+        if (properties.ContainsKey("GameState"))
+        {
+            var state = (string)properties["GameState"];
+            UpdateGameState((GameState)System.Enum.Parse(typeof(GameState), state));
+        }
+    }
+
     public void OnGameEnded(GameResult result, bool turn)
     {
-        UpdateGameState(GameState.GameOver);
+        SetGameStateNetwork(GameState.GameOver);
         UIManager.Instance.SetResultText(result);
         UIManager.Instance.ShowMatchEndPanel();
     }

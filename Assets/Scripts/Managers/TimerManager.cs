@@ -34,9 +34,8 @@ public class TimerManager : MonoBehaviourPun
         _lastTurnStartTime = PhotonNetwork.Time;
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProps.MatchTime, out object value)) matchTime = (double)value;
-        else matchTime = 180.0; // Fallback
+        else matchTime = 180.0;
 
-        Debug.Log($"Setting _selfTime to {matchTime}");
         _selfTime = matchTime;
         _opponentTime = matchTime;
 
