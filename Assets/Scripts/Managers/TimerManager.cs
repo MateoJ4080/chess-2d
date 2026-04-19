@@ -50,6 +50,7 @@ public class TimerManager : MonoBehaviourPun
     public void UpdateTimersAndUI()
     {
         if (PhotonNetwork.CurrentRoom == null) return;
+        if (GameManager.Instance.State != GameManager.GameState.InGame) return;
 
         _lastTurnDuration = PhotonNetwork.Time - _lastTurnStartTime;
 
