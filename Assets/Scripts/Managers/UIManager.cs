@@ -238,4 +238,26 @@ public class UIManager : MonoBehaviourPunCallbacks
         int seconds = (int)(time % 60);
         return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
+
+    public void SetResultText(GameResult result)
+    {
+        _matchResultEmoji.SetActive(false);
+        switch (result)
+        {
+            case GameResult.Win:
+                _matchResult.text = "You Win!";
+                _matchResultEmoji.SetActive(true);
+                break;
+            case GameResult.Lose:
+                string color = PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj) ? (string)colorObj : "undefined";
+                _matchResult.text = $"{color} Won";
+                break;
+            case GameResult.Draw:
+                _matchResult.text = "Draw";
+                break;
+            case GameResult.Stalemate:
+                _matchResult.text = "Stalemate";
+                break;
+        }
+    }
 }
