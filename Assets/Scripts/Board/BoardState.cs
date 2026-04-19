@@ -384,11 +384,8 @@ public class BoardState : MonoBehaviour
                 return;
             }
         }
-
         bool inCheck = IsKingInCheck(isWhite);
-        if (inCheck)
-            Debug.Log("<color=red>Checkmate");
-        else
-            Debug.Log("<color=red>Stalemate");
+
+        GameManager.Instance.OnGameEnded(inCheck ? GameResult.Win : GameResult.Stalemate, isWhite);
     }
 }
