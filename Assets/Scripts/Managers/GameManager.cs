@@ -33,14 +33,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void UpdateGameState(GameState newState)
