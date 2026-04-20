@@ -2,9 +2,17 @@ using UnityEngine;
 
 public class DebugManager : MonoBehaviour
 {
+    public static DebugManager Instance { get; private set; }
+
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     [ContextMenu("Test Ending Win")]
