@@ -113,17 +113,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
-    public void SyncTurnTimerRPC(double duration)
-    {
-        photonView.RPC("SyncTimer", RpcTarget.Others, duration);
-    }
-
-    [PunRPC]
-    void SyncTimer(double duration)
-    {
-        TimerManager.Instance.OnRemoteTurn(duration);
-    }
-
     public static void AssignFirstTurnWhite()
     {
         Hashtable turnProps = new() { { "Turn", "White" } };

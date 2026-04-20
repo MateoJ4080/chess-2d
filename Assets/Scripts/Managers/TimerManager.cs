@@ -70,12 +70,23 @@ public class TimerManager : MonoBehaviourPun
         _selfTime -= _lastTurnDuration;
         _lastTurnStartTime = PhotonNetwork.Time;
 
-        GameManager.Instance.SyncTurnTimerRPC(_lastTurnDuration);
+        photonView.RPC("SyncTimer", RpcTarget.Others, _lastTurnDuration);
     }
 
     public void OnRemoteTurn(double duration)
     {
         _opponentTime -= duration;
         _lastTurnStartTime = PhotonNetwork.Time;
+    }
+
+    public void SyncTurnTimerRPC(double duration)
+    {
+        GetComponent<PhotonView>().RPC("SyncTimer", RpcTarget.Others, duration);
+    }
+
+    [PunRPC]
+    void SyncTimer(double duration)
+    {
+        Instance.OnRemoteTurn(duration);
     }
 }
