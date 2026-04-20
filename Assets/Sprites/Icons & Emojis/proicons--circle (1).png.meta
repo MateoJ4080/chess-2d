@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f215a893a6ce45f4db660635f4fc9469
+guid: fc85f40f4d4dea64fa049848e783ea51
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9166653626301254922
-    second: line-md--menu-to-close-transition_0
+      213: 1292213563483055169
+    second: proicons--circle (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: line-md--menu-to-close-transition_0
+      name: proicons--circle (1)_0
       rect:
         serializedVersion: 2
-        x: 84
-        y: 84
-        width: 344
-        height: 344
+        x: 41
+        y: 41
+        width: 430
+        height: 430
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f27449081189c080800000000000000
-      internalID: -9166653626301254922
+      spriteID: 1446959b36ddee110800000000000000
+      internalID: 1292213563483055169
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      line-md--menu-to-close-transition_0: -9166653626301254922
+      proicons--circle (1)_0: 1292213563483055169
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

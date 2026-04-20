@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7345f5ac3dd39ba448c347125ee456af
+guid: 580188ee6f93ce941a6b999a3da28a4a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -799429008802117124
-    second: meteor-icons--gear_0
+      213: 4938895937517002020
+    second: carbon--debug_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: meteor-icons--gear_0
+      name: carbon--debug_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
+        x: 28
+        y: 51
+        width: 456
+        height: 430
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cf905335d8bd7e4f0800000000000000
-      internalID: -799429008802117124
+      spriteID: 42d125210bb7a8440800000000000000
+      internalID: 4938895937517002020
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      meteor-icons--gear_0: -799429008802117124
+      carbon--debug_0: 4938895937517002020
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
