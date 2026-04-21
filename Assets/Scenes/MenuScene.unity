@@ -1371,7 +1371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
   m_Padding:
     m_Left: 0
-    m_Right: -10
+    m_Right: 0
     m_Top: 0
     m_Bottom: 5
   m_ChildAlignment: 4
@@ -7008,7 +7008,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spectate
+  m_text: Watch
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5551f2d7dac65b54e91a9764daff22a4, type: 2}
   m_sharedMaterial: {fileID: 1847897687316513695, guid: 5551f2d7dac65b54e91a9764daff22a4, type: 2}
