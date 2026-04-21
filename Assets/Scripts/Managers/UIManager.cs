@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _matchListPanel;
     [SerializeField] private GameObject _playerPanelsParent;
+    [SerializeField] private GameObject _topButtonsPanel;
 
     [Header("Match End Panel")]
     [SerializeField] private GameObject _matchEndPanel;
@@ -106,7 +107,11 @@ public class UIManager : MonoBehaviourPunCallbacks
         UpdateRoomPropertiesTexts();
     }
 
-    public void ShowMenuPanel() => _mainMenuPanel.SetActive(true);
+    public void ShowMenuPanel()
+    {
+        if (SceneManager.GetActiveScene().name == "MenuScene") _mainMenuPanel.SetActive(true);
+    }
+
     public void HideMenuPanel() => _mainMenuPanel.SetActive(false);
 
     public void ShowOptionsPanel() => _optionsPanel.SetActive(true);
@@ -123,6 +128,9 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowMatchEndPanel() => _matchEndPanel.SetActive(true);
     public void HideMatchEndPanel() => _matchEndPanel.SetActive(false);
+
+    public void ShowTopButtonsPanel() => _topButtonsPanel.SetActive(true);
+    public void HideTopButtonsPanel() => _topButtonsPanel.SetActive(false);
 
     public void ShowMatchList()
     {
