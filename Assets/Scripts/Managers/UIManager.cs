@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [Header("Panels")]
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _loadingPanel;
-    [SerializeField] private GameObject _optionsPanel;
+    [SerializeField] private GameObject _settingsPanel;
     [SerializeField] private GameObject _matchListPanel;
     [SerializeField] private GameObject _playerPanelsParent;
     [SerializeField] private GameObject _topButtonsPanel;
@@ -114,8 +114,8 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void HideMenuPanel() => _mainMenuPanel.SetActive(false);
 
-    public void ShowOptionsPanel() => _optionsPanel.SetActive(true);
-    public void HideOptionsPanel() => _optionsPanel.SetActive(false);
+    public void ShowSettingsPanel() => _settingsPanel.SetActive(true);
+    public void HideSettingsPanel() => _settingsPanel.SetActive(false);
 
     public void ShowLoadingPanel() => _loadingPanel.SetActive(true);
     public void HideLoadingPanel() => _loadingPanel.SetActive(false);

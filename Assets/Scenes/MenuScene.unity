@@ -2342,7 +2342,7 @@ MonoBehaviour:
   _matchItemPrefab: {fileID: 8419680144043397723, guid: 5857a0b9b13b0f84c9bc5365181f50be, type: 3}
   _mainMenuPanel: {fileID: 1156580734}
   _loadingPanel: {fileID: 1653673162}
-  _optionsPanel: {fileID: 1748700183}
+  _settingsPanel: {fileID: 1748700183}
   _matchListPanel: {fileID: 2085945777}
   _playerPanelsParent: {fileID: 818868534}
   _topButtonsPanel: {fileID: 1596349874}
@@ -3390,7 +3390,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideOptionsPanel
+        m_MethodName: HideSettingsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6316,7 +6316,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 1
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -7342,7 +7342,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 1
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
@@ -8802,7 +8802,7 @@ GameObject:
   - component: {fileID: 1748700186}
   - component: {fileID: 1748700185}
   m_Layer: 5
-  m_Name: OptionsPanel
+  m_Name: SettingsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10848,7 +10848,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ShowOptionsPanel
+        m_MethodName: ShowSettingsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
