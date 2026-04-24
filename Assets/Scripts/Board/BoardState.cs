@@ -188,14 +188,21 @@ public class BoardState : MonoBehaviour
         Instance.SetCheckStatus(true, _whiteChecks);
         Instance.SetCheckStatus(false, _blackChecks);
 
-        ColorThreatenedSquares();
+        Instance.ColorThreatenedSquares();
     }
-    // *Debug purposes*
-    public static void ColorThreatenedSquares()
-    {
-        ClearColorSquares();
 
-        if (Instance._parentTransform == null) Instance._parentTransform = GameObject.FindGameObjectWithTag("HighlightsContainer").transform;
+    // Debug
+    public void ColorThreatenedSquares()
+    {
+        Instance.ClearColorSquares();
+        if (!DebugManager.IsDebugMode) return;
+
+        if (Instance._parentTransform == null)
+        {
+            var obj = GameObject.FindGameObjectWithTag("HighlightsContainer");
+            if (obj != null) Instance._parentTransform = obj.transform;
+        }
+
         foreach (var entry in Instance.WhiteThreatenedSquares)
         {
             Vector2Int move = entry.Key;
@@ -245,7 +252,7 @@ public class BoardState : MonoBehaviour
         }
     }
 
-    public static void ClearColorSquares()
+    public void ClearColorSquares()
     {
         foreach (var obj in GameObject.FindGameObjectsWithTag("ColorSquare"))
         {

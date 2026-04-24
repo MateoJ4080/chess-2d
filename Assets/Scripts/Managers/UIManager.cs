@@ -124,13 +124,13 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowDebugTextsPanel() => _debugTextsPanel.SetActive(true);
     public void HideDebugTextsPanel() => _debugTextsPanel.SetActive(false);
+    // Panel must start disabled
     public void ToggleDebugTextsPanel()
     {
-        bool isActive = !_debugTextsPanel.activeSelf;
-        _debugTextsPanel.SetActive(isActive);
+        bool status = !_debugTextsPanel.activeSelf;
+        _debugTextsPanel.SetActive(status);
         var colors = _debugButton.colors;
-        colors.normalColor = isActive ? _onColor : _offColor;
-        colors.selectedColor = isActive ? _onColor : _offColor;
+        colors.normalColor = status ? _onColor : _offColor;
         _debugButton.colors = colors;
     }
 

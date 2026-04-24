@@ -1,5 +1,4 @@
 using Photon.Pun;
-using UnityEngine;
 
 public class TimerManager : MonoBehaviourPun
 {
@@ -10,18 +9,6 @@ public class TimerManager : MonoBehaviourPun
 
     private double _lastTurnStartTime;
     private double _lastTurnDuration;
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
 
     void Start()
     {

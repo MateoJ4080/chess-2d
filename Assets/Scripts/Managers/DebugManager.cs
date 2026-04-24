@@ -3,6 +3,7 @@ using UnityEngine;
 public class DebugManager : MonoBehaviour
 {
     public static DebugManager Instance { get; private set; }
+    public static bool IsDebugMode { get; private set; }
 
     void Awake()
     {
@@ -25,5 +26,11 @@ public class DebugManager : MonoBehaviour
     void TestEndingGameLose()
     {
         GameManager.Instance.OnGameEnded(GameResult.Lose, false);
+    }
+
+    public void ToggleDebugMode()
+    {
+        Debug.Log($"IsDebugMode set to {!IsDebugMode}");
+        IsDebugMode = !IsDebugMode;
     }
 }
