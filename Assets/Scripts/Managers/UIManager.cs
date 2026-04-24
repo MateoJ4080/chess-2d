@@ -43,7 +43,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _opponentTimer;
 
     [Header("Debug - Network")]
-    [SerializeField] private GameObject _networkStatusPanel;
     [SerializeField] private GameObject _debugTextsPanel;
     [SerializeField] private TextMeshProUGUI _networkStatusText;
     [SerializeField] private TextMeshProUGUI _debugTextState;
@@ -60,8 +59,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
     [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
     [SerializeField] private TextMeshProUGUI _colorInfoText;
-    [SerializeField] private Transform _networkTextRefMainMenu;
-    [SerializeField] private Transform _networkTextRefLoading;
 
     public static UIManager Instance { get; private set; }
 
@@ -98,7 +95,6 @@ public class UIManager : MonoBehaviourPunCallbacks
         if (scene.name == "GameScene")
         {
             _loadingPanel.SetActive(false);
-            _networkStatusPanel.SetActive(false);
         }
     }
 
@@ -126,8 +122,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void ShowLoadingPanel() => _loadingPanel.SetActive(true);
     public void HideLoadingPanel() => _loadingPanel.SetActive(false);
 
-    public void ShowNetworkStatusPanel() => _networkStatusPanel.SetActive(true);
-    public void HideNetworkStatusPanel() => _networkStatusPanel.SetActive(false);
     public void ShowDebugTextsPanel() => _debugTextsPanel.SetActive(true);
     public void HideDebugTextsPanel() => _debugTextsPanel.SetActive(false);
     public void ToggleDebugTextsPanel()
