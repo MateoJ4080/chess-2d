@@ -31,7 +31,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Not master client, waiting for pieces to be spawned by master client...");
             yield break; // Non-master clients will wait for the master client to spawn pieces
         }
         TrySpawnPieces();
