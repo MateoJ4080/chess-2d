@@ -27,6 +27,11 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _matchResult;
     [SerializeField] private GameObject _matchResultEmoji;
 
+    [Header("Top Buttons")]
+    [SerializeField] private Button _debugButton;
+    [SerializeField] private Color _offColor;
+    [SerializeField] private Color _onColor;
+
     [Header("Player Texts")]
     [SerializeField] private TextMeshProUGUI _selfNickname;
     [SerializeField] private TextMeshProUGUI _selfElo;
@@ -39,6 +44,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     [Header("Debug - Network")]
     [SerializeField] private GameObject _networkStatusPanel;
+    [SerializeField] private GameObject _debugTextsPanel;
     [SerializeField] private TextMeshProUGUI _networkStatusText;
     [SerializeField] private TextMeshProUGUI _debugTextState;
     [SerializeField] private TextMeshProUGUI _debugTextConnection;
@@ -122,6 +128,17 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowNetworkStatusPanel() => _networkStatusPanel.SetActive(true);
     public void HideNetworkStatusPanel() => _networkStatusPanel.SetActive(false);
+    public void ShowDebugTextsPanel() => _debugTextsPanel.SetActive(true);
+    public void HideDebugTextsPanel() => _debugTextsPanel.SetActive(false);
+    public void ToggleDebugTextsPanel()
+    {
+        bool isActive = !_debugTextsPanel.activeSelf;
+        _debugTextsPanel.SetActive(isActive);
+        var colors = _debugButton.colors;
+        colors.normalColor = isActive ? _onColor : _offColor;
+        colors.selectedColor = isActive ? _onColor : _offColor;
+        _debugButton.colors = colors;
+    }
 
     public void ShowPlayerPanelsParent() => _playerPanelsParent.SetActive(true);
     public void HidePlayerPanelsParent() => _playerPanelsParent.SetActive(false);

@@ -2451,13 +2451,16 @@ MonoBehaviour:
   _matchEndPanel: {fileID: 1007361747}
   _matchResult: {fileID: 616145487}
   _matchResultEmoji: {fileID: 1196992435}
+  _debugButton: {fileID: 1670134709}
+  _offColor: {r: 0.11372549, g: 0.11372549, b: 0.11372549, a: 1}
+  _onColor: {r: 0.042642146, g: 0.6886792, b: 0, a: 1}
   _selfNickname: {fileID: 569268216}
   _selfElo: {fileID: 1474317025}
   _opponentNickname: {fileID: 797299199}
   _opponentElo: {fileID: 2061943495}
   _selfTimer: {fileID: 873616606}
   _opponentTimer: {fileID: 535882300}
-  _networkStatusPanel: {fileID: 1270578758}
+  _debugTextsPanel: {fileID: 678135848}
   _networkStatusText: {fileID: 1630148456}
   _debugTextState: {fileID: 618663514}
   _debugTextConnection: {fileID: 6224937}
@@ -2471,8 +2474,6 @@ MonoBehaviour:
   _isBlackCheckOnceText: {fileID: 2015284245}
   _isBlackCheckTwiceText: {fileID: 1005138430}
   _colorInfoText: {fileID: 173513274}
-  _networkTextRefMainMenu: {fileID: 152888718}
-  _networkTextRefLoading: {fileID: 693962461}
 --- !u!4 &538286588
 Transform:
   m_ObjectHideFlags: 0
@@ -8847,7 +8848,7 @@ GameObject:
   - component: {fileID: 1670134709}
   - component: {fileID: 1670134708}
   m_Layer: 5
-  m_Name: Debug
+  m_Name: Debug Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8936,7 +8937,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1670134710}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 538286587}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleDebugTextsPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1670134710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11128,7 +11141,7 @@ GameObject:
   - component: {fileID: 2122707375}
   - component: {fileID: 2122707374}
   m_Layer: 5
-  m_Name: Settings
+  m_Name: Settings Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
