@@ -254,11 +254,11 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         foreach (Vector2Int move in kingMoves)
         {
             Vector2Int pos = currentPos + move;
-            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.SquareIsThreatened(pos, pieceGO))
+            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.Instance.SquareIsThreatened(pos, pieceGO))
             {
                 pieceLegalMoves.Add(pos);
             }
-            else if (BoardUtils.PieceIsOpponent(pos, pieceGO) && !BoardState.SquareIsThreatened(pos, pieceGO))
+            else if (BoardUtils.PieceIsOpponent(pos, pieceGO) && !BoardState.Instance.SquareIsThreatened(pos, pieceGO))
             {
                 pieceLegalMoves.Add(pos);
             }

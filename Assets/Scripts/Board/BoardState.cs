@@ -44,7 +44,7 @@ public class BoardState : MonoBehaviour
         _movementData = ScriptableObject.CreateInstance<PieceMovementData>();
     }
 
-    public static void UpdateThreatenedSquares()
+    public void UpdateThreatenedSquares()
     {
         Instance.WhiteThreatenedSquares.Clear();
         Instance.BlackThreatenedSquares.Clear();
@@ -191,77 +191,8 @@ public class BoardState : MonoBehaviour
         Instance.ColorThreatenedSquares();
     }
 
-    // Debug
-    public void ColorThreatenedSquares()
-    {
-        Instance.ClearColorSquares();
-        if (!DebugManager.IsDebugMode) return;
-
-        if (Instance._parentTransform == null)
-        {
-            var obj = GameObject.FindGameObjectWithTag("HighlightsContainer");
-            if (obj != null) Instance._parentTransform = obj.transform;
-        }
-
-        foreach (var entry in Instance.WhiteThreatenedSquares)
-        {
-            Vector2Int move = entry.Key;
-            if (BoardUtils.GetSquareAt(move))
-            {
-                GameObject colorSquare = Instantiate(Instance._greenSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = 1;
-            }
-        }
-
-        foreach (var entry in Instance.BlackThreatenedSquares)
-        {
-            Vector2Int move = entry.Key;
-            if (BoardUtils.GetSquareAt(move))
-            {
-                GameObject colorSquare = Instantiate(Instance._redSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = 1;
-            }
-        }
-
-        foreach (var path in Instance.WhiteCheckPaths)
-        {
-            foreach (var move in path.Value)
-            {
-                if (BoardUtils.GetSquareAt(move))
-                {
-                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                    sr.sortingOrder = 2;
-                }
-            }
-        }
-
-        foreach (var path in Instance.BlackCheckPaths)
-        {
-            foreach (var move in path.Value)
-            {
-                if (BoardUtils.GetSquareAt(move))
-                {
-                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                    sr.sortingOrder = 2;
-                }
-            }
-        }
-    }
-
-    public void ClearColorSquares()
-    {
-        foreach (var obj in GameObject.FindGameObjectsWithTag("ColorSquare"))
-        {
-            Destroy(obj);
-        }
-    }
-
     // *Might want to move it to BoardUtils later*
-    public static bool SquareIsThreatened(Vector2Int pos, GameObject pieceToMove)
+    public bool SquareIsThreatened(Vector2Int pos, GameObject pieceToMove)
     {
         ChessPiece pieceData = pieceToMove.GetComponent<ChessPiece>();
         bool isWhite = pieceData.PieceData.IsWhite;
@@ -394,5 +325,75 @@ public class BoardState : MonoBehaviour
         bool inCheck = IsKingInCheck(isWhite);
 
         GameManager.Instance.OnGameEnded(inCheck ? GameResult.Win : GameResult.Stalemate, isWhite);
+    }
+
+    // Debug
+    public void ColorThreatenedSquares()
+    {
+        Instance.ClearColorSquares();
+        if (!DebugManager.IsDebugMode) return;
+
+        if (Instance._parentTransform == null)
+        {
+            var obj = GameObject.FindGameObjectWithTag("HighlightsContainer");
+            if (obj != null) Instance._parentTransform = obj.transform;
+        }
+
+        foreach (var entry in Instance.WhiteThreatenedSquares)
+        {
+            Vector2Int move = entry.Key;
+            if (BoardUtils.GetSquareAt(move))
+            {
+                GameObject colorSquare = Instantiate(Instance._greenSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
+                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                sr.sortingOrder = 1;
+            }
+        }
+
+        foreach (var entry in Instance.BlackThreatenedSquares)
+        {
+            Vector2Int move = entry.Key;
+            if (BoardUtils.GetSquareAt(move))
+            {
+                GameObject colorSquare = Instantiate(Instance._redSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
+                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                sr.sortingOrder = 1;
+            }
+        }
+
+        foreach (var path in Instance.WhiteCheckPaths)
+        {
+            foreach (var move in path.Value)
+            {
+                if (BoardUtils.GetSquareAt(move))
+                {
+                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
+                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                    sr.sortingOrder = 2;
+                }
+            }
+        }
+
+        foreach (var path in Instance.BlackCheckPaths)
+        {
+            foreach (var move in path.Value)
+            {
+                if (BoardUtils.GetSquareAt(move))
+                {
+                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
+                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
+                    sr.sortingOrder = 2;
+                }
+            }
+        }
+    }
+
+    // Debug
+    public void ClearColorSquares()
+    {
+        foreach (var obj in GameObject.FindGameObjectsWithTag("ColorSquare"))
+        {
+            Destroy(obj);
+        }
     }
 }

@@ -58,7 +58,7 @@ public static class BoardUtils
         BoardGenerator.Instance.PositionToPiece.Remove(from);
         BoardGenerator.Instance.PositionToPiece[to] = piece;
 
-        BoardState.UpdateThreatenedSquares();
+        BoardState.Instance.UpdateThreatenedSquares();
         CalculateMoves.Instance.CalculateAllMoves();
 
         var pieceData = piece.GetComponent<ChessPiece>().PieceData;

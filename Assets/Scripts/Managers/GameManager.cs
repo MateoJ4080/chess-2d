@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
                 Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
 
-                bool castlePathIsThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool castlePathIsThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
                 bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
                 return !castlePathIsThreatened && squaresAreEmpty && whiteCK;
@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
                 Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
 
-                bool squaresAreThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
                 bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
                 return !squaresAreThreatened && squaresAreEmpty && whiteCQ;
@@ -213,7 +213,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
                 Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
 
-                bool squaresAreThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
                 bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
                 return !squaresAreThreatened && squaresAreEmpty && blackCK;
@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
                 Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
 
-                bool squaresAreThreatened = BoardState.SquareIsThreatened(firstTile, pieceGO) && BoardState.SquareIsThreatened(secondTile, pieceGO);
+                bool squaresAreThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
                 bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
                 return !squaresAreThreatened && squaresAreEmpty && blackCQ;
