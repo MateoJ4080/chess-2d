@@ -434,6 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475980bc6c793fb47916678b43e81cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timerManager: {fileID: 1029106882}
 --- !u!4 &887906300
 Transform:
   m_ObjectHideFlags: 0
@@ -655,7 +656,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d13bf6aaf27dac14a9366ce8363ccbba, type: 2}
   - {fileID: 11400000, guid: c6b37d80ffcc8a2418e36e4ee9d7a232, type: 2}
   - {fileID: 11400000, guid: 8dcf6c5976d35fc46b1ecac62c122f07, type: 2}
-  currentTurnTMP: {fileID: 0}
+  _currentTurnTMP: {fileID: 0}
 --- !u!114 &1242518677
 MonoBehaviour:
   m_ObjectHideFlags: 0

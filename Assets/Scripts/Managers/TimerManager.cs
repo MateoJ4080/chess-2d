@@ -74,6 +74,6 @@ public class TimerManager : MonoBehaviourPun
     [PunRPC]
     void SyncTimer(double duration)
     {
-        Instance.OnRemoteTurn(duration);
+        OnRemoteTurn(duration);
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
+    [SerializeField] private TimerManager _timerManager;
     private PhotonView _photonView;
 
     public static PieceManager Instance { get; private set; }
@@ -69,7 +70,7 @@ public class PieceManager : MonoBehaviour
 
         HighlightMoves.Instance.ClearHighlights();
         MovePiece(from, to, pieceGO);
-        TimerManager.Instance.OnPieceMovedBySelf();
+        _timerManager.OnPieceMovedBySelf();
         GameManager.Instance.OnPieceMovedBySelf(pieceGO, from);
         GameManager.Instance.SwitchTurn();
 
