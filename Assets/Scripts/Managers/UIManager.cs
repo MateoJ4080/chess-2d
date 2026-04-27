@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _playerPanelsParent;
     [SerializeField] private GameObject _topButtonsPanel;
 
+    [Header("Main Menu")]
+    [SerializeField] private Button _playButton;
+
     [Header("Match End Panel")]
     [SerializeField] private GameObject _matchEndPanel;
     [SerializeField] private TextMeshProUGUI _matchResult;
@@ -73,6 +76,13 @@ public class UIManager : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(gameObject);
     }
 
+    void Start()
+    {
+        ShowMenuPanel();
+        if (!PhotonNetwork.InLobby) _playButton.interactable = false;
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -83,6 +93,11 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public override void OnJoinedLobby()
+    {
+        _playButton.interactable = true;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -96,11 +111,6 @@ public class UIManager : MonoBehaviourPunCallbacks
         {
             _loadingPanel.SetActive(false);
         }
-    }
-
-    void Start()
-    {
-        ShowMenuPanel();
     }
 
     void Update()
