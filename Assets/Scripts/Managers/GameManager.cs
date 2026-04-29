@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public static GameManager Instance { get; private set; }
-
     public enum PlayerColor
     {
         White,
@@ -31,7 +29,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         get => piecesAreSpawned;
         set => piecesAreSpawned = value;
     }
-    private void Awake()
+
+    public static GameManager Instance { get; private set; }
+
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
