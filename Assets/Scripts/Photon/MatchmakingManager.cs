@@ -46,14 +46,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
     }
 
-    public void OnPressPlay()
+    public void TryJoinOrCreate()
     {
-        if (!PhotonNetwork.InLobby)
-        {
-            Debug.Log("Not in lobby");
-            return;
-        }
-
         if (cachedRooms.Count > 0)
         {
             foreach (var room in cachedRooms.Values)

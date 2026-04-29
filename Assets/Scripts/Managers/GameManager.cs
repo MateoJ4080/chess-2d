@@ -88,11 +88,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
-    public void OnPressPlay()
-    {
-        UpdateGameState(GameState.Loading);
-    }
-
     public bool ItsMyTurn()
     {
         var roomProps = PhotonNetwork.CurrentRoom.CustomProperties;
