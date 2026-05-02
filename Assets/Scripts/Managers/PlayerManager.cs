@@ -12,13 +12,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         private set => colorsAreAssigned = value;
     }
 
-    private bool playerIsBlack;
-    public bool PlayerIsBlack
-    {
-        get => playerIsBlack;
-        set => playerIsBlack = value;
-    }
-
     public static PlayerManager Instance { get; private set; }
 
     void Awake()
