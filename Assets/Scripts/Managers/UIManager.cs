@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _matchListPanel;
     [SerializeField] private GameObject _playerPanelsParent;
     [SerializeField] private GameObject _topButtonsPanel;
+    [SerializeField] private GameObject _resignPanel;
 
     [Header("Main Menu")]
     [SerializeField] private Button _playButton;
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _matchResultEmoji;
 
     [Header("Top Buttons")]
+    [SerializeField] private GameObject _resignTopButton;
     [SerializeField] private Button _debugButton;
     [SerializeField] private Color _offColor;
     [SerializeField] private Color _onColor;
@@ -106,11 +108,13 @@ public class UIManager : MonoBehaviourPunCallbacks
         if (scene.name == "MenuScene")
         {
             ShowMenuPanel();
+            _resignTopButton.SetActive(false);
         }
 
         if (scene.name == "GameScene")
         {
             _loadingPanel.SetActive(false);
+            _resignTopButton.SetActive(true);
         }
     }
 
@@ -124,7 +128,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (SceneManager.GetActiveScene().name == "MenuScene") _mainMenuPanel.SetActive(true);
     }
-
     public void HideMenuPanel() => _mainMenuPanel.SetActive(false);
 
     public void ShowNicknamePanel() => _nicknamePanel.SetActive(true);
@@ -138,6 +141,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowDebugTextsPanel() => _debugTextsPanel.SetActive(true);
     public void HideDebugTextsPanel() => _debugTextsPanel.SetActive(false);
+
     // Panel must start disabled
     public void ToggleDebugTextsPanel()
     {
@@ -156,6 +160,9 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowTopButtonsPanel() => _topButtonsPanel.SetActive(true);
     public void HideTopButtonsPanel() => _topButtonsPanel.SetActive(false);
+
+    public void ShowResignPanel() => _resignPanel.SetActive(true);
+    public void HideResignPanel() => _resignPanel.SetActive(false);
 
     public void ShowMatchList()
     {
