@@ -98,11 +98,6 @@ public class UIManager : MonoBehaviourPunCallbacks
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    public override void OnJoinedLobby()
-    {
-        _playButton.interactable = true;
-    }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "MenuScene")
@@ -226,6 +221,11 @@ public class UIManager : MonoBehaviourPunCallbacks
 
         if (props.TryGetValue("blackInCheckTwice", out value))
             _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
+    }
+
+    public override void OnJoinedLobby()
+    {
+        _playButton.interactable = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
