@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CalculateMoves : MonoBehaviourPunCallbacks
 {
-    private GameObject activePiece;
+    private GameObject _activePiece;
     public GameObject ActivePiece
     {
-        get => activePiece;
-        set => activePiece = value;
+        get => _activePiece;
+        set => _activePiece = value;
     }
 
-    private Dictionary<GameObject, List<Vector2Int>> legalMovesByPiece = new();
-    public Dictionary<GameObject, List<Vector2Int>> LegalMovesByPiece => legalMovesByPiece;
+    private Dictionary<GameObject, List<Vector2Int>> _legalMovesByPiece = new();
+    public Dictionary<GameObject, List<Vector2Int>> LegalMovesByPiece => _legalMovesByPiece;
 
     [SerializeField] private PieceMovementData _movementData;
 
@@ -30,7 +30,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
     public void CalculateAllMoves()
     {
-        legalMovesByPiece.Clear();
+        _legalMovesByPiece.Clear();
 
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
@@ -112,7 +112,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             }
         }
 
-        legalMovesByPiece[pieceGO] = pieceLegalMoves;
+        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 
     void CalculateKnightMoves(GameObject pieceGO, bool isWhite)
@@ -142,7 +142,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
                 }
             }
         }
-        legalMovesByPiece[pieceGO] = pieceLegalMoves;
+        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 
     void CalculateBishopMoves(GameObject pieceGO, bool isWhite)
@@ -175,7 +175,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
                 pos += direction;
             }
         }
-        legalMovesByPiece[pieceGO] = pieceLegalMoves;
+        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 
     void CalculateRookMoves(GameObject pieceGO, bool isWhite)
@@ -208,7 +208,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
                 pos += direction;
             }
         }
-        legalMovesByPiece[pieceGO] = pieceLegalMoves;
+        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 
     void CalculateQueenMoves(GameObject pieceGO, bool isWhite)
@@ -241,7 +241,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
                 pos += direction;
             }
         }
-        legalMovesByPiece[pieceGO] = pieceLegalMoves;
+        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 
     void CalculateKingMoves(GameObject pieceGO)
@@ -283,6 +283,6 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             if (!data.IsWhite)
                 pieceLegalMoves.Add(currentPos + new Vector2Int(2, 0));
         }
-        legalMovesByPiece[pieceGO] = pieceLegalMoves;
+        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 }
