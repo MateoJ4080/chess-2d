@@ -1,22 +1,21 @@
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class CursorManager : MonoBehaviour
 {
     private Camera _cam;
+
     [SerializeField] private Texture2D _defaultCursor;
     [SerializeField] private Texture2D _handCursor;
 
-    [SerializeField] private Vector2 _hotspot;
-    private Texture2D _currentCursor;
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")] private static extern void SetCursorPointer();
+    [DllImport("__Internal")] private static extern void SetCursorDefault();
+#endif
 
     void Awake()
     {
         _cam = Camera.main;
-    }
-
-    void Start()
-    {
-        SetCursor(_defaultCursor);
     }
 
     void Update()
@@ -31,15 +30,32 @@ public class CursorManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapPoint(mousePos);
 
         if (hit != null && hit.CompareTag("Piece"))
-            SetCursor(_handCursor);
+        {
+            Debug.Log("Hand");
+            SetHand();
+        }
         else
-            SetCursor(_defaultCursor);
+        {
+            Debug.Log("Default");
+            SetDefault();
+        }
     }
 
-    private void SetCursor(Texture2D cursor)
+    void SetHand()
     {
-        if (_currentCursor == cursor) return;
-        Cursor.SetCursor(cursor, _hotspot, CursorMode.Auto);
-        _currentCursor = cursor;
+#if UNITY_WEBGL && !UNITY_EDITOR
+        SetCursorPointer();
+#else
+        Cursor.SetCursor(_handCursor, Vector2.zero, CursorMode.Auto);
+#endif
+    }
+
+    void SetDefault()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        SetCursorDefault();
+#else
+        Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
+#endif
     }
 }
