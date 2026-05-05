@@ -7,6 +7,7 @@ public class CursorManager : MonoBehaviour
 
     [SerializeField] private Texture2D _defaultCursor;
     [SerializeField] private Texture2D _handCursor;
+    [SerializeField] private Vector2 _hotspot;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern void SetCursorPointer();
@@ -30,15 +31,9 @@ public class CursorManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapPoint(mousePos);
 
         if (hit != null && hit.CompareTag("Piece"))
-        {
-            Debug.Log("Hand");
             SetHand();
-        }
         else
-        {
-            Debug.Log("Default");
             SetDefault();
-        }
     }
 
     void SetHand()
@@ -46,7 +41,7 @@ public class CursorManager : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         SetCursorPointer();
 #else
-        Cursor.SetCursor(_handCursor, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(_handCursor, _hotspot, CursorMode.Auto);
 #endif
     }
 
