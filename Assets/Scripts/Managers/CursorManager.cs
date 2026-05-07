@@ -35,12 +35,6 @@ public class CursorManager : MonoBehaviour
             SetHand();
         else
             SetDefault();
-
-        // Debug
-        if (Input.GetKey(KeyCode.Space))
-            SetHand();
-        else
-            SetDefault();
     }
 
     void SetHand()
