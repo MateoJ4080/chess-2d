@@ -302,9 +302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e202f0a775b653d428c71a4deb8527f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultCursor: {fileID: 2800000, guid: 098e4a0154d488542bc61456adcb9bd9, type: 3}
-  _handCursor: {fileID: 2800000, guid: a619190fa7f69304bb78cd3673f38149, type: 3}
-  _hotspot: {x: 5, y: 0}
+  _defaultCursor: {fileID: 2800000, guid: 5fcc1fdc347ba364c87e3976fd40efea, type: 3}
+  _handCursor: {fileID: 2800000, guid: 0c98de51c10e10e4cacb3efb1cc5820e, type: 3}
+  _hotspot: {x: 5, y: 1.3}
 --- !u!4 &537021039
 Transform:
   m_ObjectHideFlags: 0

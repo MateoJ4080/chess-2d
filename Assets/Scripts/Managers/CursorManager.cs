@@ -7,7 +7,8 @@ public class CursorManager : MonoBehaviour
 
     [SerializeField] private Texture2D _defaultCursor;
     [SerializeField] private Texture2D _handCursor;
-    [SerializeField] private Vector2 _hotspot;
+    [SerializeField] private Vector2 _defaultHotspot;
+    [SerializeField] private Vector2 _handHotspot;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern void SetCursorPointer();
@@ -34,6 +35,12 @@ public class CursorManager : MonoBehaviour
             SetHand();
         else
             SetDefault();
+
+        // Debug
+        if (Input.GetKey(KeyCode.Space))
+            SetHand();
+        else
+            SetDefault();
     }
 
     void SetHand()
@@ -41,7 +48,7 @@ public class CursorManager : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         SetCursorPointer();
 #else
-        Cursor.SetCursor(_handCursor, _hotspot, CursorMode.Auto);
+        Cursor.SetCursor(_handCursor, _handHotspot, CursorMode.Auto);
 #endif
     }
 
@@ -50,7 +57,7 @@ public class CursorManager : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         SetCursorDefault();
 #else
-        Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(_defaultCursor, _defaultHotspot, CursorMode.Auto);
 #endif
     }
 }
