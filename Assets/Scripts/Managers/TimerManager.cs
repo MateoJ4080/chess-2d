@@ -1,4 +1,5 @@
 using Photon.Pun;
+using UnityEngine;
 
 public class TimerManager : MonoBehaviourPun
 {
@@ -66,9 +67,9 @@ public class TimerManager : MonoBehaviourPun
         photonView.RPC("SyncTimer", RpcTarget.Others, _lastTurnDuration);
     }
 
-    public void OnRemoteTurn(double duration)
+    public void OnRemoteTurn(double turnDuration)
     {
-        _opponentTime -= duration;
+        _opponentTime -= turnDuration;
         _lastTurnStartTime = PhotonNetwork.Time;
     }
 
@@ -81,5 +82,14 @@ public class TimerManager : MonoBehaviourPun
     void SyncTimer(double duration)
     {
         OnRemoteTurn(duration);
+    }
+
+    [ContextMenu("Set self timer to 5s")]
+    public void SetSelfTimerToFive()
+    {
+        _selfTime = 5;
+        _lastTurnStartTime = PhotonNetwork.Time;
+
+        photonView.RPC("SyncTimer", RpcTarget.Others, (double)175);
     }
 }
