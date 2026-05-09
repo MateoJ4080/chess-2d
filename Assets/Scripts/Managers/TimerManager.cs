@@ -36,7 +36,7 @@ public class TimerManager : MonoBehaviourPun
 
     public void UpdateTimersAndUI()
     {
-        if (PhotonNetwork.CurrentRoom == null) return;
+        if (!PhotonNetwork.InRoom) return;
         if (GameManager.Instance.State != GameManager.GameState.InGame) return;
 
         _lastTurnDuration = PhotonNetwork.Time - _lastTurnStartTime;
@@ -48,6 +48,12 @@ public class TimerManager : MonoBehaviourPun
             currentSelf = _selfTime - _lastTurnDuration;
         else
             currentOpponent = _opponentTime - _lastTurnDuration;
+
+        currentSelf = System.Math.Max(0, currentSelf);
+        currentOpponent = System.Math.Max(0, currentOpponent);
+
+        if (currentSelf <= 0 || currentOpponent <= 0)
+            GameManager.Instance.UpdateGameState(GameManager.GameState.GameOver);
 
         UIManager.Instance.UpdateTimers(currentSelf, currentOpponent);
     }
