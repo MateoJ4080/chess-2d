@@ -27,10 +27,6 @@ public class Draggable : MonoBehaviour
         _offset = transform.position - GetMouseWorldPos();
 
         HighlightMoves.Instance.ClearHighlights();
-
-        Debug.Log($"[Draggable] Turn: {PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string}");
-        Debug.Log($"[Draggable] Color: {PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string}");
-
         HighlightMoves.Instance.ShowMoves(gameObject);
     }
 

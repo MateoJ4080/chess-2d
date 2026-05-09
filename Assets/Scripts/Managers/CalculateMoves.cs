@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class CalculateMoves : MonoBehaviourPunCallbacks
 {
-    private GameObject _activePiece;
-    public GameObject ActivePiece
-    {
-        get => _activePiece;
-        set => _activePiece = value;
-    }
-
     private Dictionary<GameObject, List<Vector2Int>> _legalMovesByPiece = new();
     public Dictionary<GameObject, List<Vector2Int>> LegalMovesByPiece => _legalMovesByPiece;
 
