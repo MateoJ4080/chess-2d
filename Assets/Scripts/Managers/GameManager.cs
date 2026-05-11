@@ -6,12 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public enum PlayerColor
-    {
-        White,
-        Black
-    }
-
     public enum GameState
     {
         MainMenu,
