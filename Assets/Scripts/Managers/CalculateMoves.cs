@@ -237,45 +237,38 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         _legalMovesByPiece[pieceGO] = pieceLegalMoves;
     }
 
-    void CalculateKingMoves(GameObject pieceGO)
+    void CalculateKingMoves(GameObject kingGO)
     {
-        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
+        var data = kingGO.GetComponent<ChessPiece>().PieceData;
 
         List<Vector2Int> pieceLegalMoves = new();
         Vector2Int[] kingMoves = _movementData.kingMoves;
-        Vector2Int currentPos = Vector2Int.RoundToInt(pieceGO.transform.position);
+        Vector2Int currentPos = Vector2Int.RoundToInt(kingGO.transform.position);
         foreach (Vector2Int move in kingMoves)
         {
             Vector2Int pos = currentPos + move;
-            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.Instance.SquareIsThreatened(pos, pieceGO))
+            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.Instance.SquareIsThreatened(pos, kingGO))
             {
                 pieceLegalMoves.Add(pos);
             }
-            else if (BoardUtils.PieceIsOpponent(pos, pieceGO) && !BoardState.Instance.SquareIsThreatened(pos, pieceGO))
+            else if (BoardUtils.PieceIsOpponent(pos, kingGO) && !BoardState.Instance.SquareIsThreatened(pos, kingGO))
             {
                 pieceLegalMoves.Add(pos);
             }
         }
 
         // Castling
-        bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, pieceGO);
-        bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, pieceGO);
+        int direction = data.Color == PlayerColor.White ? 1 : -1;
+
+        bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, kingGO);
+        bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, kingGO);
 
         if (canCastleKingSide)
-        {
-            if (data.IsWhite)
-                pieceLegalMoves.Add(currentPos + new Vector2Int(2, 0));
-            if (!data.IsWhite)
-                pieceLegalMoves.Add(currentPos + new Vector2Int(-2, 0));
-        }
+            pieceLegalMoves.Add(currentPos + new Vector2Int(2 * direction, 0));
 
         if (canCastleQueenSide)
-        {
-            if (data.IsWhite)
-                pieceLegalMoves.Add(currentPos + new Vector2Int(-2, 0));
-            if (!data.IsWhite)
-                pieceLegalMoves.Add(currentPos + new Vector2Int(2, 0));
-        }
-        _legalMovesByPiece[pieceGO] = pieceLegalMoves;
+            pieceLegalMoves.Add(currentPos + new Vector2Int(-2 * direction, 0));
+
+        _legalMovesByPiece[kingGO] = pieceLegalMoves;
     }
 }
