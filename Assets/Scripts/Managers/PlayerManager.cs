@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         get => colorsAreAssigned;
         private set => colorsAreAssigned = value;
     }
+    public PlayerColor SelfColor { get; private set; }
 
     public static PlayerManager Instance { get; private set; }
 

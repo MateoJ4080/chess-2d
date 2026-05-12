@@ -127,17 +127,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void DisableCastling(bool isWhite)
+    void DisableSelfCastling()
     {
         var p = new Hashtable();
+        var selfColor = PlayerManager.Instance.SelfColor;
 
-        if (isWhite)
+        if (selfColor == PlayerColor.White)
         {
             p["whiteCK"] = false;
             p["whiteCQ"] = false;
         }
-
-        if (!isWhite)
+        else
         {
             p["blackCK"] = false;
             p["blackCQ"] = false;
