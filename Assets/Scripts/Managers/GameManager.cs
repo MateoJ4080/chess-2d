@@ -169,57 +169,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         bool blackCQ = props.ContainsKey("blackCQ") && (bool)props["blackCQ"];
 
         var data = pieceGO.GetComponent<ChessPiece>().PieceData;
-        bool isWhite = data.IsWhite;
+        PlayerColor color = data.Color;
 
-        if (isWhite)
+        var direction = color == PlayerColor.White ? 1 : -1;
+        var availableKingside = color == PlayerColor.White ? whiteCK : blackCK;
+        var availableQueenside = color == PlayerColor.White ? whiteCQ : blackCQ;
+
+        if (side == PieceData.RookSide.King)
         {
-            if (side == PieceData.RookSide.King)
-            {
-                Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
-                Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
+            Vector2Int firstTile = piecePos + new Vector2Int(1, 0) * direction;
+            Vector2Int secondTile = piecePos + new Vector2Int(2, 0) * direction;
 
-                bool castlePathIsThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
-                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) || BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
+            bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
-                return !castlePathIsThreatened && squaresAreEmpty && whiteCK;
-            }
-            if (side == PieceData.RookSide.Queen)
-            {
-
-                Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
-                Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
-
-                bool squaresAreThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
-                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
-
-                return !squaresAreThreatened && squaresAreEmpty && whiteCQ;
-            }
+            return !isPathThreatened && areSquaresEmpty && availableKingside;
         }
-
-        if (!isWhite)
+        if (side == PieceData.RookSide.Queen)
         {
-            if (side == PieceData.RookSide.King)
-            {
-                Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
-                Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
 
-                bool squaresAreThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
-                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+            Vector2Int firstTile = piecePos + new Vector2Int(-1, 0) * direction;
+            Vector2Int secondTile = piecePos + new Vector2Int(-2, 0) * direction;
 
-                return !squaresAreThreatened && squaresAreEmpty && blackCK;
-            }
+            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) || BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
+            bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
-            if (side == PieceData.RookSide.Queen)
-            {
-
-                Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
-                Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
-
-                bool squaresAreThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) && BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
-                bool squaresAreEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
-
-                return !squaresAreThreatened && squaresAreEmpty && blackCQ;
-            }
+            return !isPathThreatened && areSquaresEmpty && availableQueenside;
         }
 
         return false;
