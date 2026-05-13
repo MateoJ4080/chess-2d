@@ -115,15 +115,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Castling   
         if (data.PieceType == "King")
         {
-            DisableCastling(data.IsWhite);
+            DisableSelfCastling();
         }
+
         if (data.PieceType == "Rook")
         {
-            if (data.IsWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.King, data.IsWhite);
-            if (data.IsWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.Queen, data.IsWhite);
+            bool isWhite = data.Color == PlayerColor.White;
 
-            if (!data.IsWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.Queen, data.IsWhite);
-            if (!data.IsWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King, data.IsWhite);
+            if (isWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.King);
+            if (isWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.Queen);
+
+            if (!isWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.Queen);
+            if (!isWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King);
         }
     }
 
@@ -180,7 +183,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Vector2Int firstTile = piecePos + new Vector2Int(1, 0) * direction;
             Vector2Int secondTile = piecePos + new Vector2Int(2, 0) * direction;
 
-            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) || BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
+            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, data.Color) || BoardState.Instance.SquareIsThreatened(secondTile, data.Color);
             bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
             return !isPathThreatened && areSquaresEmpty && availableKingside;
@@ -191,7 +194,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Vector2Int firstTile = piecePos + new Vector2Int(-1, 0) * direction;
             Vector2Int secondTile = piecePos + new Vector2Int(-2, 0) * direction;
 
-            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, pieceGO) || BoardState.Instance.SquareIsThreatened(secondTile, pieceGO);
+            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, data.Color) || BoardState.Instance.SquareIsThreatened(secondTile, data.Color);
             bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
             return !isPathThreatened && areSquaresEmpty && availableQueenside;

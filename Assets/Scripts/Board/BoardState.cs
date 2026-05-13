@@ -62,8 +62,8 @@ public class BoardState : MonoBehaviour
 
                 var data = chessPiece.PieceData;
                 var pieceType = data.PieceType;
-                var direction = (data.IsWhite ^ Instance.IsBoardInverted) ? 1 : -1;
-                var isWhite = data.IsWhite;
+                bool isWhite = data.Color == PlayerColor.White;
+                int direction = (isWhite ^ Instance.IsBoardInverted) ? 1 : -1;
                 var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
 
                 switch (pieceType)
@@ -192,13 +192,13 @@ public class BoardState : MonoBehaviour
     }
 
     // *Might want to move it to BoardUtils later*
-    public bool SquareIsThreatened(Vector2Int pos, GameObject pieceToMove)
+    public bool SquareIsThreatened(Vector2Int pos, PlayerColor color)
     {
-        ChessPiece pieceData = pieceToMove.GetComponent<ChessPiece>();
-        bool isWhite = pieceData.PieceData.IsWhite;
-        Dictionary<Vector2Int, GameObject> targetDict = isWhite ? Instance.BlackThreatenedSquares : Instance.WhiteThreatenedSquares;
+        var threatMap = color == PlayerColor.White
+            ? BlackThreatenedSquares
+            : WhiteThreatenedSquares;
 
-        return targetDict.ContainsKey(pos);
+        return threatMap.ContainsKey(pos);
     }
 
     private void LookForCheck(GameObject activePiece, GameObject targetPiece)

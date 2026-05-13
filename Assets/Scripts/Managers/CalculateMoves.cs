@@ -28,8 +28,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
             PieceData pieceData = piece.GetComponent<ChessPiece>().PieceData;
-            bool isWhite = pieceData.IsWhite;
-
+            bool isWhite = pieceData.Color == PlayerColor.White;
             switch (pieceData.PieceType)
             {
                 case "Pawn":
@@ -244,14 +243,15 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         List<Vector2Int> pieceLegalMoves = new();
         Vector2Int[] kingMoves = _movementData.kingMoves;
         Vector2Int currentPos = Vector2Int.RoundToInt(kingGO.transform.position);
+
         foreach (Vector2Int move in kingMoves)
         {
             Vector2Int pos = currentPos + move;
-            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.Instance.SquareIsThreatened(pos, kingGO))
+            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.Instance.SquareIsThreatened(pos, data.Color))
             {
                 pieceLegalMoves.Add(pos);
             }
-            else if (BoardUtils.PieceIsOpponent(pos, kingGO) && !BoardState.Instance.SquareIsThreatened(pos, kingGO))
+            else if (BoardUtils.PieceIsOpponent(pos, kingGO) && !BoardState.Instance.SquareIsThreatened(pos, data.Color))
             {
                 pieceLegalMoves.Add(pos);
             }
