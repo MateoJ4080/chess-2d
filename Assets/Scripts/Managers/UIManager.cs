@@ -295,9 +295,6 @@ public class UIManager : MonoBehaviourPunCallbacks
             case GameResult.Draw:
                 _matchResult.text = "Draw";
                 break;
-            case GameResult.Stalemate:
-                _matchResult.text = "Stalemate";
-                break;
         }
     }
 }

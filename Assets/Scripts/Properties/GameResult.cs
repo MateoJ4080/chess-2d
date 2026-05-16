@@ -4,5 +4,4 @@ public enum GameResult
     Win,
     Lose,
     Draw,
-    Stalemate
 }
