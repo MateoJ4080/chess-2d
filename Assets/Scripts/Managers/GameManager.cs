@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Checkmate,
         Resign
     }
+
     public PlayerColor CurrentTurn { get; private set; }
     public GameState State { get; private set; }
 
@@ -98,7 +99,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (!roomProps.ContainsKey("Turn") || !playerProps.ContainsKey("Color"))
             return false;
 
-        return (string)roomProps["Turn"] == (string)playerProps["Color"];
+        PlayerColor currentTurn = (PlayerColor)(int)roomProps["Turn"];
+        PlayerColor myColor = (PlayerColor)(int)playerProps["Color"];
+
+        return currentTurn == myColor;
     }
 
     public void SwitchTurn()
@@ -110,11 +114,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
-    public static void AssignFirstTurnWhite()
+    public void AssignFirstTurnWhite()
     {
-        Hashtable turnProps = new() { { "Turn", "White" } };
+        Hashtable turnProps = new() { { "Turn", PlayerColor.White } };
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
+
     public void OnPieceMovedBySelf(GameObject piece, Vector2Int from)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;

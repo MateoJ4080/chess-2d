@@ -59,11 +59,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         bool firstIsWhite = Random.value < 0.5f;
 
         Hashtable p1props = new();
-        p1props["Color"] = firstIsWhite ? "White" : "Black";
+        p1props["Color"] = (int)(firstIsWhite ? PlayerColor.White : PlayerColor.Black);
         players[0].SetCustomProperties(p1props);
 
         Hashtable p2props = new();
-        p2props["Color"] = firstIsWhite ? "Black" : "White";
+        p2props["Color"] = (int)(firstIsWhite ? PlayerColor.Black : PlayerColor.White);
         players[1].SetCustomProperties(p2props);
 
         // Set room property to indicate colors are assigned
@@ -79,6 +79,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey("ColorsAssigned"))
         {
             colorsAreAssigned = (bool)propertiesThatChanged["ColorsAssigned"];
+            Hashtable p = PhotonNetwork.CurrentRoom.CustomProperties;
         }
     }
 
@@ -92,20 +93,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     // Debug method:
 
     // Hashtable p1props = new();
-    //     p1props["Color"] = "Black";
+    //     p1props["Color"] = PlayerColor.Black;
     //     players[0].SetCustomProperties(p1props);
 
     //     Hashtable p2props = new();
-    //     p2props["Color"] = "White";
+    //     p2props["Color"] = "PlayerColor.White";
     //     players[1].SetCustomProperties(p2props);
 
     // Normal method:
 
     // Hashtable p1props = new();
-    //     p1props["Color"] = firstIsWhite ? "White" : "Black";
+    //     p1props["Color"] = firstIsWhite ? "PlayerColor.White" : "PlayerColor.Black";
     //     players[0].SetCustomProperties(p1props);
 
     //     Hashtable p2props = new();
-    //     p2props["Color"] = firstIsWhite ? "Black" : "White";
+    //     p2props["Color"] = firstIsWhite ? "PlayerColor.Black" : "PlayerColor.White";
     //     players[1].SetCustomProperties(p2props);
 }
