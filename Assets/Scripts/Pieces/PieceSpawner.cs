@@ -50,7 +50,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
     {
         if (spawned)
         {
-            Debug.Log("Boolean spawned is already in true");
+            Debug.Log("Boolean spawned is already true");
             return;
         }
 
@@ -95,6 +95,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
         GameManager.Instance.PiecesAreSpawned = true;
 
         CalculateMoves.Instance.CalculateAllMoves();
-        GameManager.AssignFirstTurnWhite();
+        GameManager.Instance.AssignFirstTurnWhite();
     }
 }
