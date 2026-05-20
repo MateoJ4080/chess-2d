@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: White_Queen
   m_EditorClassIdentifier: 
-  pieceType: Queen
-  pieceName: White Queen
-  isWhite: 1
-  prefab: {fileID: 5085635855871345859, guid: 3711e879b90a7c949913d0ba9b297c08, type: 3}
-  initialPositions:
+  _pieceType: Queen
+  _pieceName: 
+  _color: 0
+  _prefab: {fileID: 5085635855871345859, guid: 3711e879b90a7c949913d0ba9b297c08, type: 3}
+  _initialPositions:
   - {x: 3, y: 0}

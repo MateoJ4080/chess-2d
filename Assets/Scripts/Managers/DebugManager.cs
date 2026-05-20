@@ -16,16 +16,16 @@ public class DebugManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    [ContextMenu("Test Ending Win")]
+    [ContextMenu("Test Ending - Win")]
     void TestEndingGameWin()
     {
-        GameManager.Instance.OnGameEnded(GameResult.Win, true);
+        GameManager.Instance.TriggerGameOver(GameResult.Win, GameManager.GameOverReason.Checkmate);
     }
 
-    [ContextMenu("Test Ending Lose")]
+    [ContextMenu("Test Ending - Lose")]
     void TestEndingGameLose()
     {
-        GameManager.Instance.OnGameEnded(GameResult.Lose, false);
+        GameManager.Instance.TriggerGameOver(GameResult.Lose, GameManager.GameOverReason.Checkmate);
     }
 
     public void ToggleDebugMode()

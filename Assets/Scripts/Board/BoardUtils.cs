@@ -16,8 +16,8 @@ public static class BoardUtils
             GameObject pieceToCapture = GetPieceAt(position);
             if (movedPiece != null && pieceToCapture != null)
             {
-                bool movedPieceColor = movedPiece.GetComponent<ChessPiece>().PieceData.IsWhite;
-                bool capturedPieceColor = pieceToCapture.GetComponent<ChessPiece>().PieceData.IsWhite;
+                var movedPieceColor = movedPiece.GetComponent<ChessPiece>().PieceData.Color;
+                var capturedPieceColor = pieceToCapture.GetComponent<ChessPiece>().PieceData.Color;
 
                 return movedPieceColor != capturedPieceColor;
             }
@@ -41,14 +41,8 @@ public static class BoardUtils
 
     public static bool PlayerIsThisColor(GameObject piece)
     {
-        if (piece == null) return false;
-
-        string playerColor = PhotonNetwork.LocalPlayer.CustomProperties["Color"] as string;
-        bool isWhite = playerColor == "White";
-
         var pieceData = piece.GetComponent<ChessPiece>().PieceData;
-
-        return pieceData.IsWhite == isWhite;
+        return pieceData.Color == PlayerManager.Instance.SelfColor;
     }
 
     public static void RefreshBoardState(Vector2Int from, Vector2Int to, GameObject piece)
@@ -61,8 +55,9 @@ public static class BoardUtils
         BoardState.Instance.UpdateThreatenedSquares();
         CalculateMoves.Instance.CalculateAllMoves();
 
-        var pieceData = piece.GetComponent<ChessPiece>().PieceData;
-        BoardState.Instance.EvaluateEndgameState(!pieceData.IsWhite); // Evaluate new turn player movements to see if it can move or it's the end of the game
+        var data = piece.GetComponent<ChessPiece>().PieceData;
+        var colorToEvaluate = data.Color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+        BoardState.Instance.EvaluateEndgameState(colorToEvaluate); // Evaluate new turn player movements to see if it can move or it's the end of the game
     }
 
     public static GameObject GetSquareAt(Vector2Int pos)

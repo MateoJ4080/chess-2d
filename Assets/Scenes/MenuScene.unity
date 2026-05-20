@@ -2936,6 +2936,7 @@ MonoBehaviour:
   _isBlackCheckOnceText: {fileID: 2015284245}
   _isBlackCheckTwiceText: {fileID: 1005138430}
   _colorInfoText: {fileID: 173513274}
+  _currentTurnText: {fileID: 1621347309}
 --- !u!4 &538286588
 Transform:
   m_ObjectHideFlags: 0

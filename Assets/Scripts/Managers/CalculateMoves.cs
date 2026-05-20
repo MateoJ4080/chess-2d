@@ -27,24 +27,24 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
-            PieceData pieceData = piece.GetComponent<ChessPiece>().PieceData;
-            bool isWhite = pieceData.Color == PlayerColor.White;
-            switch (pieceData.PieceType)
+            var data = piece.GetComponent<ChessPiece>().PieceData;
+            PlayerColor color = data.Color;
+            switch (data.PieceType)
             {
                 case "Pawn":
-                    CalculatePawnMoves(piece, isWhite);
+                    CalculatePawnMoves(piece, color);
                     break;
                 case "Knight":
-                    CalculateKnightMoves(piece, isWhite);
+                    CalculateKnightMoves(piece, color);
                     break;
                 case "Bishop":
-                    CalculateBishopMoves(piece, isWhite);
+                    CalculateBishopMoves(piece, color);
                     break;
                 case "Rook":
-                    CalculateRookMoves(piece, isWhite);
+                    CalculateRookMoves(piece, color);
                     break;
                 case "Queen":
-                    CalculateQueenMoves(piece, isWhite);
+                    CalculateQueenMoves(piece, color);
                     break;
                 case "King":
                     CalculateKingMoves(piece);
@@ -53,10 +53,11 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         }
     }
 
-    void CalculatePawnMoves(GameObject pawnGO, bool isWhite)
+    void CalculatePawnMoves(GameObject pawnGO, PlayerColor color)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
 
+        bool isWhite = color == PlayerColor.White;
         int direction = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : -1;
         int initialRow = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : 6;
 
@@ -69,7 +70,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
         List<Vector2Int> pieceLegalMoves = new();
 
-        if (!BoardState.Instance.IsKingInCheck(isWhite))
+        if (!BoardState.Instance.IsKingInCheck(color))
         {
             if (BoardUtils.SquareIsEmpty(forward))
                 pieceLegalMoves.Add(forward);
@@ -86,7 +87,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
         else
         {
-            var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+            var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
             foreach (var array in targetDict)
             {
                 if (BoardUtils.SquareIsEmpty(forward) && array.Value.Contains(forward))
@@ -107,9 +108,9 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         _legalMovesByPiece[pawnGO] = pieceLegalMoves;
     }
 
-    void CalculateKnightMoves(GameObject knightGO, bool isWhite)
+    void CalculateKnightMoves(GameObject knightGO, PlayerColor color)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
 
         List<Vector2Int> pieceLegalMoves = new();
         Vector2Int[] knightMoves = _movementData.knightMoves;
@@ -118,14 +119,14 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(knightGO.transform.position) + move;
             if (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, knightGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(isWhite))
+                if (!BoardState.Instance.IsKingInCheck(color))
                 {
                     pieceLegalMoves.Add(pos);
                 }
 
                 else
                 {
-                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
                     foreach (var array in targetDict)
                     {
                         if (!array.Value.Contains(pos)) continue;
@@ -137,9 +138,9 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         _legalMovesByPiece[knightGO] = pieceLegalMoves;
     }
 
-    void CalculateBishopMoves(GameObject bishopGO, bool isWhite)
+    void CalculateBishopMoves(GameObject bishopGO, PlayerColor color)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
 
         List<Vector2Int> pieceLegalMoves = new();
         Vector2Int[] bishopDirections = _movementData.bishopDirections;
@@ -148,7 +149,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(bishopGO.transform.position) + direction;
             while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, bishopGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(isWhite))
+                if (!BoardState.Instance.IsKingInCheck(color))
                 {
                     pieceLegalMoves.Add(pos);
                     if (BoardUtils.PieceIsOpponent(pos, bishopGO)) break;
@@ -156,7 +157,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
                 else
                 {
-                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
                     foreach (var array in targetDict)
                     {
                         if (!array.Value.Contains(pos)) continue;
@@ -170,9 +171,9 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         _legalMovesByPiece[bishopGO] = pieceLegalMoves;
     }
 
-    void CalculateRookMoves(GameObject rookGO, bool isWhite)
+    void CalculateRookMoves(GameObject rookGO, PlayerColor color)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
 
         List<Vector2Int> pieceLegalMoves = new();
         Vector2Int[] rookDirections = _movementData.rookDirections;
@@ -181,7 +182,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(rookGO.transform.position) + direction;
             while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, rookGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(isWhite))
+                if (!BoardState.Instance.IsKingInCheck(color))
                 {
                     pieceLegalMoves.Add(pos);
                     if (BoardUtils.PieceIsOpponent(pos, rookGO)) break;
@@ -189,7 +190,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
                 else
                 {
-                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
                     foreach (var array in targetDict)
                     {
                         if (!array.Value.Contains(pos)) continue;
@@ -203,9 +204,9 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         _legalMovesByPiece[rookGO] = pieceLegalMoves;
     }
 
-    void CalculateQueenMoves(GameObject queenGO, bool isWhite)
+    void CalculateQueenMoves(GameObject queenGO, PlayerColor color)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(isWhite)) return;
+        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
 
         List<Vector2Int> pieceLegalMoves = new();
         Vector2Int[] queenDirections = _movementData.queenDirections;
@@ -214,7 +215,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(queenGO.transform.position) + direction;
             while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, queenGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(isWhite))
+                if (!BoardState.Instance.IsKingInCheck(color))
                 {
                     pieceLegalMoves.Add(pos);
                     if (BoardUtils.PieceIsOpponent(pos, queenGO)) break;
@@ -222,7 +223,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
                 else
                 {
-                    var targetDict = isWhite ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
+                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
                     foreach (var array in targetDict)
                     {
                         if (!array.Value.Contains(pos)) continue;

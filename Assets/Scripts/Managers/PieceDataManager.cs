@@ -41,7 +41,7 @@ public class PieceDataManager : ScriptableObject
         return null;
     }
 
-    // Method to manually initialize if necessary
+    // Forces the manager to load before being accessed elsewhere
     public static void Initialize()
     {
         if (_instance == null)

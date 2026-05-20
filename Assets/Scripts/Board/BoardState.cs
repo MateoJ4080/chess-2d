@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -206,21 +204,21 @@ public class BoardState : MonoBehaviour
         var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
         var targetData = targetPiece.GetComponent<ChessPiece>().PieceData;
 
-        if (targetData.PieceType == "King" && targetData.IsWhite != activeData.IsWhite)
+        if (targetData.PieceType == "King" && targetData.Color != activeData.Color)
         {
             var from = Vector2Int.RoundToInt(activePiece.transform.position);
             var to = Vector2Int.RoundToInt(targetPiece.transform.position);
 
-            BuildCheckPath(from, to, activeData.IsWhite);
+            BuildCheckPath(from, to, activeData.Color);
 
-            if (targetData.IsWhite)
+            if (targetData.Color == PlayerColor.Black)
                 _whiteChecks++;
             else
                 _blackChecks++;
         }
     }
 
-    private void BuildCheckPath(Vector2Int from, Vector2Int to, bool isWhite)
+    private void BuildCheckPath(Vector2Int from, Vector2Int to, PlayerColor byColor)
     {
         var activePiece = BoardUtils.GetPieceAt(from);
         var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
@@ -237,7 +235,7 @@ public class BoardState : MonoBehaviour
         }
         else direction = delta;
 
-        var targetDict = isWhite ? WhiteCheckPaths : BlackCheckPaths;
+        var targetDict = byColor == PlayerColor.White ? WhiteCheckPaths : BlackCheckPaths;
 
         List<Vector2Int> checkPath = new();
 
@@ -275,7 +273,7 @@ public class BoardState : MonoBehaviour
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
-    public bool IsKingInCheck(bool isWhite)
+    public bool IsKingInCheck(PlayerColor color)
     {
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
@@ -283,10 +281,12 @@ public class BoardState : MonoBehaviour
                 continue;
 
             var data = piece.GetComponent<ChessPiece>().PieceData;
-            if (data.PieceType != "King" || data.IsWhite != isWhite)
+
+            if (data.PieceType != "King" || data.Color != color)
                 continue;
 
             Vector2Int kingPos = Vector2Int.RoundToInt(piece.transform.position);
+            bool isWhite = color == PlayerColor.White;
             var threats = isWhite ? BlackThreatenedSquares : WhiteThreatenedSquares;
             return threats.ContainsKey(kingPos);
         }
@@ -294,9 +294,9 @@ public class BoardState : MonoBehaviour
         return false;
     }
 
-    public bool IsKingInDoubleCheck(bool isWhite)
+    public bool IsKingInDoubleCheck(PlayerColor color)
     {
-        var key = isWhite ? "whiteInCheckTwice" : "blackInCheckTwice";
+        var key = color == PlayerColor.White ? "whiteInCheckTwice" : "blackInCheckTwice";
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
             return (bool)value;
@@ -304,7 +304,7 @@ public class BoardState : MonoBehaviour
         return false;
     }
 
-    public void EvaluateEndgameState(bool isWhite)
+    public void EvaluateEndgameState(PlayerColor colorEvaluated)
     {
         foreach (var legalMoves in CalculateMoves.Instance.LegalMovesByPiece)
         {
@@ -314,17 +314,19 @@ public class BoardState : MonoBehaviour
             var pieceData = legalMoves.Key.GetComponent<ChessPiece>().PieceData;
 
             // Only consider the side being evaluated
-            if (pieceData.IsWhite != isWhite)
+            if (pieceData.Color != colorEvaluated)
                 continue;
 
+            // If color evaluated has any legal move return, since it means the game's not over yet
             if (legalMoves.Value.Count > 0)
             {
                 return;
             }
         }
-        bool inCheck = IsKingInCheck(isWhite);
 
-        GameManager.Instance.OnGameEnded(inCheck ? GameResult.Win : GameResult.Stalemate, isWhite);
+        // If all conditions passed, it's game over because 'colorEvaluated' can't move
+        bool inCheck = IsKingInCheck(colorEvaluated);
+        GameManager.Instance.TriggerGameOver(inCheck ? GameResult.Win : GameResult.Draw, inCheck ? GameManager.GameOverReason.Checkmate : GameManager.GameOverReason.Stalemate);
     }
 
     // Debug

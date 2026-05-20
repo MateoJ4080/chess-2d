@@ -11,6 +11,8 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
     {
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
         {
+            PlayerManager.Instance.SetSelfColor((PlayerColor)colorObj);
+
             PlayerColor color = (PlayerColor)colorObj;
             if (color == PlayerColor.Black)
                 BoardState.Instance.IsBoardInverted = true;
@@ -21,7 +23,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             UIManager.Instance.UpdateColorText("not found");
 
-            Debug.LogError("PlayerManager: Player color not set");
+            Debug.LogError("PlayerManager: Player color not found in room properties");
         }
 
         PieceDataManager.Initialize();
@@ -30,7 +32,8 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     void SetupPiece()
     {
-        if (_piecesContainer == null) _piecesContainer = GameObject.FindGameObjectWithTag("PiecesContainer").transform; string pieceDataName = (string)photonView.InstantiationData[0];
+        if (_piecesContainer == null) _piecesContainer = GameObject.FindGameObjectWithTag("PiecesContainer").transform;
+        string pieceDataName = (string)photonView.InstantiationData[0];
         if (pieceDataName == null) Debug.Log("pieceDataName is null");
 
         PieceData pieceData = PieceDataManager.Instance.GetPieceDataByName(pieceDataName);

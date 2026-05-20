@@ -8,14 +8,11 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
     [SerializeField] private PieceData[] _piecesData; // Array containing the scriptable object of each piece. Set in the inspector
-    [SerializeField] private TextMeshProUGUI _currentTurnTMP;
 
     private bool spawned = false;
 
     IEnumerator Start()
     {
-        var turnObj = GameObject.Find("TurnInfoText");
-        if (turnObj != null) _currentTurnTMP = turnObj.GetComponent<TextMeshProUGUI>();
 
         PieceDataManager.Initialize();
 
@@ -36,18 +33,10 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
         TrySpawnPieces();
     }
 
-    // Note: Move out of Update asap
-    void Update()
-    {
-        var props = PhotonNetwork.CurrentRoom?.CustomProperties;
-        if (_currentTurnTMP != null && props != null && props.ContainsKey("Turn") && props["Turn"] != null)
-        {
-            _currentTurnTMP.text = $"Turn: {props["Turn"]}";
-        }
-    }
-
     void TrySpawnPieces()
     {
+        if (DebugManager.IsDebugMode) Debug.Log("TrySpawnPieces() called");
+
         if (spawned)
         {
             Debug.Log("Boolean spawned is already true");
@@ -72,6 +61,8 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
     public void SpawnPieces()
     {
+        if (DebugManager.IsDebugMode) Debug.Log("SpawnPieces() called");
+
         foreach (var pieceData in _piecesData)
         {
             foreach (var pos in pieceData.InitialPositions)

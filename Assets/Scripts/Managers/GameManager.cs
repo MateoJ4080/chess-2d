@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Resign
     }
 
-    public PlayerColor CurrentTurn { get; private set; }
+    public PlayerColor CurrentTurn { get; private set; } = PlayerColor.White;
     public GameState State { get; private set; }
 
     private bool piecesAreSpawned = false;
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
-    public bool ItsMyTurn()
+    public bool IsMyTurn()
     {
         var roomProps = PhotonNetwork.CurrentRoom.CustomProperties;
         var playerProps = PhotonNetwork.LocalPlayer.CustomProperties;
@@ -107,16 +107,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SwitchTurn()
     {
-        CurrentTurn = PhotonNetwork.CurrentRoom.CustomProperties["Turn"] as string == PlayerColor.White.ToString() ? PlayerColor.Black : PlayerColor.White;
+        PlayerColor currentTurn = (PlayerColor)(int)PhotonNetwork.CurrentRoom.CustomProperties["Turn"];
+        CurrentTurn = currentTurn == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
 
-        // Assign new turn to room properties
-        Hashtable turnProps = new() { { "Turn", CurrentTurn.ToString() } };
+        Hashtable turnProps = new() { { "Turn", (int)CurrentTurn } };
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
     public void AssignFirstTurnWhite()
     {
-        Hashtable turnProps = new() { { "Turn", PlayerColor.White } };
+        Hashtable turnProps = new() { { "Turn", (int)PlayerColor.White } };
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
@@ -161,11 +161,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(p);
     }
 
-    void DisableRookSide(PieceData.RookSide side, bool isWhite)
+    void DisableRookSide(PieceData.RookSide side)
     {
         var p = new Hashtable();
+        var selfColor = PlayerColor.White;
 
-        if (isWhite) p[side == PieceData.RookSide.King ? "whiteCK" : "whiteCQ"] = false;
+        if (selfColor == PlayerColor.White) p[side == PieceData.RookSide.King ? "whiteCK" : "whiteCQ"] = false;
         else p[side == PieceData.RookSide.King ? "blackCK" : "blackCQ"] = false;
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(p);
@@ -244,13 +245,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             var state = (string)properties["GameState"];
             UpdateGameState((GameState)System.Enum.Parse(typeof(GameState), state));
         }
-    }
-
-    public void OnGameEnded(GameResult result, bool turn)
-    {
-        SetGameStateNetwork(GameState.GameOver);
-        UIManager.Instance.SetResultText(result);
-        UIManager.Instance.ShowMatchEndPanel();
+        if (properties.ContainsKey("Turn"))
+        {
+            CurrentTurn = (PlayerColor)properties["Turn"];
+        }
     }
 
     public void BackToMenu()
@@ -259,5 +257,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         UpdateGameState(GameState.MainMenu);
         SceneManager.LoadScene("MenuScene");
+    }
+
+    public void TriggerGameOver(GameResult result, GameOverReason reason)
+    {
+        SetGameStateNetwork(GameState.GameOver);
+        UpdateGameState(GameState.GameOver);
+
     }
 }

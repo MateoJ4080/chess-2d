@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
     [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
     [SerializeField] private TextMeshProUGUI _colorInfoText;
+    [SerializeField] private TextMeshProUGUI _currentTurnText;
 
     public static UIManager Instance { get; private set; }
 
@@ -150,7 +151,12 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void ShowPlayerPanelsParent() => _playerPanelsParent.SetActive(true);
     public void HidePlayerPanelsParent() => _playerPanelsParent.SetActive(false);
 
-    public void ShowMatchEndPanel() => _matchEndPanel.SetActive(true);
+    public void ShowMatchEndPanel(GameResult result, GameManager.GameOverReason reason)
+    {
+        SetResultText(result);
+        _matchEndPanel.SetActive(true);
+    }
+
     public void HideMatchEndPanel() => _matchEndPanel.SetActive(false);
 
     public void ShowTopButtonsPanel() => _topButtonsPanel.SetActive(true);
@@ -221,6 +227,11 @@ public class UIManager : MonoBehaviourPunCallbacks
 
         if (props.TryGetValue("blackInCheckTwice", out value))
             _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
+
+        if (_currentTurnText != null)
+        {
+            _currentTurnText.text = $"Turn: {GameManager.Instance.CurrentTurn}";
+        }
     }
 
     public override void OnJoinedLobby()
@@ -289,8 +300,9 @@ public class UIManager : MonoBehaviourPunCallbacks
                 _matchResultEmoji.SetActive(true);
                 break;
             case GameResult.Lose:
-                string color = PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj) ? (string)colorObj : "undefined";
-                _matchResult.text = $"{color} Won";
+                PlayerColor selfColor = PlayerManager.Instance.SelfColor;
+                PlayerColor enemyColor = selfColor == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+                _matchResult.text = $"{enemyColor} Won";
                 break;
             case GameResult.Draw:
                 _matchResult.text = "Draw";

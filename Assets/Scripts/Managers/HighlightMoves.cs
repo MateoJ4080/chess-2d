@@ -26,7 +26,7 @@ public class HighlightMoves : MonoBehaviour
     {
         if (pieceGO == null) return;
 
-        if (BoardUtils.PlayerIsThisColor(pieceGO) && GameManager.Instance.ItsMyTurn())
+        if (BoardUtils.PlayerIsThisColor(pieceGO) && GameManager.Instance.IsMyTurn())
             ShowPieceLegalMoves(pieceGO);
     }
 

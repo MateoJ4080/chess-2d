@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
   m_Name: Black_Bishop
   m_EditorClassIdentifier: 
-  pieceType: Bishop
-  pieceName: Black Bishop
-  isWhite: 0
-  prefab: {fileID: 6883143649913806113, guid: 69e91aaef04a16145b277a745ec1b972, type: 3}
-  initialPositions:
+  _pieceType: Bishop
+  _pieceName: 
+  _color: 1
+  _prefab: {fileID: 6883143649913806113, guid: 69e91aaef04a16145b277a745ec1b972, type: 3}
+  _initialPositions:
   - {x: 2, y: 7}
   - {x: 5, y: 7}

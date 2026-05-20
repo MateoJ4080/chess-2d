@@ -88,6 +88,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = text;
     }
 
+    public void SetSelfColor(PlayerColor color)
+    {
+        SelfColor = color;
+    }
+
     // Debug colors (give each player a specific color)
 
     // Debug method:
