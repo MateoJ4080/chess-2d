@@ -45,7 +45,7 @@ public class TimerManager : MonoBehaviourPun
         double currentSelf = _selfTime;
         double currentOpponent = _opponentTime;
 
-        if (GameManager.Instance.ItsMyTurn())
+        if (GameManager.Instance.IsMyTurn())
             currentSelf = _selfTime - _lastTurnDuration;
         else
             currentOpponent = _opponentTime - _lastTurnDuration;
