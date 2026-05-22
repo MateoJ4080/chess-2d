@@ -151,13 +151,13 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void ShowPlayerPanelsParent() => _playerPanelsParent.SetActive(true);
     public void HidePlayerPanelsParent() => _playerPanelsParent.SetActive(false);
 
-    public void ShowMatchEndPanel(GameResult result, GameManager.GameOverReason reason)
+    public void ShowGameOverPanel(GameResult result, GameManager.GameOverReason reason)
     {
         SetResultText(result);
         _matchEndPanel.SetActive(true);
     }
 
-    public void HideMatchEndPanel() => _matchEndPanel.SetActive(false);
+    public void HideGameOverPanel() => _matchEndPanel.SetActive(false);
 
     public void ShowTopButtonsPanel() => _topButtonsPanel.SetActive(true);
     public void HideTopButtonsPanel() => _topButtonsPanel.SetActive(false);
