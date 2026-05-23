@@ -29,7 +29,8 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     [Header("Match End Panel")]
     [SerializeField] private GameObject _matchEndPanel;
-    [SerializeField] private TextMeshProUGUI _matchResult;
+    [SerializeField] private TextMeshProUGUI _matchResultText;
+    [SerializeField] private TextMeshProUGUI _matchResultReasonText;
     [SerializeField] private GameObject _matchResultEmoji;
 
     [Header("Top Buttons")]
@@ -153,7 +154,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowGameOverPanel(GameResult result, GameOverReason reason)
     {
-        SetResultText(result);
+        SetResultText(result, reason);
         _matchEndPanel.SetActive(true);
     }
 
@@ -296,23 +297,32 @@ public class UIManager : MonoBehaviourPunCallbacks
         switch (result)
         {
             case GameResult.None:
-                _matchResult.text = "No Result";
+                _matchResultText.text = "No Result";
                 break;
             case GameResult.Win:
-                _matchResult.text = "You Win!";
+                _matchResultText.text = "You Win!";
                 _matchResultEmoji.SetActive(true);
                 break;
             case GameResult.Lose:
                 PlayerColor selfColor = PlayerManager.Instance.SelfColor;
                 PlayerColor enemyColor = selfColor == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-                _matchResult.text = $"{enemyColor} Won";
+                _matchResultText.text = $"{enemyColor} Won";
                 break;
             case GameResult.Draw:
-                _matchResult.text = "Draw";
+                _matchResultText.text = "Draw";
                 break;
             default:
-                _matchResult.text = "Unknown Result";
+                _matchResultText.text = "Unknown Result";
                 break;
         }
+
+        _matchResultReasonText.text = reason switch
+        {
+            GameOverReason.Checkmate => "By Checkmate",
+            GameOverReason.Resign => "By Resign",
+            GameOverReason.Stalemate => "By Stalemate",
+            GameOverReason.Timeout => "By Timeout",
+            _ => "Unknown Reason"
+        };
     }
 }

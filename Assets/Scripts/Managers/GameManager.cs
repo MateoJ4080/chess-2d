@@ -251,10 +251,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("MenuScene");
     }
 
-    public void TriggerGameOver(GameResult result, GameOverReason reason)
+    public void TriggerGameOver(GameResult selfResult, GameOverReason reason)
     {
-        SetGameStateNetwork(GameState.GameOver);
         UpdateGameState(GameState.GameOver);
-
+        SetGameStateNetwork(GameState.GameOver);
+        UIManager.Instance.ShowGameOverPanel(selfResult, reason);
     }
 }
