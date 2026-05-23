@@ -325,8 +325,13 @@ public class BoardState : MonoBehaviour
         }
 
         // If all conditions passed, it's game over because 'colorEvaluated' can't move
-        GameManager.Instance.TriggerGameOver(inCheck ? GameResult.Win : GameResult.Draw, inCheck ? GameManager.GameOverReason.Checkmate : GameManager.GameOverReason.Stalemate);
         bool inCheck = IsKingInCheck(turnColor);
+        if (inCheck)
+        {
+            var selfResult = turnColor == PlayerManager.Instance.SelfColor ? GameResult.Lose : GameResult.Win;
+            GameManager.Instance.TriggerGameOver(selfResult, GameOverReason.Checkmate);
+        }
+        else GameManager.Instance.TriggerGameOver(GameResult.Draw, GameOverReason.Stalemate);
     }
 
     // Debug
