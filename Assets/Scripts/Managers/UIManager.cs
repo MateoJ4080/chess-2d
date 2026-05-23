@@ -295,6 +295,9 @@ public class UIManager : MonoBehaviourPunCallbacks
         _matchResultEmoji.SetActive(false);
         switch (result)
         {
+            case GameResult.None:
+                _matchResult.text = "No Result";
+                break;
             case GameResult.Win:
                 _matchResult.text = "You Win!";
                 _matchResultEmoji.SetActive(true);
@@ -306,6 +309,9 @@ public class UIManager : MonoBehaviourPunCallbacks
                 break;
             case GameResult.Draw:
                 _matchResult.text = "Draw";
+                break;
+            default:
+                _matchResult.text = "Unknown Result";
                 break;
         }
     }
