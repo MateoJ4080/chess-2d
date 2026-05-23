@@ -57,7 +57,7 @@ public static class BoardUtils
 
         var data = piece.GetComponent<ChessPiece>().PieceData;
         var colorToEvaluate = data.Color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-        BoardState.Instance.EvaluateEndgameState(colorToEvaluate); // Evaluate new turn player movements to see if it can move or it's the end of the game
+        BoardState.Instance.CheckGameOver(colorToEvaluate); // Evaluate new turn player movements to see if it can move or it's the end of the game
     }
 
     public static GameObject GetSquareAt(Vector2Int pos)

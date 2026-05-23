@@ -304,7 +304,7 @@ public class BoardState : MonoBehaviour
         return false;
     }
 
-    public void EvaluateEndgameState(PlayerColor colorEvaluated)
+    public void CheckGameOver(PlayerColor turnColor)
     {
         foreach (var legalMoves in CalculateMoves.Instance.LegalMovesByPiece)
         {
@@ -314,7 +314,7 @@ public class BoardState : MonoBehaviour
             var pieceData = legalMoves.Key.GetComponent<ChessPiece>().PieceData;
 
             // Only consider the side being evaluated
-            if (pieceData.Color != colorEvaluated)
+            if (pieceData.Color != turnColor)
                 continue;
 
             // If color evaluated has any legal move return, since it means the game's not over yet
@@ -325,8 +325,8 @@ public class BoardState : MonoBehaviour
         }
 
         // If all conditions passed, it's game over because 'colorEvaluated' can't move
-        bool inCheck = IsKingInCheck(colorEvaluated);
         GameManager.Instance.TriggerGameOver(inCheck ? GameResult.Win : GameResult.Draw, inCheck ? GameManager.GameOverReason.Checkmate : GameManager.GameOverReason.Stalemate);
+        bool inCheck = IsKingInCheck(turnColor);
     }
 
     // Debug
