@@ -19,13 +19,13 @@ public class DebugManager : MonoBehaviour
     [ContextMenu("Test Ending - Win")]
     void TestEndingGameWin()
     {
-        GameManager.Instance.TriggerGameOver(GameResult.Win, GameManager.GameOverReason.Checkmate);
+        GameManager.Instance.TriggerGameOver(GameResult.Win, GameOverReason.Checkmate);
     }
 
     [ContextMenu("Test Ending - Lose")]
     void TestEndingGameLose()
     {
-        GameManager.Instance.TriggerGameOver(GameResult.Lose, GameManager.GameOverReason.Checkmate);
+        GameManager.Instance.TriggerGameOver(GameResult.Lose, GameOverReason.Checkmate);
     }
 
     public void ToggleDebugMode()

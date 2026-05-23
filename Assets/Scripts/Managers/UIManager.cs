@@ -151,7 +151,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     public void ShowPlayerPanelsParent() => _playerPanelsParent.SetActive(true);
     public void HidePlayerPanelsParent() => _playerPanelsParent.SetActive(false);
 
-    public void ShowGameOverPanel(GameResult result, GameManager.GameOverReason reason)
+    public void ShowGameOverPanel(GameResult result, GameOverReason reason)
     {
         SetResultText(result);
         _matchEndPanel.SetActive(true);
@@ -290,7 +290,7 @@ public class UIManager : MonoBehaviourPunCallbacks
         return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    public void SetResultText(GameResult result)
+    public void SetResultText(GameResult result, GameOverReason reason)
     {
         _matchResultEmoji.SetActive(false);
         switch (result)

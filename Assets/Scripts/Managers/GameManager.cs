@@ -14,14 +14,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameOver
     }
 
-    public enum GameOverReason
-    {
-        Stalemate,
-        Timeout,
-        Checkmate,
-        Resign
-    }
-
     public PlayerColor CurrentTurn { get; private set; } = PlayerColor.White;
     public GameState State { get; private set; }
 
