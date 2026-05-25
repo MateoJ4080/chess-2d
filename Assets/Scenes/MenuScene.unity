@@ -8638,7 +8638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b172c5ec307df47a35beedf2bce274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  BoardHeightPercentage: 0.85
   finalOrthographicSize: 0
 --- !u!1 &1279305851
 GameObject:
@@ -8725,7 +8724,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideMatchEndPanel
+        m_MethodName: HideGameOverPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
