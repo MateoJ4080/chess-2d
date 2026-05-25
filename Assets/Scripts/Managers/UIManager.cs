@@ -105,13 +105,12 @@ public class UIManager : MonoBehaviourPunCallbacks
         if (scene.name == "MenuScene")
         {
             ShowMenuPanel();
-            _resignTopButton.SetActive(false);
+            HideResignTopButton();
         }
-
         if (scene.name == "GameScene")
         {
             _loadingPanel.SetActive(false);
-            _resignTopButton.SetActive(true);
+            ShowResignTopButton();
         }
     }
 
@@ -165,6 +164,9 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowResignPanel() => _resignPanel.SetActive(true);
     public void HideResignPanel() => _resignPanel.SetActive(false);
+
+    public void ShowResignTopButton() => _resignTopButton.SetActive(true);
+    public void HideResignTopButton() => _resignTopButton.SetActive(false);
 
     public void ShowMatchList()
     {
