@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         var roomProps = PhotonNetwork.CurrentRoom.CustomProperties;
         var playerProps = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        if (!roomProps.ContainsKey("Turn") || !playerProps.ContainsKey("Color"))
+        if (!roomProps.ContainsKey("Turn") || !playerProps.ContainsKey("Color") || Instance.IsGameOver())
             return false;
 
         PlayerColor currentTurn = (PlayerColor)(int)roomProps["Turn"];
@@ -257,5 +257,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         UpdateGameState(GameState.GameOver);
         SetGameStateNetwork(GameState.GameOver);
         UIManager.Instance.ShowGameOverPanel(selfResult, reason);
+    }
+
+    public bool IsGameOver()
+    {
+        return State == GameState.GameOver;
     }
 }
