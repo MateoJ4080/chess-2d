@@ -8638,7 +8638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b172c5ec307df47a35beedf2bce274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  boardHeightPercentage: 0.85
+  BoardHeightPercentage: 0.85
   finalOrthographicSize: 0
 --- !u!1 &1279305851
 GameObject:

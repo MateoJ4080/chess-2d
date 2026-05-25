@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
-    public float boardHeightPercentage = 0.85f; // "Height" percentage because it's only meant to make top and bottom panels fit in wide resolutions. Not necessary in tall resolutions as the panels will easily fit
+    public float BoardHeightPercentage { get; private set; } = 0.85f; // "Height" percentage because it's only meant to make top and bottom panels fit in wide resolutions. Not necessary in tall resolutions as the panels will easily fit
     private Camera _cam;
     private ScreenOrientation _lastOrientation;
     public float finalOrthographicSize;
@@ -45,7 +45,7 @@ public class CameraController : MonoBehaviour
 
         float screenAspect = (float)Screen.width / Screen.height;
 
-        float sizeByHeight = boardHeight / 2f / boardHeightPercentage;
+        float sizeByHeight = boardHeight / 2f / BoardHeightPercentage;
         float sizeByWidth = boardWidth / (2f * screenAspect);
 
         finalOrthographicSize = Mathf.Max(sizeByHeight, sizeByWidth);

@@ -27,7 +27,7 @@ public class PlayerPanelsScaler : MonoBehaviour
     {
         if (_boardContainer != null)
         {
-            float rawBoardPercentage = CameraController.Instance.boardHeightPercentage;
+            float rawBoardPercentage = CameraController.Instance.BoardHeightPercentage;
 
             float parentRectWidth = ((RectTransform)_topPanel.parent).rect.width;
             float parentRectHeight = ((RectTransform)_topPanel.parent).rect.height;
