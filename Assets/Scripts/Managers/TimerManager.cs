@@ -54,7 +54,12 @@ public class TimerManager : MonoBehaviourPun
         currentOpponent = System.Math.Max(0, currentOpponent);
 
         if (currentSelf <= 0 || currentOpponent <= 0)
+        {
             GameManager.Instance.UpdateGameState(GameManager.GameState.GameOver);
+            var selfResult = currentSelf <= 0 ? GameResult.Lose : GameResult.Win;
+            UIManager.Instance.ShowGameOverPanel(selfResult, GameOverReason.Timeout);
+        }
+
 
         UIManager.Instance.UpdateTimers(currentSelf, currentOpponent);
     }
