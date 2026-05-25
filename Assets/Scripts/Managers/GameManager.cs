@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             case GameState.InGame:
                 break;
             case GameState.GameOver:
+                UIManager.Instance.HideResignTopButton();
                 break;
         }
 
