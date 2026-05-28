@@ -78,11 +78,6 @@ public class TimerManager : MonoBehaviourPun
         _lastTurnStartTime = PhotonNetwork.Time;
     }
 
-    public void SyncTurnTimerRPC(double duration)
-    {
-        GetComponent<PhotonView>().RPC("SyncTimer", RpcTarget.Others, duration);
-    }
-
     [PunRPC]
     void SyncTimer(double duration)
     {
