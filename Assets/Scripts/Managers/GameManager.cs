@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Application.runInBackground = true;
     }
 
     public void UpdateGameState(GameState newState)
@@ -53,8 +54,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 UIManager.Instance.HideResignTopButton();
                 break;
         }
-
-        Debug.Log($"GameState updated to {State}");
     }
 
     public void SetGameStateNetwork(GameState newState)

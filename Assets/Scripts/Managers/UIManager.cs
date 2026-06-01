@@ -85,7 +85,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         ShowMenuPanel();
         if (!PhotonNetwork.InLobby) _playButton.interactable = false;
-        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnEnable()

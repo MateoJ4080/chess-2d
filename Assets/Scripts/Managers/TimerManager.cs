@@ -1,7 +1,9 @@
+using System.Collections;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
-public class TimerManager : MonoBehaviourPun
+public class TimerManager : MonoBehaviourPunCallbacks
 {
     public static TimerManager Instance { get; private set; }
 
@@ -11,27 +13,30 @@ public class TimerManager : MonoBehaviourPun
     private double _lastTurnStartTime;
     private double _lastTurnDuration;
 
-    void Start()
+    double _matchTime = 180;
+    bool _started;
+    bool _startTimeAssigned;
+
+    void Awake()
     {
-        StartGame();
+        if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProps.MatchTime, out object value))
+            Debug.LogError("OnJoinedRoom: MatchTime room property not found, assigning default value (180)");
+        else
+            _matchTime = (double)value;
+
+        UIManager.Instance.UpdateTimers(_matchTime, _matchTime);
     }
 
-    void StartGame()
+    IEnumerator Start()
     {
-        double matchTime;
-        _lastTurnStartTime = PhotonNetwork.Time;
+        yield return new WaitUntil(() =>
+            PhotonNetwork.InRoom &&
+            GameManager.Instance.State == GameManager.GameState.InGame);
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProps.MatchTime, out object value)) matchTime = (double)value;
-        else
-        {
-            Debug.LogError("MatchTime room property not found, assigning default value (180)");
-            matchTime = 180.0;
-        }
+        _selfTime = _matchTime;
+        _opponentTime = _matchTime;
 
-        _selfTime = matchTime;
-        _opponentTime = matchTime;
-
-        UIManager.Instance.UpdateTimers(_selfTime, _opponentTime);
+        _started = true;
     }
 
     void Update()
@@ -41,8 +46,13 @@ public class TimerManager : MonoBehaviourPun
 
     public void UpdateTimersAndUI()
     {
-        if (!PhotonNetwork.InRoom) return;
-        if (GameManager.Instance.State != GameManager.GameState.InGame) return;
+        if (!_started || PhotonNetwork.Time == 0) return;
+
+        if (!_startTimeAssigned)
+        {
+            _lastTurnStartTime = PhotonNetwork.Time;
+            _startTimeAssigned = true;
+        }
 
         _lastTurnDuration = PhotonNetwork.Time - _lastTurnStartTime;
 
@@ -63,7 +73,6 @@ public class TimerManager : MonoBehaviourPun
             var selfResult = currentSelf <= 0 ? GameResult.Lose : GameResult.Win;
             UIManager.Instance.ShowGameOverPanel(selfResult, GameOverReason.Timeout);
         }
-
 
         UIManager.Instance.UpdateTimers(currentSelf, currentOpponent);
     }
