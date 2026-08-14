@@ -13,8 +13,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         {
             PlayerManager.Instance.SetSelfColor((PlayerColor)colorObj);
             PlayerColor color = (PlayerColor)colorObj;
-            if (color == PlayerColor.Black)
-                BoardState.Instance.IsBoardInverted = true;
+            BoardState.Instance.IsBoardInverted = color == PlayerColor.Black;
 
             UIManager.Instance.UpdateColorText(color.ToString());
         }
