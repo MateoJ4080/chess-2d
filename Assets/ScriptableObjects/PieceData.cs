@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Chess/PieceData")]
 public class PieceData : ScriptableObject
 {
-    [SerializeField] private string _pieceType; // e.g., "Pawn", "Knight", etc.
+    [SerializeField] private string _pieceType; // e.g "Pawn", "Knight", etc
     [SerializeField] private string _pieceName;
     [SerializeField] private PlayerColor _color;
     [SerializeField] private GameObject _prefab;

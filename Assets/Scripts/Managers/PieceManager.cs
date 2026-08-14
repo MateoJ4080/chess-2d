@@ -41,7 +41,6 @@ public class PieceManager : MonoBehaviour
         int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
         bool isWhite = data.Color == PlayerColor.White;
 
-
         // Castling
         if (data.PieceType == "King")
         {
@@ -51,8 +50,8 @@ public class PieceManager : MonoBehaviour
                 Vector2Int rightRookPos = new(7, 0);
                 GameObject rightRook = BoardUtils.GetPieceAt(rightRookPos);
                 rightRook.transform.position = new(5, 0, 0);
-                MovePiece(rightRookPos, new(5, 0), rightRook);
 
+                MovePiece(rightRookPos, new(5, 0), rightRook);
                 _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID, isWhite);
 
             }
@@ -63,8 +62,8 @@ public class PieceManager : MonoBehaviour
                 Vector2Int leftRookPos = new(0, 0);
                 GameObject leftRook = BoardUtils.GetPieceAt(leftRookPos);
                 leftRook.transform.position = new(3, 0, 0);
-                MovePiece(leftRookPos, new(3, 0), leftRook);
 
+                MovePiece(leftRookPos, new(3, 0), leftRook);
                 _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID, isWhite);
             }
         }

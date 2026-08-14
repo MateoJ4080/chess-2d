@@ -1,35 +1,27 @@
 using System.Collections;
 using Photon.Pun;
-using TMPro;
 using UnityEngine;
 
 public class PieceSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
-    [SerializeField] private PieceData[] _piecesData; // Array containing the scriptable object of each piece. Set in the inspector
+    [SerializeField] private PieceData[] _piecesData;
 
     private bool spawned = false;
 
     IEnumerator Start()
     {
-
         PieceDataManager.Initialize();
 
-        // Avoid both clients assigning colors
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PlayerManager.AssignRandomColors();
-        }
+        if (PhotonNetwork.IsMasterClient) PlayerManager.AssignRandomColors();
 
         yield return new WaitUntil(() =>
             PlayerManager.Instance != null &&
             PlayerManager.Instance.CheckColorsAssigned());
 
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            yield break; // Non-master clients will wait for the master client to spawn pieces
-        }
+        if (!PhotonNetwork.IsMasterClient) yield break;
+
         TrySpawnPieces();
     }
 

@@ -1,4 +1,3 @@
-using Photon.Pun;
 using UnityEngine;
 
 public class Draggable : MonoBehaviour
@@ -6,12 +5,13 @@ public class Draggable : MonoBehaviour
     private Vector3 _offset;
     private bool _isDragging = false;
     private Camera _cam;
-
     private Vector2Int _firstPosition;
+    private SpriteRenderer _renderer;
 
     void Awake()
     {
         _cam = Camera.main;
+        _renderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -22,6 +22,8 @@ public class Draggable : MonoBehaviour
 
     void OnMouseDown()
     {
+        _renderer.sortingOrder = 50;
+
         _isDragging = true;
         _firstPosition = Vector2Int.RoundToInt(transform.position);
         _offset = transform.position - GetMouseWorldPos();
@@ -32,8 +34,9 @@ public class Draggable : MonoBehaviour
 
     void OnMouseUp()
     {
-        _isDragging = false;
+        _renderer.sortingOrder = 5;
 
+        _isDragging = false;
         Vector2Int newPosition = Vector2Int.RoundToInt(transform.position);
         PieceManager.Instance.TryMovePiece(gameObject, _firstPosition, newPosition);
     }

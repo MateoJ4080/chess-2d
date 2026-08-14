@@ -12,7 +12,6 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
         {
             PlayerManager.Instance.SetSelfColor((PlayerColor)colorObj);
-
             PlayerColor color = (PlayerColor)colorObj;
             if (color == PlayerColor.Black)
                 BoardState.Instance.IsBoardInverted = true;
@@ -22,7 +21,6 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         else
         {
             UIManager.Instance.UpdateColorText("not found");
-
             Debug.LogError("PlayerManager: Player color not found in room properties");
         }
 
@@ -60,25 +58,21 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         float uniformScale = Mathf.Min(scaleX, scaleY);
         visual.localScale = Vector2.one * (uniformScale - tilePadding);
 
-        // Add ChessPiece component and assign the PieceData. This is to use "PieceType" string and set the ActivePiece in MoveHighlighter
+        // Allow data retrieval from other scripts
         var chessPiece = gameObject.AddComponent<ChessPiece>();
         chessPiece.PieceData = pieceData;
 
-        // Set parent and sorting order
+        // Set parent and add dragging
         transform.SetParent(_piecesContainer, false);
-        sr.sortingOrder = 4;
-
-        // Allow mouse dragging on piece
         gameObject.AddComponent<Draggable>();
 
         // Position and direction
         int x = (int)photonView.InstantiationData[1];
         int y = (int)photonView.InstantiationData[2];
-        Vector2Int pos = new(x, y);
 
-        int posY = BoardState.Instance.IsBoardInverted ? 7 - pos.y : pos.y;
+        int posY = BoardState.Instance.IsBoardInverted ? 7 - y : y;
 
-        Vector2Int piecePos = new(pos.x, posY);
+        Vector2Int piecePos = new(x, posY);
         gameObject.transform.localPosition = new Vector3(x, posY, 0f);
 
         // Set the collider to match the tile size (unaffected by visual scaling)
