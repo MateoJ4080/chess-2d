@@ -22,6 +22,10 @@ public class PieceManager : MonoBehaviour
 
     public void TryMovePiece(GameObject pieceGO, Vector2Int from, Vector2Int to)
     {
+        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
+        int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
+        bool isWhite = data.Color == PlayerColor.White;
+
         // If isn't legal move or isn't player's turn, return piece to original position
         if (!IsLegalMove(pieceGO, to) || !GameManager.Instance.IsMyTurn() || !BoardUtils.PlayerIsThisColor(pieceGO))
         {
@@ -30,16 +34,8 @@ public class PieceManager : MonoBehaviour
         }
 
         // If there's a piece on target square, destroy and remove from dictionary
-        GameObject pieceToCapture = BoardUtils.GetPieceAt(to);
-        if (pieceToCapture != null)
-        {
-            Destroy(pieceToCapture);
-            BoardGenerator.Instance.PiecesOnBoard.Remove(pieceToCapture);
-        }
-
-        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
-        int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
-        bool isWhite = data.Color == PlayerColor.White;
+        GameObject piece = BoardUtils.GetPieceAt(to);
+        CapturePiece(piece);
 
         // Castling
         if (data.PieceType == "King")
@@ -68,11 +64,11 @@ public class PieceManager : MonoBehaviour
             }
         }
 
-        HighlightMoves.Instance.ClearHighlights();
-        MovePiece(from, to, pieceGO);
-        _timerManager.OnPieceMovedBySelf();
-        GameManager.Instance.OnPieceMovedBySelf(pieceGO, from);
+        GameManager.Instance.OnPieceMovedBySelf(pieceGO, from, to);
         GameManager.Instance.SwitchTurn();
+        HighlightMoves.Instance.ClearHighlights();
+        _timerManager.OnPieceMovedBySelf();
+        MovePiece(from, to, pieceGO);
 
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
     }
@@ -81,6 +77,15 @@ public class PieceManager : MonoBehaviour
     {
         piece.GetComponent<Draggable>().SnapToGrid();
         BoardUtils.RefreshBoardState(from, to, piece);
+    }
+
+    public static void CapturePiece(GameObject piece)
+    {
+        if (piece != null)
+        {
+            Destroy(piece);
+            BoardGenerator.Instance.PiecesOnBoard.Remove(piece);
+        }
     }
 
     // Synchronize a piece move across the network, depending on the color/point of view of the local player
