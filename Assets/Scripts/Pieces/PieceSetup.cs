@@ -11,8 +11,8 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
     {
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
         {
-            PlayerManager.Instance.SetSelfColor((PlayerColor)colorObj);
             PlayerColor color = (PlayerColor)colorObj;
+            PlayerManager.Instance.SetSelfColor(color);
             BoardState.Instance.IsBoardInverted = color == PlayerColor.Black;
 
             UIManager.Instance.UpdateColorText(color.ToString());

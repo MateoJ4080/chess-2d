@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
-    public void OnPieceMovedBySelf(GameObject piece, Vector2Int from)
+    public void OnPieceMovedBySelf(GameObject piece, Vector2Int from, Vector2Int to)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
 
@@ -132,6 +132,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!isWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.Queen);
             if (!isWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King);
         }
+
+        BoardState.Instance.HandleEnPassant(from, to, data);
     }
 
     void DisableSelfCastling()

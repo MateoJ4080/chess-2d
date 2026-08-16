@@ -1,7 +1,5 @@
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
-
 public class PieceManager : MonoBehaviour
 {
     [SerializeField] private TimerManager _timerManager;

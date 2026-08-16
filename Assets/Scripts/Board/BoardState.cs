@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
-
-public class BoardState : MonoBehaviour
+public class BoardState : MonoBehaviourPunCallbacks
 {
     public static BoardState Instance { get; private set; }
 
@@ -28,6 +27,8 @@ public class BoardState : MonoBehaviour
 
     private static int _whiteChecks;
     private static int _blackChecks;
+
+    public Vector2Int? EnPassantTarget { get; private set; } = null;
 
     private void Awake()
     {
@@ -332,6 +333,39 @@ public class BoardState : MonoBehaviour
             GameManager.Instance.TriggerGameOver(selfResult, GameOverReason.Checkmate);
         }
         else GameManager.Instance.TriggerGameOver(GameResult.Draw, GameOverReason.Stalemate);
+    }
+
+    public void HandleEnPassant(Vector2Int from, Vector2Int to, PieceData data)
+    {
+        if (to == EnPassantTarget)
+        {
+            var capturedPiece = BoardUtils.GetPieceAt(new Vector2Int(to.x, from.y));
+            PieceManager.CapturePiece(capturedPiece);
+        }
+
+        EnPassantTarget = null;
+
+        if (data.PieceType == "Pawn" && Mathf.Abs(from.y - to.y) == 2)
+            EnPassantTarget = BoardUtils.ToBoardPosition(new(from.x, (from.y + to.y) / 2), data.Color);
+
+        int[] target = EnPassantTarget.HasValue ? new[] { EnPassantTarget.Value.x, EnPassantTarget.Value.y } : new[] { -1, -1 };
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
+        {
+            // Sent as an array because Photon doesn't serialize Vector2Int
+            { "EnPassantTarget", target}
+        });
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesUpdated)
+    {
+        if (propertiesUpdated.TryGetValue("EnPassantTarget", out object value))
+        {
+            var target = (int[])value;
+            EnPassantTarget = target[0] == -1 ? null : BoardUtils.ToLocalPosition(new Vector2Int(target[0], target[1]), PlayerManager.Instance.SelfColor);
+
+            if (EnPassantTarget != null) Debug.Log($"EnPassant detected at {target[0]}, {target[1]}");
+        }
     }
 
     // Debug

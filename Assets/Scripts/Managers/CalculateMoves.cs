@@ -83,6 +83,12 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
             if (BoardUtils.PieceIsOpponent(topLeft, pawnGO))
                 pieceLegalMoves.Add(topLeft);
+
+            if (BoardState.Instance.EnPassantTarget == topRight)
+                pieceLegalMoves.Add(topRight);
+
+            if (BoardState.Instance.EnPassantTarget == topLeft)
+                pieceLegalMoves.Add(topLeft);
         }
 
         else

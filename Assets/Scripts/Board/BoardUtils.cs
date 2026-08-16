@@ -1,4 +1,3 @@
-using Photon.Pun;
 using UnityEngine;
 
 public static class BoardUtils
@@ -64,5 +63,20 @@ public static class BoardUtils
     {
         BoardGenerator.Instance.Squares.TryGetValue(pos, out GameObject square);
         return square;
+    }
+
+    // Kept as separate methods for readability, despite using the same transformation.
+    public static Vector2Int ToBoardPosition(Vector2Int localPosition, PlayerColor selfColor)
+    {
+        return selfColor == PlayerColor.White
+            ? localPosition
+            : new Vector2Int(localPosition.x, 7 - localPosition.y);
+    }
+
+    public static Vector2Int ToLocalPosition(Vector2Int boardPosition, PlayerColor selfColor)
+    {
+        return selfColor == PlayerColor.White
+            ? boardPosition
+            : new Vector2Int(boardPosition.x, 7 - boardPosition.y);
     }
 }
