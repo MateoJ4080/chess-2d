@@ -8,10 +8,6 @@ public class BoardState : MonoBehaviourPunCallbacks
 
     public Dictionary<Vector2Int, GameObject> WhiteThreatenedSquares { get; private set; } = new();
     public Dictionary<Vector2Int, GameObject> BlackThreatenedSquares { get; private set; } = new();
-    [SerializeField] private GameObject _greenSquare;
-    [SerializeField] private GameObject _redSquare;
-    [SerializeField] private GameObject _yellowSquare;
-    private Transform _parentTransform;
 
     private bool _isBoardInverted;
     public bool IsBoardInverted
@@ -368,73 +364,21 @@ public class BoardState : MonoBehaviourPunCallbacks
         }
     }
 
-    // Debug
-    public void ColorThreatenedSquares()
     {
-        Instance.ClearColorSquares();
-        if (!DebugManager.IsDebugMode) return;
-
-        if (Instance._parentTransform == null)
         {
-            var obj = GameObject.FindGameObjectWithTag("HighlightsContainer");
-            if (obj != null) Instance._parentTransform = obj.transform;
-        }
 
-        foreach (var entry in Instance.WhiteThreatenedSquares)
-        {
-            Vector2Int move = entry.Key;
-            if (BoardUtils.GetSquareAt(move))
+
+
             {
-                GameObject colorSquare = Instantiate(Instance._greenSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = 1;
             }
         }
 
-        foreach (var entry in Instance.BlackThreatenedSquares)
         {
-            Vector2Int move = entry.Key;
-            if (BoardUtils.GetSquareAt(move))
             {
-                GameObject colorSquare = Instantiate(Instance._redSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = 1;
-            }
-        }
-
-        foreach (var path in Instance.WhiteCheckPaths)
-        {
-            foreach (var move in path.Value)
-            {
-                if (BoardUtils.GetSquareAt(move))
-                {
-                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                    sr.sortingOrder = 2;
-                }
-            }
-        }
-
-        foreach (var path in Instance.BlackCheckPaths)
-        {
-            foreach (var move in path.Value)
-            {
-                if (BoardUtils.GetSquareAt(move))
-                {
-                    GameObject colorSquare = Instantiate(Instance._yellowSquare, new Vector3(move.x, move.y, 0), Quaternion.identity, Instance._parentTransform);
-                    SpriteRenderer sr = colorSquare.GetComponent<SpriteRenderer>();
-                    sr.sortingOrder = 2;
-                }
             }
         }
     }
 
-    // Debug
-    public void ClearColorSquares()
     {
-        foreach (var obj in GameObject.FindGameObjectsWithTag("ColorSquare"))
-        {
-            Destroy(obj);
-        }
     }
 }
