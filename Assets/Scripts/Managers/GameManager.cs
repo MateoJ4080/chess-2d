@@ -92,9 +92,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             return false;
 
         PlayerColor currentTurn = (PlayerColor)(int)roomProps["Turn"];
-        PlayerColor myColor = (PlayerColor)(int)playerProps["Color"];
+        PlayerColor selfColor = (PlayerColor)(int)playerProps["Color"];
 
-        return currentTurn == myColor;
+        return currentTurn == selfColor;
     }
 
     public void SwitchTurn()
@@ -178,19 +178,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         bool blackCK = props.ContainsKey("blackCK") && (bool)props["blackCK"];
         bool blackCQ = props.ContainsKey("blackCQ") && (bool)props["blackCQ"];
 
-        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
-        PlayerColor color = data.Color;
+        PlayerColor selfColor = PlayerManager.Instance.SelfColor;
+        PlayerColor enemyColor = PlayerManager.Instance.EnemyColor;
 
-        var direction = color == PlayerColor.White ? 1 : -1;
-        var availableKingside = color == PlayerColor.White ? whiteCK : blackCK;
-        var availableQueenside = color == PlayerColor.White ? whiteCQ : blackCQ;
+        var direction = selfColor == PlayerColor.White ? 1 : -1;
+        var availableKingside = selfColor == PlayerColor.White ? whiteCK : blackCK;
+        var availableQueenside = selfColor == PlayerColor.White ? whiteCQ : blackCQ;
 
         if (side == PieceData.RookSide.King)
         {
             Vector2Int firstTile = piecePos + new Vector2Int(1, 0) * direction;
             Vector2Int secondTile = piecePos + new Vector2Int(2, 0) * direction;
 
-            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, data.Color) || BoardState.Instance.SquareIsThreatened(secondTile, data.Color);
+            bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, enemyColor) || BoardState.Instance.IsSquareAttackedBy(secondTile, enemyColor);
             bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
             return !isPathThreatened && areSquaresEmpty && availableKingside;
@@ -201,7 +201,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             Vector2Int firstTile = piecePos + new Vector2Int(-1, 0) * direction;
             Vector2Int secondTile = piecePos + new Vector2Int(-2, 0) * direction;
 
-            bool isPathThreatened = BoardState.Instance.SquareIsThreatened(firstTile, data.Color) || BoardState.Instance.SquareIsThreatened(secondTile, data.Color);
+            bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
+                                    BoardState.Instance.IsSquareAttackedBy(secondTile, PlayerManager.Instance.EnemyColor);
             bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
 
             return !isPathThreatened && areSquaresEmpty && availableQueenside;

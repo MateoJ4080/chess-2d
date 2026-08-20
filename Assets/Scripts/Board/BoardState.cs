@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
@@ -17,12 +16,6 @@ public class BoardState : MonoBehaviourPunCallbacks
     }
 
     private PieceMovementData _movementData;
-
-    public Dictionary<GameObject, List<Vector2Int>> WhiteCheckPaths { get; private set; } = new();
-    public Dictionary<GameObject, List<Vector2Int>> BlackCheckPaths { get; private set; } = new();
-
-    private static int _whiteChecks;
-    private static int _blackChecks;
 
     public Vector2Int? EnPassantTarget { get; private set; } = null;
 
@@ -43,33 +36,62 @@ public class BoardState : MonoBehaviourPunCallbacks
     {
         Instance.WhiteThreatenedSquares.Clear();
         Instance.BlackThreatenedSquares.Clear();
-        Instance.WhiteCheckPaths.Clear();
-        Instance.BlackCheckPaths.Clear();
-
-        _whiteChecks = 0;
-        _blackChecks = 0;
 
         foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
-            if (piece.TryGetComponent<ChessPiece>(out var chessPiece))
+            var data = piece.GetComponent<ChessPiece>().PieceData;
+            Vector2Int pos = Vector2Int.RoundToInt(piece.transform.position);
+
+            bool isWhite = data.Color == PlayerColor.White;
+            int direction = (isWhite ^ Instance.IsBoardInverted) ? 1 : -1;
+            var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
+
+            switch (data.PieceType)
             {
-                Vector2Int pos = Vector2Int.RoundToInt(piece.transform.position);
+                case "Pawn":
+                    foreach (var move in Instance._movementData.pawnMoves)
+                    {
+                        if (move == new Vector2Int(0, 1)) continue;
+                        Vector2Int targetPos = pos + move * direction;
 
-                var data = chessPiece.PieceData;
-                var pieceType = data.PieceType;
-                bool isWhite = data.Color == PlayerColor.White;
-                int direction = (isWhite ^ Instance.IsBoardInverted) ? 1 : -1;
-                var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
-
-                switch (pieceType)
-                {
-                    case "Pawn":
-                        foreach (var move in Instance._movementData.pawnMoves)
+                        if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                        if (BoardUtils.SquareIsEmpty(targetPos))
                         {
-                            if (move == new Vector2Int(0, 1)) continue;
-                            Vector2Int targetPos = pos + move * direction;
+                            targetDict[targetPos] = piece;
+                        }
+                        else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                        {
+                            targetDict[targetPos] = piece;
+                        }
+                    }
+                    break;
 
-                            if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                case "Knight":
+                    foreach (var move in Instance._movementData.knightMoves)
+                    {
+                        Vector2Int targetPos = pos + move;
+                        if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                        if (BoardUtils.SquareIsEmpty(targetPos))
+                        {
+                            targetDict[targetPos] = piece;
+                        }
+                        else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                        {
+                            targetDict[targetPos] = piece;
+                        }
+                    }
+                    break;
+
+                case "Bishop":
+                    foreach (var move in Instance._movementData.bishopDirections)
+                    {
+                        for (int i = 1; i < 8; i++)
+                        {
+                            Vector2Int targetPos = pos + move * i;
+
+                            if (!BoardUtils.GetSquareAt(targetPos))
+                                break;
+
                             if (BoardUtils.SquareIsEmpty(targetPos))
                             {
                                 targetDict[targetPos] = piece;
@@ -77,16 +99,20 @@ public class BoardState : MonoBehaviourPunCallbacks
                             else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                             {
                                 targetDict[targetPos] = piece;
-                                Instance.LookForCheck(piece, targetPiece);
+                                break;
                             }
                         }
-                        break;
+                    }
+                    break;
 
-                    case "Knight":
-                        foreach (var move in Instance._movementData.knightMoves)
+                case "Rook":
+                    foreach (var move in Instance._movementData.rookDirections)
+                    {
+                        for (int i = 1; i < 8; i++)
                         {
-                            Vector2Int targetPos = pos + move;
-                            if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                            Vector2Int targetPos = pos + move * i;
+
+                            if (!BoardUtils.GetSquareAt(targetPos)) break;
                             if (BoardUtils.SquareIsEmpty(targetPos))
                             {
                                 targetDict[targetPos] = piece;
@@ -94,180 +120,47 @@ public class BoardState : MonoBehaviourPunCallbacks
                             else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
                             {
                                 targetDict[targetPos] = piece;
-                                Instance.LookForCheck(piece, targetPiece);
+                                break;
                             }
                         }
-                        break;
+                    }
+                    break;
 
-                    case "Bishop":
-                        foreach (var move in Instance._movementData.bishopDirections)
+                case "Queen":
+                    foreach (var move in Instance._movementData.queenDirections)
+                    {
+                        for (int i = 1; i < 8; i++)
                         {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                Vector2Int targetPos = pos + move * i;
-                                if (!BoardUtils.GetSquareAt(targetPos)) break;
+                            Vector2Int targetPos = pos + move * i;
 
-                                if (BoardUtils.SquareIsEmpty(targetPos))
-                                {
-                                    targetDict[targetPos] = piece;
-                                }
-                                else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
-                                {
-                                    targetDict[targetPos] = piece;
-                                    Instance.LookForCheck(piece, targetPiece);
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-
-                    case "Rook":
-                        foreach (var move in Instance._movementData.rookDirections)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                Vector2Int targetPos = pos + move * i;
-
-                                if (!BoardUtils.GetSquareAt(targetPos)) break;
-                                if (BoardUtils.SquareIsEmpty(targetPos))
-                                {
-                                    targetDict[targetPos] = piece;
-                                }
-                                else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
-                                {
-                                    targetDict[targetPos] = piece;
-                                    Instance.LookForCheck(piece, targetPiece);
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-
-                    case "Queen":
-                        foreach (var move in Instance._movementData.queenDirections)
-                        {
-                            for (int i = 1; i < 8; i++)
-                            {
-                                Vector2Int targetPos = pos + move * i;
-
-                                if (!BoardUtils.GetSquareAt(targetPos)) break;
-                                if (BoardUtils.SquareIsEmpty(targetPos))
-                                {
-                                    targetDict[targetPos] = piece;
-                                }
-                                else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
-                                {
-                                    targetDict[targetPos] = piece;
-                                    Instance.LookForCheck(piece, targetPiece);
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-
-                    case "King":
-                        foreach (var move in Instance._movementData.kingMoves)
-                        {
-                            Vector2Int targetPos = pos + move;
-                            if (!BoardUtils.GetSquareAt(targetPos)) continue;
-                            if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.GetPieceAt(pos))
+                            if (!BoardUtils.GetSquareAt(targetPos)) break;
+                            if (BoardUtils.SquareIsEmpty(targetPos))
                             {
                                 targetDict[targetPos] = piece;
                             }
+                            else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                            {
+                                targetDict[targetPos] = piece;
+                                break;
+                            }
                         }
-                        break;
-                }
+                    }
+                    break;
+
+                case "King":
+                    foreach (var move in Instance._movementData.kingMoves)
+                    {
+                        Vector2Int targetPos = pos + move;
+                        if (!BoardUtils.GetSquareAt(targetPos)) continue;
+                        if (BoardUtils.SquareIsEmpty(targetPos) || BoardUtils.GetPieceAt(pos))
+                        {
+                            targetDict[targetPos] = piece;
+                        }
+                    }
+                    break;
             }
         }
-
-        Instance.SetCheckStatus(true, _whiteChecks);
-        Instance.SetCheckStatus(false, _blackChecks);
-
-        Instance.ColorThreatenedSquares();
-    }
-
-    // *Might want to move it to BoardUtils later*
-    public bool SquareIsThreatened(Vector2Int pos, PlayerColor color)
-    {
-        var threatMap = color == PlayerColor.White
-            ? BlackThreatenedSquares
-            : WhiteThreatenedSquares;
-
-        return threatMap.ContainsKey(pos);
-    }
-
-    private void LookForCheck(GameObject activePiece, GameObject targetPiece)
-    {
-        var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
-        var targetData = targetPiece.GetComponent<ChessPiece>().PieceData;
-
-        if (targetData.PieceType == "King" && targetData.Color != activeData.Color)
-        {
-            var from = Vector2Int.RoundToInt(activePiece.transform.position);
-            var to = Vector2Int.RoundToInt(targetPiece.transform.position);
-
-            BuildCheckPath(from, to, activeData.Color);
-
-            if (targetData.Color == PlayerColor.Black)
-                _whiteChecks++;
-            else
-                _blackChecks++;
-        }
-    }
-
-    private void BuildCheckPath(Vector2Int from, Vector2Int to, PlayerColor byColor)
-    {
-        var activePiece = BoardUtils.GetPieceAt(from);
-        var activeData = activePiece.GetComponent<ChessPiece>().PieceData;
-
-        Vector2Int delta = to - from;
-        Vector2Int direction;
-
-        if (activeData.PieceType != "Knight")
-        {
-            direction = new(
-               Math.Sign(delta.x),
-               Math.Sign(delta.y)
-           );
-        }
-        else direction = delta;
-
-        var targetDict = byColor == PlayerColor.White ? WhiteCheckPaths : BlackCheckPaths;
-
-        List<Vector2Int> checkPath = new();
-
-        for (int j = 0; j < 8; j++)
-        {
-            Vector2Int pos = from + direction * j;
-            if (BoardUtils.SquareIsEmpty(pos) || j == 0)
-            {
-                checkPath.Add(pos);
-            }
-            else break;
-        }
-        targetDict.Add(activePiece, checkPath);
-    }
-
-    public void SetCheckStatus(bool isWhite, int checksAmount)
-    {
-        if (!PhotonNetwork.IsMasterClient) return;
-        var props = new ExitGames.Client.Photon.Hashtable();
-
-        var checkOnce = isWhite ? "whiteInCheckOnce" : "blackInCheckOnce";
-        var checkTwice = isWhite ? "whiteInCheckTwice" : "blackInCheckTwice";
-
-        if (checksAmount == 0)
-        {
-            props[checkOnce] = false;
-            props[checkTwice] = false;
-        }
-        else if (checksAmount > 0)
-        {
-            props[checkOnce] = true;
-            props[checkTwice] = checksAmount >= 2;
-        }
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+        DebugManager.Instance.ColorThreatenedSquares();
     }
 
     public bool IsKingInCheck(PlayerColor color)
@@ -282,21 +175,12 @@ public class BoardState : MonoBehaviourPunCallbacks
             if (data.PieceType != "King" || data.Color != color)
                 continue;
 
-            Vector2Int kingPos = Vector2Int.RoundToInt(piece.transform.position);
-            bool isWhite = color == PlayerColor.White;
-            var threats = isWhite ? BlackThreatenedSquares : WhiteThreatenedSquares;
-            return threats.ContainsKey(kingPos);
+            Vector2Int kingPos = BoardGenerator.Instance.PiecesOnBoard[piece];
+
+            var oppositeColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+            Debug.Log($"Checking if '{color}' king is in check by '{oppositeColor}'");
+            return IsSquareAttackedBy(kingPos, oppositeColor);
         }
-
-        return false;
-    }
-
-    public bool IsKingInDoubleCheck(PlayerColor color)
-    {
-        var key = color == PlayerColor.White ? "whiteInCheckTwice" : "blackInCheckTwice";
-
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(key, out var value))
-            return (bool)value;
 
         return false;
     }
@@ -310,7 +194,6 @@ public class BoardState : MonoBehaviourPunCallbacks
 
             var pieceData = legalMoves.Key.GetComponent<ChessPiece>().PieceData;
 
-            // Only consider the side being evaluated
             if (pieceData.Color != turnColor)
                 continue;
 
@@ -364,21 +247,117 @@ public class BoardState : MonoBehaviourPunCallbacks
         }
     }
 
+    public bool IsSquareAttackedBy(Vector2Int target, PlayerColor attackerColor)
     {
+        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
         {
+            if (piece == null)
+                continue;
 
+            var data = piece.GetComponent<ChessPiece>().PieceData;
+            // var attackedData = BoardGenerator.Instance.PositionToPiece[target].GetComponent<ChessPiece>().PieceData;
 
+            if (data.Color != attackerColor)
+                continue;
 
+            Vector2Int from = BoardGenerator.Instance.PiecesOnBoard[piece];
+
+            switch (data.PieceType)
             {
+                case "Pawn":
+                    if (PawnAttacks(from, target, attackerColor))
+                        // if (attackedData.PieceType == "King")
+                        // {
+                        //     Debug.Log($"King at {target} under check by pawn at {from}");
+                        return true;
+                    // }
+                    break;
+
+                case "Knight":
+                    if (KnightAttacks(from, target))
+                        return true;
+                    break;
+
+                case "Bishop":
+                    if (DiagonalAttacks(from, target))
+                        return true;
+                    break;
+
+                case "Rook":
+                    if (StraightAttacks(from, target))
+                        return true;
+                    break;
+
+                case "Queen":
+                    if (DiagonalAttacks(from, target) || StraightAttacks(from, target))
+                        return true;
+                    break;
+
+                case "King":
+                    if (KingAttacks(from, target))
+                        return true;
+                    break;
             }
         }
 
-        {
-            {
-            }
-        }
+        return false;
     }
 
+    private bool PawnAttacks(Vector2Int from, Vector2Int target, PlayerColor color)
     {
+        int direction = color == PlayerColor.White ? 1 : -1;
+
+        return target == from + new Vector2Int(1, direction) ||
+               target == from + new Vector2Int(-1, direction);
+    }
+
+    private bool KnightAttacks(Vector2Int from, Vector2Int target)
+    {
+        foreach (var direction in _movementData.knightMoves)
+        {
+            var pos = from + direction;
+            if (pos == target) return true;
+        }
+        return false;
+    }
+
+    private bool DiagonalAttacks(Vector2Int from, Vector2Int target)
+    {
+        foreach (Vector2Int direction in _movementData.bishopDirections)
+        {
+            Vector2Int pos = from + direction;
+
+            while (BoardUtils.SquareIsEmpty(pos) || pos == target)
+            {
+                if (pos == target) return true;
+                pos += direction;
+            }
+        }
+        return false;
+    }
+
+    private bool StraightAttacks(Vector2Int from, Vector2Int target)
+    {
+        foreach (var direction in _movementData.rookDirections)
+        {
+            Vector2Int pos = from + direction;
+
+            while (BoardUtils.SquareIsEmpty(pos) || pos == target)
+            {
+                if (pos == target) return true;
+                pos += direction;
+            }
+        }
+        return false;
+    }
+
+    private bool KingAttacks(Vector2Int from, Vector2Int target)
+    {
+        foreach (var direction in _movementData.kingMoves)
+        {
+            var pos = from + direction;
+            if (pos == target) return true;
+        }
+        return false;
     }
 }

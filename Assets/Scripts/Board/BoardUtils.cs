@@ -47,12 +47,11 @@ public static class BoardUtils
     public static void RefreshBoardState(Vector2Int from, Vector2Int to, GameObject piece)
     {
         BoardGenerator.Instance.PiecesOnBoard[piece] = to;
-
         BoardGenerator.Instance.PositionToPiece.Remove(from);
         BoardGenerator.Instance.PositionToPiece[to] = piece;
 
-        BoardState.Instance.UpdateThreatenedSquares();
         CalculateMoves.Instance.CalculateAllMoves();
+        BoardState.Instance.UpdateThreatenedSquares();
 
         var data = piece.GetComponent<ChessPiece>().PieceData;
         var colorToEvaluate = data.Color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;

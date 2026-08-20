@@ -25,26 +25,26 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
     {
         _legalMovesByPiece.Clear();
 
-        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
+        foreach (var piece in new List<GameObject>(BoardGenerator.Instance.PiecesOnBoard.Keys))
         {
             var data = piece.GetComponent<ChessPiece>().PieceData;
             PlayerColor color = data.Color;
             switch (data.PieceType)
             {
                 case "Pawn":
-                    CalculatePawnMoves(piece, color);
+                    CalculatePawnMoves(piece);
                     break;
                 case "Knight":
-                    CalculateKnightMoves(piece, color);
+                    CalculateKnightMoves(piece);
                     break;
                 case "Bishop":
-                    CalculateBishopMoves(piece, color);
+                    CalculateBishopMoves(piece);
                     break;
                 case "Rook":
-                    CalculateRookMoves(piece, color);
+                    CalculateRookMoves(piece);
                     break;
                 case "Queen":
-                    CalculateQueenMoves(piece, color);
+                    CalculateQueenMoves(piece);
                     break;
                 case "King":
                     CalculateKingMoves(piece);
@@ -53,191 +53,104 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         }
     }
 
-    void CalculatePawnMoves(GameObject pawnGO, PlayerColor color)
+    void CalculatePawnMoves(GameObject pawnGO)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
-
-        bool isWhite = color == PlayerColor.White;
+        bool isWhite = PlayerManager.Instance.SelfColor == PlayerColor.White;
         int direction = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : -1;
         int initialRow = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : 6;
 
         Vector2Int currentPos = Vector2Int.RoundToInt(pawnGO.transform.position);
+
         Vector2Int forward = currentPos + new Vector2Int(0, direction);
         Vector2Int doubleForward = currentPos + new Vector2Int(0, 2 * direction);
-
         Vector2Int topRight = currentPos + new Vector2Int(1, direction);
         Vector2Int topLeft = currentPos + new Vector2Int(-1, direction);
 
         List<Vector2Int> pieceLegalMoves = new();
 
-        if (!BoardState.Instance.IsKingInCheck(color))
-        {
-            if (BoardUtils.SquareIsEmpty(forward))
-                pieceLegalMoves.Add(forward);
+        if (BoardUtils.SquareIsEmpty(forward))
+            AddIfLegal(pawnGO, currentPos, forward, pieceLegalMoves);
 
-            if (currentPos.y == initialRow && BoardUtils.SquareIsEmpty(forward) && BoardUtils.SquareIsEmpty(doubleForward))
-                pieceLegalMoves.Add(doubleForward);
+        if (currentPos.y == initialRow && BoardUtils.SquareIsEmpty(forward) && BoardUtils.SquareIsEmpty(doubleForward))
+            AddIfLegal(pawnGO, currentPos, doubleForward, pieceLegalMoves);
 
-            if (BoardUtils.PieceIsOpponent(topRight, pawnGO))
-                pieceLegalMoves.Add(topRight);
+        if (BoardUtils.PieceIsOpponent(topRight, pawnGO) || BoardState.Instance.EnPassantTarget == topRight)
+            AddIfLegal(pawnGO, currentPos, topRight, pieceLegalMoves);
 
-            if (BoardUtils.PieceIsOpponent(topLeft, pawnGO))
-                pieceLegalMoves.Add(topLeft);
-
-            if (BoardState.Instance.EnPassantTarget == topRight)
-                pieceLegalMoves.Add(topRight);
-
-            if (BoardState.Instance.EnPassantTarget == topLeft)
-                pieceLegalMoves.Add(topLeft);
-        }
-
-        else
-        {
-            var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
-            foreach (var array in targetDict)
-            {
-                if (BoardUtils.SquareIsEmpty(forward) && array.Value.Contains(forward))
-                    pieceLegalMoves.Add(forward);
-
-                if (currentPos.y == initialRow && BoardUtils.SquareIsEmpty(forward) && BoardUtils.SquareIsEmpty(doubleForward) && array.Value.Contains(doubleForward))
-                    pieceLegalMoves.Add(doubleForward);
-
-                if (BoardUtils.PieceIsOpponent(topRight, pawnGO) && array.Value.Contains(topRight))
-                    pieceLegalMoves.Add(topRight);
-
-                if (BoardUtils.PieceIsOpponent(topLeft, pawnGO) && array.Value.Contains(topLeft))
-                    pieceLegalMoves.Add(topLeft);
-
-            }
-        }
+        if (BoardUtils.PieceIsOpponent(topLeft, pawnGO) || BoardState.Instance.EnPassantTarget == topLeft)
+            AddIfLegal(pawnGO, currentPos, topLeft, pieceLegalMoves);
 
         _legalMovesByPiece[pawnGO] = pieceLegalMoves;
     }
 
-    void CalculateKnightMoves(GameObject knightGO, PlayerColor color)
+    void CalculateKnightMoves(GameObject knightGO)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
-
         List<Vector2Int> pieceLegalMoves = new();
-        Vector2Int[] knightMoves = _movementData.knightMoves;
-        foreach (Vector2Int move in knightMoves)
-        {
-            Vector2Int pos = Vector2Int.RoundToInt(knightGO.transform.position) + move;
-            if (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, knightGO))
-            {
-                if (!BoardState.Instance.IsKingInCheck(color))
-                {
-                    pieceLegalMoves.Add(pos);
-                }
+        Vector2Int from = Vector2Int.RoundToInt(knightGO.transform.position);
 
-                else
-                {
-                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
-                    foreach (var array in targetDict)
-                    {
-                        if (!array.Value.Contains(pos)) continue;
-                        else pieceLegalMoves.Add(pos);
-                    }
-                }
-            }
+        foreach (Vector2Int move in _movementData.knightMoves)
+        {
+            Vector2Int to = from + move;
+
+            if (BoardUtils.SquareIsEmpty(to) || BoardUtils.PieceIsOpponent(to, knightGO))
+                AddIfLegal(knightGO, from, to, pieceLegalMoves);
         }
         _legalMovesByPiece[knightGO] = pieceLegalMoves;
     }
 
-    void CalculateBishopMoves(GameObject bishopGO, PlayerColor color)
+    void CalculateBishopMoves(GameObject bishopGO)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
-
         List<Vector2Int> pieceLegalMoves = new();
-        Vector2Int[] bishopDirections = _movementData.bishopDirections;
-        foreach (Vector2Int direction in bishopDirections)
+        Vector2Int from = Vector2Int.RoundToInt(bishopGO.transform.position);
+
+        foreach (Vector2Int direction in _movementData.bishopDirections)
         {
-            Vector2Int pos = Vector2Int.RoundToInt(bishopGO.transform.position) + direction;
-            while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, bishopGO))
+            Vector2Int to = from + direction;
+
+            while (BoardUtils.SquareIsEmpty(to) || BoardUtils.PieceIsOpponent(to, bishopGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(color))
-                {
-                    pieceLegalMoves.Add(pos);
-                    if (BoardUtils.PieceIsOpponent(pos, bishopGO)) break;
-                }
+                AddIfLegal(bishopGO, from, to, pieceLegalMoves);
+                if (BoardUtils.PieceIsOpponent(to, bishopGO)) break;
 
-                else
-                {
-                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
-                    foreach (var array in targetDict)
-                    {
-                        if (!array.Value.Contains(pos)) continue;
-                        else pieceLegalMoves.Add(pos);
-                    }
-                }
-
-                pos += direction;
+                to += direction;
             }
         }
         _legalMovesByPiece[bishopGO] = pieceLegalMoves;
     }
 
-    void CalculateRookMoves(GameObject rookGO, PlayerColor color)
+    void CalculateRookMoves(GameObject rookGO)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
-
         List<Vector2Int> pieceLegalMoves = new();
-        Vector2Int[] rookDirections = _movementData.rookDirections;
-        foreach (Vector2Int direction in rookDirections)
+        Vector2Int from = Vector2Int.RoundToInt(rookGO.transform.position);
+
+        foreach (Vector2Int direction in _movementData.rookDirections)
         {
-            Vector2Int pos = Vector2Int.RoundToInt(rookGO.transform.position) + direction;
-            while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, rookGO))
+            Vector2Int to = from + direction;
+            while (BoardUtils.SquareIsEmpty(to) || BoardUtils.PieceIsOpponent(to, rookGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(color))
-                {
-                    pieceLegalMoves.Add(pos);
-                    if (BoardUtils.PieceIsOpponent(pos, rookGO)) break;
-                }
+                AddIfLegal(rookGO, from, to, pieceLegalMoves);
+                if (BoardUtils.PieceIsOpponent(to, rookGO)) break;
 
-                else
-                {
-                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
-                    foreach (var array in targetDict)
-                    {
-                        if (!array.Value.Contains(pos)) continue;
-                        else pieceLegalMoves.Add(pos);
-                    }
-                }
-
-                pos += direction;
+                to += direction;
             }
         }
         _legalMovesByPiece[rookGO] = pieceLegalMoves;
     }
 
-    void CalculateQueenMoves(GameObject queenGO, PlayerColor color)
+    void CalculateQueenMoves(GameObject queenGO)
     {
-        if (BoardState.Instance.IsKingInDoubleCheck(color)) return;
-
         List<Vector2Int> pieceLegalMoves = new();
-        Vector2Int[] queenDirections = _movementData.queenDirections;
-        foreach (Vector2Int direction in queenDirections)
+        Vector2Int from = Vector2Int.RoundToInt(queenGO.transform.position);
+
+        foreach (Vector2Int direction in _movementData.queenDirections)
         {
-            Vector2Int pos = Vector2Int.RoundToInt(queenGO.transform.position) + direction;
-            while (BoardUtils.SquareIsEmpty(pos) || BoardUtils.PieceIsOpponent(pos, queenGO))
+            Vector2Int to = from + direction;
+            while (BoardUtils.SquareIsEmpty(to) || BoardUtils.PieceIsOpponent(to, queenGO))
             {
-                if (!BoardState.Instance.IsKingInCheck(color))
-                {
-                    pieceLegalMoves.Add(pos);
-                    if (BoardUtils.PieceIsOpponent(pos, queenGO)) break;
-                }
+                AddIfLegal(queenGO, from, to, pieceLegalMoves);
+                if (BoardUtils.PieceIsOpponent(to, queenGO)) break;
 
-                else
-                {
-                    var targetDict = color == PlayerColor.White ? BoardState.Instance.BlackCheckPaths : BoardState.Instance.WhiteCheckPaths;
-                    foreach (var array in targetDict)
-                    {
-                        if (!array.Value.Contains(pos)) continue;
-                        else pieceLegalMoves.Add(pos);
-                    }
-                }
-
-                pos += direction;
+                to += direction;
             }
         }
         _legalMovesByPiece[queenGO] = pieceLegalMoves;
@@ -245,37 +158,64 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
 
     void CalculateKingMoves(GameObject kingGO)
     {
-        var data = kingGO.GetComponent<ChessPiece>().PieceData;
+        List<Vector2Int> pieceLegalMoves = new(); ;
+        Vector2Int from = Vector2Int.RoundToInt(kingGO.transform.position);
 
-        List<Vector2Int> pieceLegalMoves = new();
-        Vector2Int[] kingMoves = _movementData.kingMoves;
-        Vector2Int currentPos = Vector2Int.RoundToInt(kingGO.transform.position);
-
-        foreach (Vector2Int move in kingMoves)
+        foreach (Vector2Int move in _movementData.kingMoves)
         {
-            Vector2Int pos = currentPos + move;
-            if (BoardUtils.SquareIsEmpty(pos) && !BoardState.Instance.SquareIsThreatened(pos, data.Color))
-            {
-                pieceLegalMoves.Add(pos);
-            }
-            else if (BoardUtils.PieceIsOpponent(pos, kingGO) && !BoardState.Instance.SquareIsThreatened(pos, data.Color))
-            {
-                pieceLegalMoves.Add(pos);
-            }
+            Vector2Int to = from + move;
+            if (BoardUtils.SquareIsEmpty(to) || BoardUtils.PieceIsOpponent(to, kingGO))
+                AddIfLegal(kingGO, from, to, pieceLegalMoves);
+
         }
 
         // Castling
-        int direction = data.Color == PlayerColor.White ? 1 : -1;
+        int direction = PlayerManager.Instance.SelfColor == PlayerColor.White ? 1 : -1;
 
         bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, kingGO);
         bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, kingGO);
 
         if (canCastleKingSide)
-            pieceLegalMoves.Add(currentPos + new Vector2Int(2 * direction, 0));
+            pieceLegalMoves.Add(from + new Vector2Int(2 * direction, 0));
 
         if (canCastleQueenSide)
-            pieceLegalMoves.Add(currentPos + new Vector2Int(-2 * direction, 0));
+            pieceLegalMoves.Add(from + new Vector2Int(-2 * direction, 0));
 
         _legalMovesByPiece[kingGO] = pieceLegalMoves;
+    }
+
+    private GameObject SimulateMove(GameObject piece, Vector2Int from, Vector2Int to)
+    {
+        BoardGenerator.Instance.PositionToPiece.TryGetValue(to, out GameObject capturedPiece);
+        BoardGenerator.Instance.PositionToPiece.Remove(from);
+        if (capturedPiece != null) BoardGenerator.Instance.PiecesOnBoard.Remove(capturedPiece);
+
+        BoardGenerator.Instance.PositionToPiece[to] = piece;
+        BoardGenerator.Instance.PiecesOnBoard[piece] = to;
+
+        return capturedPiece;
+    }
+
+    private void UndoSimulatedMove(GameObject piece, Vector2Int from, Vector2Int to, GameObject capturedPiece)
+    {
+        BoardGenerator.Instance.PositionToPiece.Remove(to);
+        BoardGenerator.Instance.PositionToPiece[from] = piece;
+        BoardGenerator.Instance.PiecesOnBoard[piece] = from;
+
+        if (capturedPiece != null)
+        {
+            BoardGenerator.Instance.PiecesOnBoard[capturedPiece] = to;
+            BoardGenerator.Instance.PositionToPiece[to] = capturedPiece;
+        }
+    }
+
+    private void AddIfLegal(GameObject piece, Vector2Int from, Vector2Int to, List<Vector2Int> legalMoves)
+    {
+        GameObject captured = SimulateMove(piece, from, to);
+
+        if (!BoardState.Instance.IsKingInCheck(piece.GetComponent<ChessPiece>().PieceData.Color))
+            legalMoves.Add(to);
+
+        UndoSimulatedMove(piece, from, to, captured);
     }
 }
