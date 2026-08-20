@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         private set => colorsAreAssigned = value;
     }
     public PlayerColor SelfColor { get; private set; }
-    public PlayerColor OpponentColor { get; private set; }
+    public PlayerColor EnemyColor { get; private set; }
 
     public static PlayerManager Instance { get; private set; }
 
@@ -92,7 +92,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public void SetSelfColor(PlayerColor color)
     {
         SelfColor = color;
-        OpponentColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+        EnemyColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
     }
 
     // Debug colors (give each player a specific color)
