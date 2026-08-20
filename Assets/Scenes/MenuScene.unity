@@ -4900,6 +4900,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5907d4bbb80d6284db0041bb51ee1d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _greenSquare: {fileID: 2090350667903705108, guid: d4b2db22da92dd64699266fbf66b2a85, type: 3}
+  _redSquare: {fileID: 2090350667903705108, guid: bab9ea2058d6fa445a6de3d17c563657, type: 3}
 --- !u!4 &790897636
 Transform:
   m_ObjectHideFlags: 0
@@ -5963,9 +5965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 325c4cf222786a2428b47e06a7ed058f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardState
-  _greenSquare: {fileID: 2090350667903705108, guid: d4b2db22da92dd64699266fbf66b2a85, type: 3}
-  _redSquare: {fileID: 2090350667903705108, guid: bab9ea2058d6fa445a6de3d17c563657, type: 3}
-  _yellowSquare: {fileID: 961063354550261679, guid: 5f0d796f8f127fd4b86fbe0c34cb3110, type: 3}
 --- !u!4 &1001826153
 Transform:
   m_ObjectHideFlags: 0

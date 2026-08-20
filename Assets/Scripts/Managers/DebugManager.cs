@@ -36,6 +36,8 @@ public class DebugManager : MonoBehaviour
     {
         Debug.Log($"IsDebugMode set to {!IsDebugMode}");
         IsDebugMode = !IsDebugMode;
+
+        ColorThreatenedSquares();
     }
 
     // Debug
