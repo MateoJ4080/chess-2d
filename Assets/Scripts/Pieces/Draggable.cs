@@ -25,6 +25,8 @@ public class Draggable : MonoBehaviour
         _renderer.sortingOrder = 50;
 
         _isDragging = true;
+        CursorManager.Instance.SetCursor(CursorType.Grab);
+
         _firstPosition = Vector2Int.RoundToInt(transform.position);
         _offset = transform.position - GetMouseWorldPos();
 
@@ -37,6 +39,8 @@ public class Draggable : MonoBehaviour
         _renderer.sortingOrder = 5;
 
         _isDragging = false;
+        CursorManager.Instance.SetCursor(CursorType.Default);
+
         Vector2Int newPosition = Vector2Int.RoundToInt(transform.position);
         PieceManager.Instance.TryMovePiece(gameObject, _firstPosition, newPosition);
     }

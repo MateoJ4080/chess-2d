@@ -555,9 +555,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultCursor: {fileID: 2800000, guid: 9dab97792929e744e9b53ed789939608, type: 3}
-  _handCursor: {fileID: 2800000, guid: ae441248f9bcb6a409eec0d4e2a1a5c0, type: 3}
-  _defaultHotspot: {x: 7, y: 6.86}
-  _handHotspot: {x: 7.03, y: 6.64}
+  _defaultHotspot: {x: 8.35, y: 6.86}
+  _buttonCursor: {fileID: 2800000, guid: ae441248f9bcb6a409eec0d4e2a1a5c0, type: 3}
+  _buttonHotspot: {x: 7.03, y: 6.64}
+  _pieceCursor: {fileID: 2800000, guid: 7870501c7e4389b4f849e1f725c2527d, type: 3}
+  _pieceHotspot: {x: 13, y: 14.1}
+  _grabCursor: {fileID: 2800000, guid: 4b1fa259dfc7a964ea7e4e0aad8d6943, type: 3}
+  _grabHotspot: {x: 13.1, y: 12.54}
 --- !u!4 &143424050
 Transform:
   m_ObjectHideFlags: 0

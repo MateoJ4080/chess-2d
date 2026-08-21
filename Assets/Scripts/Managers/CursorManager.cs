@@ -8,9 +8,16 @@ public class CursorManager : MonoBehaviour
     public static CursorManager Instance { get; private set; }
 
     [SerializeField] private Texture2D _defaultCursor;
-    [SerializeField] private Texture2D _handCursor;
     [SerializeField] private Vector2 _defaultHotspot;
-    [SerializeField] private Vector2 _handHotspot;
+
+    [SerializeField] private Texture2D _buttonCursor;
+    [SerializeField] private Vector2 _buttonHotspot;
+
+    [SerializeField] private Texture2D _pieceCursor;
+    [SerializeField] private Vector2 _pieceHotspot;
+
+    [SerializeField] private Texture2D _grabCursor;
+    [SerializeField] private Vector2 _grabHotspot;
 
     private Camera _cam;
 
@@ -31,8 +38,12 @@ public class CursorManager : MonoBehaviour
 
     private void Update()
     {
-        if (IsHoveringButton() || IsHoveringPiece())
-            SetCursor(CursorType.Hand);
+        if (IsHoveringButton())
+            SetCursor(CursorType.Button);
+        else if (Input.GetMouseButton(0) && IsHoveringPiece())
+            SetCursor(CursorType.Grab);
+        else if (IsHoveringPiece())
+            SetCursor(CursorType.Piece);
         else
             SetCursor(CursorType.Default);
     }
@@ -68,8 +79,16 @@ public class CursorManager : MonoBehaviour
     {
         switch (type)
         {
-            case CursorType.Hand:
-                Cursor.SetCursor(_handCursor, _handHotspot, CursorMode.Auto);
+            case CursorType.Button:
+                Cursor.SetCursor(_buttonCursor, _buttonHotspot, CursorMode.Auto);
+                break;
+
+            case CursorType.Piece:
+                Cursor.SetCursor(_pieceCursor, _pieceHotspot, CursorMode.Auto);
+                break;
+
+            case CursorType.Grab:
+                Cursor.SetCursor(_grabCursor, _grabHotspot, CursorMode.Auto);
                 break;
 
             default:
@@ -82,5 +101,7 @@ public class CursorManager : MonoBehaviour
 public enum CursorType
 {
     Default,
-    Hand
+    Button,
+    Piece,
+    Grab
 }
