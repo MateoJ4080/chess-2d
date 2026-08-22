@@ -8,6 +8,7 @@ public class HighlightMoves : MonoBehaviour
 
     [SerializeField] private GameObject _highlightPrefab;
     [SerializeField] private GameObject _highlightCapturePrefab;
+    [SerializeField] private GameObject _selectedSquareHighlight;
 
     public static HighlightMoves Instance { get; private set; }
 
@@ -21,7 +22,6 @@ public class HighlightMoves : MonoBehaviour
         Instance = this;
     }
 
-    // Overload to match Action<GameObject> delegate
     public void ShowMoves(GameObject pieceGO)
     {
         if (pieceGO == null) return;
@@ -58,5 +58,17 @@ public class HighlightMoves : MonoBehaviour
                 Destroy(highlight);
         }
         activeHighlights.Clear();
+    }
+
+    public void HighlightSelectedSquare(Vector2Int position)
+    {
+        _selectedSquareHighlight.transform.position = (Vector3Int)position;
+        _selectedSquareHighlight.SetActive(true);
+
+    }
+
+    public void ClearSelectedSquare()
+    {
+        _selectedSquareHighlight.SetActive(false);
     }
 }

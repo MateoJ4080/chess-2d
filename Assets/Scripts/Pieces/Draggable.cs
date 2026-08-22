@@ -16,8 +16,12 @@ public class Draggable : MonoBehaviour
 
     void Update()
     {
-        if (_isDragging)
-            transform.position = GetMouseWorldPos() + _offset;
+        if (!_isDragging) return;
+
+        transform.position = GetMouseWorldPos() + _offset;
+
+        Vector2Int squarePos = Vector2Int.RoundToInt(transform.position);
+        HighlightMoves.Instance.HighlightSelectedSquare(squarePos);
     }
 
     void OnMouseDown()
@@ -39,10 +43,11 @@ public class Draggable : MonoBehaviour
         _renderer.sortingOrder = 5;
 
         _isDragging = false;
-        CursorManager.Instance.SetCursor(CursorType.Default);
 
         Vector2Int newPosition = Vector2Int.RoundToInt(transform.position);
         PieceManager.Instance.TryMovePiece(gameObject, _firstPosition, newPosition);
+        HighlightMoves.Instance.ClearSelectedSquare();
+
     }
 
     public void SnapToGrid()
