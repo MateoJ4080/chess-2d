@@ -18,7 +18,7 @@ public class Draggable : MonoBehaviour
     {
         if (!_isDragging) return;
 
-        transform.position = GetMouseWorldPos() + _offset;
+        transform.position = GetMouseWorldPos();
 
         Vector2Int squarePos = Vector2Int.RoundToInt(transform.position);
         HighlightMoves.Instance.HighlightSelectedSquare(squarePos);
