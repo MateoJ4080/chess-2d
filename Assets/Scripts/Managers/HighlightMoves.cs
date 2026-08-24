@@ -8,7 +8,8 @@ public class HighlightMoves : MonoBehaviour
 
     [SerializeField] private GameObject _highlightPrefab;
     [SerializeField] private GameObject _highlightCapturePrefab;
-    [SerializeField] private GameObject _selectedSquareHighlight;
+    [SerializeField] private GameObject _squareBorderHighlight;
+    [SerializeField] private GameObject _squareBackgroundHighlight;
 
     public static HighlightMoves Instance { get; private set; }
 
@@ -62,13 +63,16 @@ public class HighlightMoves : MonoBehaviour
 
     public void HighlightSelectedSquare(Vector2Int position)
     {
-        _selectedSquareHighlight.transform.position = (Vector3Int)position;
-        _selectedSquareHighlight.SetActive(true);
+        _squareBorderHighlight.transform.position = (Vector3Int)position;
+        _squareBorderHighlight.SetActive(true);
 
+        _squareBackgroundHighlight.transform.position = (Vector3Int)position;
+        _squareBackgroundHighlight.SetActive(true);
     }
 
     public void ClearSelectedSquare()
     {
-        _selectedSquareHighlight.SetActive(false);
+        _squareBorderHighlight.SetActive(false);
+        _squareBackgroundHighlight.SetActive(false);
     }
 }
