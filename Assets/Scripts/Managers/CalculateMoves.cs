@@ -28,7 +28,6 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         foreach (var piece in new List<GameObject>(BoardGenerator.Instance.PiecesOnBoard.Keys))
         {
             var data = piece.GetComponent<ChessPiece>().PieceData;
-            PlayerColor color = data.Color;
             switch (data.PieceType)
             {
                 case "Pawn":

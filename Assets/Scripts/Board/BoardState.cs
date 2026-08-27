@@ -178,11 +178,16 @@ public class BoardState : MonoBehaviourPunCallbacks
             Vector2Int kingPos = BoardGenerator.Instance.PiecesOnBoard[piece];
 
             var oppositeColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-            Debug.Log($"Checking if '{color}' king is in check by '{oppositeColor}'");
             return IsSquareAttackedBy(kingPos, oppositeColor);
         }
 
         return false;
+    }
+
+    public bool IsAnyKingInCheck()
+    {
+        return IsKingInCheck(PlayerManager.Instance.SelfColor) ||
+               IsKingInCheck(PlayerManager.Instance.EnemyColor);
     }
 
     public void CheckGameOver(PlayerColor turnColor)
@@ -208,10 +213,14 @@ public class BoardState : MonoBehaviourPunCallbacks
         bool inCheck = IsKingInCheck(turnColor);
         if (inCheck)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCheck);
+
             var selfResult = turnColor == PlayerManager.Instance.SelfColor ? GameResult.Lose : GameResult.Win;
             GameManager.Instance.TriggerGameOver(selfResult, GameOverReason.Checkmate);
         }
         else GameManager.Instance.TriggerGameOver(GameResult.Draw, GameOverReason.Stalemate);
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxGameEnd);
     }
 
     public void HandleEnPassant(Vector2Int from, Vector2Int to, PieceData data)
@@ -242,8 +251,6 @@ public class BoardState : MonoBehaviourPunCallbacks
         {
             var target = (int[])value;
             EnPassantTarget = target[0] == -1 ? null : BoardUtils.ToLocalPosition(new Vector2Int(target[0], target[1]), PlayerManager.Instance.SelfColor);
-
-            if (EnPassantTarget != null) Debug.Log($"EnPassant detected at {target[0]}, {target[1]}");
         }
     }
 
@@ -255,7 +262,6 @@ public class BoardState : MonoBehaviourPunCallbacks
                 continue;
 
             var data = piece.GetComponent<ChessPiece>().PieceData;
-            // var attackedData = BoardGenerator.Instance.PositionToPiece[target].GetComponent<ChessPiece>().PieceData;
 
             if (data.Color != attackerColor)
                 continue;
@@ -266,11 +272,7 @@ public class BoardState : MonoBehaviourPunCallbacks
             {
                 case "Pawn":
                     if (PawnAttacks(from, target, attackerColor))
-                        // if (attackedData.PieceType == "King")
-                        // {
-                        //     Debug.Log($"King at {target} under check by pawn at {from}");
                         return true;
-                    // }
                     break;
 
                 case "Knight":

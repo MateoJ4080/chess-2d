@@ -45,6 +45,12 @@ MonoBehaviour:
   - SyncMove
   - SyncTurn
   - SyncTimer
+  - SyncCastling
+  - SyncCastle
+  - PlayCastlingSFX
+  - PlayCheckSFX
+  - PlayCaptureSFX
+  - PlayOpponentMoveSFX
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

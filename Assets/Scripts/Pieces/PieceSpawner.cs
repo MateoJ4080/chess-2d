@@ -79,5 +79,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
         CalculateMoves.Instance.CalculateAllMoves();
         GameManager.Instance.AssignFirstTurnWhite();
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxGameStart);
     }
 }

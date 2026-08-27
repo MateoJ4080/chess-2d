@@ -4,8 +4,11 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PhotonView))]
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public static GameManager Instance { get; private set; }
+
     public enum GameState
     {
         MainMenu,
@@ -24,7 +27,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         set => piecesAreSpawned = value;
     }
 
-    public static GameManager Instance { get; private set; }
+    private PhotonView _photonView;
 
     void Awake()
     {
@@ -36,6 +39,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instance = this;
         DontDestroyOnLoad(gameObject);
         Application.runInBackground = true;
+
+        _photonView = GetComponent<PhotonView>();
     }
 
     public void UpdateGameState(GameState newState)
@@ -112,14 +117,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
-    public void OnPieceMovedBySelf(GameObject piece, Vector2Int from, Vector2Int to)
+    public void OnPieceMovedBySelf(GameObject piece, Vector2Int from, Vector2Int to, GameObject target)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
+        var isCastle = false;
 
         // Castling   
         if (data.PieceType == "King")
         {
             DisableSelfCastling();
+            if (Mathf.Abs(from.x - to.x) == 2) isCastle = true;
         }
 
         if (data.PieceType == "Rook")
@@ -137,7 +144,35 @@ public class GameManager : MonoBehaviourPunCallbacks
         HighlightMoves.Instance.ClearHighlights();
         BoardState.Instance.HandleEnPassant(from, to, data);
         TimerManager.Instance.OnPieceMovedBySelf();
+
+        // SFX
+        if (BoardState.Instance.IsAnyKingInCheck())
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCheck);
+            _photonView.RPC("PlayCheckSFX", RpcTarget.Others);
+        }
+        else if (isCastle)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCastling);
+            _photonView.RPC("PlayCastlingSFX", RpcTarget.Others);
+        }
+        else if (target != null)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCapture);
+            _photonView.RPC("PlayCaptureSFX", RpcTarget.Others);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxSelfMove);
+            _photonView.RPC("PlayOpponentMoveSFX", RpcTarget.Others);
+        }
+
     }
+
+    [PunRPC] void PlayCheckSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCheck);
+    [PunRPC] void PlayCaptureSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCapture);
+    [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCastling);
+    [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxOpponentMove);
 
     void DisableSelfCastling()
     {

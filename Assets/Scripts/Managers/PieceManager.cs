@@ -27,10 +27,10 @@ public class PieceManager : MonoBehaviour
         if (!IsLegalMove(piece, to) || !GameManager.Instance.IsMyTurn() || !BoardUtils.PlayerIsThisColor(piece))
         {
             piece.transform.position = new(from.x, from.y, 0);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxIllegal);
             return;
         }
 
-        // If there's a piece on target square, destroy and remove from dictionary
         GameObject target = BoardUtils.GetPieceAt(to);
         CapturePiece(target);
 
@@ -38,7 +38,7 @@ public class PieceManager : MonoBehaviour
         if (isCastling) HandleCastling(from, to, isWhite);
 
         // Important: must go before MovePiece so EnPeassant is registered before CalculateAllMoves
-        GameManager.Instance.OnPieceMovedBySelf(piece, from, to);
+        GameManager.Instance.OnPieceMovedBySelf(piece, from, to, target);
 
         MovePiece(from, to, piece);
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
@@ -58,7 +58,6 @@ public class PieceManager : MonoBehaviour
         Destroy(piece);
     }
 
-    // Synchronize a piece move across the network, depending on the color/point of view of the local player
     [PunRPC]
     public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID, bool isMoveFromWhite)
     {
@@ -72,7 +71,6 @@ public class PieceManager : MonoBehaviour
             return;
         }
 
-        // If piece on target square, destroy and remove from dictionary
         GameObject pieceToCapture = BoardUtils.GetPieceAt(to);
         if (pieceToCapture != null)
         {
