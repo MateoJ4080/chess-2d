@@ -18,7 +18,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
         yield return new WaitUntil(() =>
             PlayerManager.Instance != null &&
-            PlayerManager.Instance.CheckColorsAssigned());
+            PlayerManager.Instance.AreColorsAssigned());
 
         if (!PhotonNetwork.IsMasterClient) yield break;
 

@@ -39,8 +39,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
 
-    // Check if colors are assigned by looking at room properties
-    public bool CheckColorsAssigned()
+    public bool AreColorsAssigned()
     {
         return PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("ColorsAssigned", out var value) && (bool)value;
     }
