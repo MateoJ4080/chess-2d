@@ -24,10 +24,11 @@ public class PieceManager : MonoBehaviour
         bool isWhite = data.Color == PlayerColor.White;
 
         // If illegal move, return to original position
-        if (!IsLegalMove(piece, to) || !GameManager.Instance.IsMyTurn() || !BoardUtils.PlayerIsThisColor(piece))
+        if (!CanMovePiece(piece, to))
         {
+            if (GameManager.Instance.IsMyTurn() && from != to)
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxIllegal);
             piece.transform.position = new(from.x, from.y, 0);
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxIllegal);
             return;
         }
 
@@ -94,6 +95,13 @@ public class PieceManager : MonoBehaviour
 
         MovePiece(rookFrom, rookTo, rook);
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, rookFrom.x, rookFrom.y, rookTo.x, rookTo.y, rookID, isWhite);
+    }
+
+    private bool CanMovePiece(GameObject piece, Vector2Int to)
+    {
+        return GameManager.Instance.IsMyTurn() &&
+               BoardUtils.PlayerIsThisColor(piece) &&
+               IsLegalMove(piece, to);
     }
 
     // Check if this is a highlighted and legal square for the piece to move
