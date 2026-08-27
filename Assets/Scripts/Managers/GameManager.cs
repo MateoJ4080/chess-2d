@@ -133,7 +133,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!isWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King);
         }
 
+        SwitchTurn();
+        HighlightMoves.Instance.ClearHighlights();
         BoardState.Instance.HandleEnPassant(from, to, data);
+        TimerManager.Instance.OnPieceMovedBySelf();
     }
 
     void DisableSelfCastling()

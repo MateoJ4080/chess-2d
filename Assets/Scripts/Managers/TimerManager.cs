@@ -19,6 +19,13 @@ public class TimerManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         if (!PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(RoomProps.MatchTime, out object value))
             Debug.LogError("OnJoinedRoom: MatchTime room property not found, assigning default value (180)");
         else

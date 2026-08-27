@@ -2,7 +2,6 @@ using Photon.Pun;
 using UnityEngine;
 public class PieceManager : MonoBehaviour
 {
-    [SerializeField] private TimerManager _timerManager;
     private PhotonView _photonView;
 
     public static PieceManager Instance { get; private set; }
@@ -18,80 +17,52 @@ public class PieceManager : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
     }
 
-    public void TryMovePiece(GameObject pieceGO, Vector2Int from, Vector2Int to)
+    public void TryMovePiece(GameObject piece, Vector2Int from, Vector2Int to)
     {
-        var data = pieceGO.GetComponent<ChessPiece>().PieceData;
-        int pieceID = pieceGO.GetComponent<PhotonView>().ViewID;
+        var data = piece.GetComponent<ChessPiece>().PieceData;
+        int pieceID = piece.GetComponent<PhotonView>().ViewID;
         bool isWhite = data.Color == PlayerColor.White;
 
-        // If isn't legal move or isn't player's turn, return piece to original position
-        if (!IsLegalMove(pieceGO, to) || !GameManager.Instance.IsMyTurn() || !BoardUtils.PlayerIsThisColor(pieceGO))
+        // If illegal move, return to original position
+        if (!IsLegalMove(piece, to) || !GameManager.Instance.IsMyTurn() || !BoardUtils.PlayerIsThisColor(piece))
         {
-            pieceGO.transform.position = new(from.x, from.y, 0);
+            piece.transform.position = new(from.x, from.y, 0);
             return;
         }
 
         // If there's a piece on target square, destroy and remove from dictionary
-        GameObject piece = BoardUtils.GetPieceAt(to);
-        CapturePiece(piece);
+        GameObject target = BoardUtils.GetPieceAt(to);
+        CapturePiece(target);
 
-        // Castling
-        if (data.PieceType == "King")
-        {
-            // Castle right
-            if (to.x - from.x == 2)
-            {
-                Vector2Int rightRookPos = new(7, 0);
-                GameObject rightRook = BoardUtils.GetPieceAt(rightRookPos);
-                rightRook.transform.position = new(5, 0, 0);
+        bool isCastling = data.PieceType == "King" && Mathf.Abs(to.x - from.x) == 2;
+        if (isCastling) HandleCastling(from, to, isWhite);
 
-                MovePiece(rightRookPos, new(5, 0), rightRook);
-                _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 7, 0, 5, 0, pieceID, isWhite);
-
-            }
-
-            // Castle left
-            if (from.x - to.x == 2)
-            {
-                Vector2Int leftRookPos = new(0, 0);
-                GameObject leftRook = BoardUtils.GetPieceAt(leftRookPos);
-                leftRook.transform.position = new(3, 0, 0);
-
-                MovePiece(leftRookPos, new(3, 0), leftRook);
-                _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, 0, 0, 3, 0, pieceID, isWhite);
-            }
-        }
-
-        GameManager.Instance.OnPieceMovedBySelf(pieceGO, from, to);
-        GameManager.Instance.SwitchTurn();
-        HighlightMoves.Instance.ClearHighlights();
-        _timerManager.OnPieceMovedBySelf();
-        MovePiece(from, to, pieceGO);
-
+        MovePiece(from, to, piece);
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
+
+        GameManager.Instance.OnPieceMovedBySelf(piece, from, to);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
     {
-        piece.GetComponent<Draggable>().SnapToGrid();
+        piece.transform.position = new(to.x, to.y);
         BoardUtils.RefreshBoardState(from, to, piece);
     }
 
     public static void CapturePiece(GameObject piece)
     {
-        if (piece != null)
-        {
-            Destroy(piece);
-            BoardGenerator.Instance.PiecesOnBoard.Remove(piece);
-        }
+        if (piece == null) return;
+
+        BoardGenerator.Instance.PiecesOnBoard.Remove(piece);
+        Destroy(piece);
     }
 
     // Synchronize a piece move across the network, depending on the color/point of view of the local player
     [PunRPC]
     public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID, bool isMoveFromWhite)
     {
-        Vector2Int from = TransformPos(new(fromX, fromY), isMoveFromWhite);
-        Vector2Int to = TransformPos(new(toX, toY), isMoveFromWhite);
+        Vector2Int from = InvertPos(new(fromX, fromY), isMoveFromWhite);
+        Vector2Int to = InvertPos(new(toX, toY), isMoveFromWhite);
 
         var view = PhotonView.Find(pieceID);
         if (view == null)
@@ -113,6 +84,19 @@ public class PieceManager : MonoBehaviour
         BoardUtils.RefreshBoardState(from, to, piece);
     }
 
+    private void HandleCastling(Vector2Int from, Vector2Int to, bool isWhite)
+    {
+        bool kingSide = to.x > from.x;
+        Vector2Int rookFrom = new(kingSide ? 7 : 0, from.y);
+        Vector2Int rookTo = new(kingSide ? 5 : 3, from.y);
+
+        GameObject rook = BoardUtils.GetPieceAt(rookFrom);
+        int rookID = rook.GetComponent<PhotonView>().ViewID;
+
+        MovePiece(rookFrom, rookTo, rook);
+        _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, rookFrom.x, rookFrom.y, rookTo.x, rookTo.y, rookID, isWhite);
+    }
+
     // Check if this is a highlighted and legal square for the piece to move
     public bool IsLegalMove(GameObject pieceGO, Vector2Int targetPosition)
     {
@@ -122,7 +106,7 @@ public class PieceManager : MonoBehaviour
         return false;
     }
 
-    private Vector2Int TransformPos(Vector2Int pos, bool moveFromWhite)
+    private Vector2Int InvertPos(Vector2Int pos, bool moveFromWhite)
     {
         return BoardState.Instance.IsBoardInverted == moveFromWhite ? new Vector2Int(pos.x, 7 - pos.y) : pos;
     }
