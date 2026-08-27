@@ -37,10 +37,11 @@ public class PieceManager : MonoBehaviour
         bool isCastling = data.PieceType == "King" && Mathf.Abs(to.x - from.x) == 2;
         if (isCastling) HandleCastling(from, to, isWhite);
 
+        // Important: must go before MovePiece so EnPeassant is registered before CalculateAllMoves
+        GameManager.Instance.OnPieceMovedBySelf(piece, from, to);
+
         MovePiece(from, to, piece);
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
-
-        GameManager.Instance.OnPieceMovedBySelf(piece, from, to);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
