@@ -104,7 +104,6 @@ public class PieceManager : MonoBehaviour
                IsLegalMove(piece, to);
     }
 
-    // Check if this is a highlighted and legal square for the piece to move
     public bool IsLegalMove(GameObject pieceGO, Vector2Int targetPosition)
     {
         if (CalculateMoves.Instance.LegalMovesByPiece.TryGetValue(pieceGO, out var legalMoves))

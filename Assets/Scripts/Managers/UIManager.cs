@@ -61,10 +61,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI _debugTextScene;
 
     [Header("Debug - Room Properties")]
-    [SerializeField] private TextMeshProUGUI _isWhiteCheckOnceText;
-    [SerializeField] private TextMeshProUGUI _isWhiteCheckTwiceText;
-    [SerializeField] private TextMeshProUGUI _isBlackCheckOnceText;
-    [SerializeField] private TextMeshProUGUI _isBlackCheckTwiceText;
     [SerializeField] private TextMeshProUGUI _colorInfoText;
     [SerializeField] private TextMeshProUGUI _currentTurnText;
 
@@ -215,20 +211,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.InRoom)
             return;
-
-        var props = PhotonNetwork.CurrentRoom.CustomProperties;
-
-        if (props.TryGetValue("whiteInCheckOnce", out var value))
-            _isWhiteCheckOnceText.text = $"whiteCheckOnce: {value}";
-
-        if (props.TryGetValue("whiteInCheckTwice", out value))
-            _isWhiteCheckTwiceText.text = $"whiteCheckTwice: {value}";
-
-        if (props.TryGetValue("blackInCheckOnce", out value))
-            _isBlackCheckOnceText.text = $"blackCheckOnce: {value}";
-
-        if (props.TryGetValue("blackInCheckTwice", out value))
-            _isBlackCheckTwiceText.text = $"blackCheckTwice: {value}";
 
         if (_currentTurnText != null)
         {
