@@ -96,7 +96,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("GameScene");
+            PhotonNetwork.LoadLevel("Game");
         }
     }
 
@@ -109,7 +109,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         UIManager.Instance.HidePlayerPanelsParent();
 
-        SceneManager.LoadScene("MenuScene");
+        SceneManager.LoadScene("Menu");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)

@@ -97,12 +97,12 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MenuScene")
+        if (scene.name == "Menu")
         {
             ShowMenuPanel();
             HideResignTopButton();
         }
-        if (scene.name == "GameScene")
+        if (scene.name == "Game")
         {
             _loadingPanel.SetActive(false);
             ShowResignTopButton();
@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void ShowMenuPanel()
     {
-        if (SceneManager.GetActiveScene().name == "MenuScene") _mainMenuPanel.SetActive(true);
+        if (SceneManager.GetActiveScene().name == "Menu") _mainMenuPanel.SetActive(true);
     }
     public void HideMenuPanel() => _mainMenuPanel.SetActive(false);
 

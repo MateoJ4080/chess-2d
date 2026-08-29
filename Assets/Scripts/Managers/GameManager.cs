@@ -289,7 +289,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
 
         UpdateGameState(GameState.MainMenu);
-        SceneManager.LoadScene("MenuScene");
+        SceneManager.LoadScene("Menu");
     }
 
     public void TriggerGameOver(GameResult selfResult, GameOverReason reason)
