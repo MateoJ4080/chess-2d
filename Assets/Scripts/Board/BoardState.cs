@@ -213,14 +213,14 @@ public class BoardState : MonoBehaviourPunCallbacks
         bool inCheck = IsKingInCheck(turnColor);
         if (inCheck)
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCheck);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
 
             var selfResult = turnColor == PlayerManager.Instance.SelfColor ? GameResult.Lose : GameResult.Win;
             GameManager.Instance.TriggerGameOver(selfResult, GameOverReason.Checkmate);
         }
         else GameManager.Instance.TriggerGameOver(GameResult.Draw, GameOverReason.Stalemate);
 
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxGameEnd);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.GameEnd);
     }
 
     public void HandleEnPassant(Vector2Int from, Vector2Int to, PieceData data)

@@ -27,7 +27,7 @@ public class PieceManager : MonoBehaviour
         if (!CanMovePiece(piece, to))
         {
             if (GameManager.Instance.IsMyTurn() && from != to)
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxIllegal);
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.Illegal);
             piece.transform.position = new(from.x, from.y, 0);
             return;
         }

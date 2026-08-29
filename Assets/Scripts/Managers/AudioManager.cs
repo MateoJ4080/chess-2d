@@ -8,16 +8,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
-    [Header("SFX")]
-    // Board
-    public AudioClip sfxSelfMove;
-    public AudioClip sfxOpponentMove;
-    public AudioClip sfxCastling;
-    public AudioClip sfxCapture;
-    public AudioClip sfxCheck;
-    public AudioClip sfxIllegal;
-    public AudioClip sfxGameStart;
-    public AudioClip sfxGameEnd;
+    [Header("Game SFX")]
+    public AudioClip SelfMove;
+    public AudioClip OpponentMove;
+    public AudioClip Castling;
+    public AudioClip Capture;
+    public AudioClip Check;
+    public AudioClip Illegal;
+    public AudioClip GameStart;
+    public AudioClip GameEnd;
 
     private void Awake()
     {

@@ -148,31 +148,31 @@ public class GameManager : MonoBehaviourPunCallbacks
         // SFX
         if (BoardState.Instance.IsAnyKingInCheck())
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCheck);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
             _photonView.RPC("PlayCheckSFX", RpcTarget.Others);
         }
         else if (isCastle)
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCastling);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
             _photonView.RPC("PlayCastlingSFX", RpcTarget.Others);
         }
         else if (target != null)
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCapture);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.Capture);
             _photonView.RPC("PlayCaptureSFX", RpcTarget.Others);
         }
         else
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxSelfMove);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.SelfMove);
             _photonView.RPC("PlayOpponentMoveSFX", RpcTarget.Others);
         }
 
     }
 
-    [PunRPC] void PlayCheckSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCheck);
-    [PunRPC] void PlayCaptureSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCapture);
-    [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxCastling);
-    [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.sfxOpponentMove);
+    [PunRPC] void PlayCheckSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
+    [PunRPC] void PlayCaptureSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Capture);
+    [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
+    [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.OpponentMove);
 
     void DisableSelfCastling()
     {
