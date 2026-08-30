@@ -8,6 +8,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
+    [Header("UI SFX")]
+    public AudioClip ButtonHover;
+
     [Header("Game SFX")]
     public AudioClip SelfMove;
     public AudioClip OpponentMove;

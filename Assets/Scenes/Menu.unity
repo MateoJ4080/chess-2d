@@ -992,6 +992,7 @@ GameObject:
   - component: {fileID: 202058859}
   - component: {fileID: 202058858}
   - component: {fileID: 202058857}
+  - component: {fileID: 202058861}
   - component: {fileID: 202058860}
   m_Layer: 5
   m_Name: Play Button
@@ -1065,13 +1066,37 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1156580738}
-        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: OnPressPlay
-        m_Mode: 1
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1141,6 +1166,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 1
+--- !u!114 &202058861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202058855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &207835171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1736,6 +1773,7 @@ GameObject:
   - component: {fileID: 335054810}
   - component: {fileID: 335054809}
   - component: {fileID: 335054808}
+  - component: {fileID: 335054812}
   - component: {fileID: 335054811}
   m_Layer: 5
   m_Name: Spectate Button
@@ -1809,9 +1847,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideMenuPanel
+        m_MethodName: ShowMatchList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1897,6 +1947,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 1
+--- !u!114 &335054812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335054806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &335743154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,6 +2084,7 @@ GameObject:
   - component: {fileID: 357049890}
   - component: {fileID: 357049889}
   - component: {fileID: 357049888}
+  - component: {fileID: 357049891}
   m_Layer: 5
   m_Name: Cancel
   m_TagString: Untagged
@@ -2093,6 +2156,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: HideResignPanel
@@ -2143,6 +2218,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357049886}
   m_CullTransparentMesh: 1
+--- !u!114 &357049891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357049886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &358716068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3542,6 +3629,7 @@ GameObject:
   - component: {fileID: 598932563}
   - component: {fileID: 598932562}
   - component: {fileID: 598932561}
+  - component: {fileID: 598932565}
   - component: {fileID: 598932564}
   m_Layer: 5
   m_Name: Back Button
@@ -3613,9 +3701,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideMatchList
+        m_MethodName: ShowMenuPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3695,6 +3795,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &598932565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598932559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &609109666
 GameObject:
   m_ObjectHideFlags: 0
@@ -4221,6 +4333,7 @@ GameObject:
   - component: {fileID: 638836277}
   - component: {fileID: 638836276}
   - component: {fileID: 638836275}
+  - component: {fileID: 638836279}
   - component: {fileID: 638836278}
   m_Layer: 5
   m_Name: Back
@@ -4292,9 +4405,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideSettingsPanel
+        m_MethodName: ShowTopButtonsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4369,6 +4494,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &638836279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638836273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &655383754
 GameObject:
   m_ObjectHideFlags: 0
@@ -6278,6 +6415,7 @@ GameObject:
   - component: {fileID: 1041535811}
   - component: {fileID: 1041535810}
   - component: {fileID: 1041535809}
+  - component: {fileID: 1041535812}
   m_Layer: 5
   m_Name: Cancel Button
   m_TagString: Untagged
@@ -6349,9 +6487,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1696223698}
-        m_TargetAssemblyTypeName: MatchmakingManager, Assembly-CSharp
-        m_MethodName: CancelMatchmaking
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 538286587}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: HideLoadingPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6363,7 +6513,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideLoadingPanel
+        m_MethodName: ShowMenuPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6423,6 +6573,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041535807}
   m_CullTransparentMesh: 1
+--- !u!114 &1041535812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041535807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1055671170
 GameObject:
   m_ObjectHideFlags: 0
@@ -6653,6 +6815,7 @@ GameObject:
   - component: {fileID: 1076335957}
   - component: {fileID: 1076335956}
   - component: {fileID: 1076335955}
+  - component: {fileID: 1076335958}
   m_Layer: 5
   m_Name: Rematch Button
   m_TagString: Untagged
@@ -6723,7 +6886,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1076335956}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1076335956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6762,6 +6937,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1076335953}
   m_CullTransparentMesh: 1
+--- !u!114 &1076335958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076335953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1080270889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6774,6 +6961,7 @@ GameObject:
   - component: {fileID: 1080270894}
   - component: {fileID: 1080270893}
   - component: {fileID: 1080270892}
+  - component: {fileID: 1080270895}
   - component: {fileID: 1080270891}
   m_Layer: 5
   m_Name: Resign Button
@@ -6866,6 +7054,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: ShowResignPanel
@@ -6916,6 +7116,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080270889}
   m_CullTransparentMesh: 1
+--- !u!114 &1080270895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080270889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1098434861
 GameObject:
   m_ObjectHideFlags: 0
@@ -8398,6 +8610,7 @@ GameObject:
   - component: {fileID: 1279305855}
   - component: {fileID: 1279305854}
   - component: {fileID: 1279305853}
+  - component: {fileID: 1279305856}
   m_Layer: 5
   m_Name: Menu Button
   m_TagString: Untagged
@@ -8469,9 +8682,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 538286587}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideGameOverPanel
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: BackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8531,6 +8756,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279305851}
   m_CullTransparentMesh: 1
+--- !u!114 &1279305856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279305851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1286796855
 GameObject:
   m_ObjectHideFlags: 0
@@ -9018,6 +9255,7 @@ GameObject:
   - component: {fileID: 1420489351}
   - component: {fileID: 1420489350}
   - component: {fileID: 1420489349}
+  - component: {fileID: 1420489352}
   m_Layer: 5
   m_Name: Close Icon
   m_TagString: Untagged
@@ -9088,6 +9326,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: HideGameOverPanel
@@ -9138,6 +9388,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420489347}
   m_CullTransparentMesh: 1
+--- !u!114 &1420489352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420489347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1474317022
 GameObject:
   m_ObjectHideFlags: 0
@@ -10219,6 +10481,7 @@ GameObject:
   - component: {fileID: 1670134711}
   - component: {fileID: 1670134710}
   - component: {fileID: 1670134709}
+  - component: {fileID: 1670134712}
   - component: {fileID: 1670134708}
   m_Layer: 5
   m_Name: Debug Button
@@ -10311,9 +10574,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 790897635}
-        m_TargetAssemblyTypeName: DebugManager, Assembly-CSharp
-        m_MethodName: ToggleDebugMode
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 538286587}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ToggleDebugTextsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10373,6 +10648,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670134706}
   m_CullTransparentMesh: 1
+--- !u!114 &1670134712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670134706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1694189980
 GameObject:
   m_ObjectHideFlags: 0
@@ -11142,14 +11429,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 0}
   sfxSource: {fileID: 1851911721}
-  sfxSelfMove: {fileID: 8300000, guid: 4a027d012f94b8c47bb9459e1dd87537, type: 3}
-  sfxOpponentMove: {fileID: 8300000, guid: d1bc111ba29e49b4b96c7bc4425ca5be, type: 3}
-  sfxCastling: {fileID: 8300000, guid: 3341cc5bc70b03844942a9012333483b, type: 3}
-  sfxCapture: {fileID: 8300000, guid: cbdb6878c3674244a8f90cde243eb5a2, type: 3}
-  sfxCheck: {fileID: 8300000, guid: 516e24c707c5f84439bebd770823cd07, type: 3}
-  sfxIllegal: {fileID: 8300000, guid: d638de1a38e074943b5ee09061081296, type: 3}
-  sfxGameStart: {fileID: 8300000, guid: b10feeefa2618174db615d1faf5bc316, type: 3}
-  sfxGameEnd: {fileID: 8300000, guid: 9c3409eb231137d41aa0a8fa6cc07671, type: 3}
+  ButtonHover: {fileID: 8300000, guid: 43d7c8a0b1a189e4995c4acf8985b4b7, type: 3}
+  SelfMove: {fileID: 8300000, guid: 4a027d012f94b8c47bb9459e1dd87537, type: 3}
+  OpponentMove: {fileID: 8300000, guid: d1bc111ba29e49b4b96c7bc4425ca5be, type: 3}
+  Castling: {fileID: 8300000, guid: 3341cc5bc70b03844942a9012333483b, type: 3}
+  Capture: {fileID: 8300000, guid: cbdb6878c3674244a8f90cde243eb5a2, type: 3}
+  Check: {fileID: 8300000, guid: 516e24c707c5f84439bebd770823cd07, type: 3}
+  Illegal: {fileID: 8300000, guid: d638de1a38e074943b5ee09061081296, type: 3}
+  GameStart: {fileID: 8300000, guid: b10feeefa2618174db615d1faf5bc316, type: 3}
+  GameEnd: {fileID: 8300000, guid: 9c3409eb231137d41aa0a8fa6cc07671, type: 3}
 --- !u!4 &1834621840
 Transform:
   m_ObjectHideFlags: 0
@@ -12191,6 +12479,7 @@ GameObject:
   - component: {fileID: 1987787278}
   - component: {fileID: 1987787277}
   - component: {fileID: 1987787276}
+  - component: {fileID: 1987787279}
   m_Layer: 5
   m_Name: Resign
   m_TagString: Untagged
@@ -12262,9 +12551,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1696223698}
-        m_TargetAssemblyTypeName: MatchmakingManager, Assembly-CSharp
-        m_MethodName: OnResign
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 538286587}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: HideResignPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12324,6 +12625,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987787274}
   m_CullTransparentMesh: 1
+--- !u!114 &1987787279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987787274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &1992627851
 GameObject:
   m_ObjectHideFlags: 0
@@ -13100,6 +13413,7 @@ GameObject:
   - component: {fileID: 2122707377}
   - component: {fileID: 2122707376}
   - component: {fileID: 2122707375}
+  - component: {fileID: 2122707378}
   - component: {fileID: 2122707374}
   m_Layer: 5
   m_Name: Settings Button
@@ -13192,9 +13506,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideTopButtonsPanel
+        m_MethodName: ShowSettingsPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13254,6 +13580,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122707372}
   m_CullTransparentMesh: 1
+--- !u!114 &2122707378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122707372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &2134713957
 GameObject:
   m_ObjectHideFlags: 0
@@ -13266,6 +13604,7 @@ GameObject:
   - component: {fileID: 2134713961}
   - component: {fileID: 2134713960}
   - component: {fileID: 2134713962}
+  - component: {fileID: 2134713963}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -13376,6 +13715,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1834621839}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 905ef3ed867130d4b8e7845f6bce6543, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1156580738}
         m_TargetAssemblyTypeName: MenuSceneUI, Assembly-CSharp
         m_MethodName: OnPressPlay
@@ -13388,6 +13739,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2134713963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134713957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af60f67658c034440a8d2719e001d283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHover
 --- !u!1 &2143012022
 GameObject:
   m_ObjectHideFlags: 0
