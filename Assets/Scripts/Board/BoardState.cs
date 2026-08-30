@@ -209,7 +209,7 @@ public class BoardState : MonoBehaviourPunCallbacks
             }
         }
 
-        // If all conditions passed, it's game over because 'colorEvaluated' can't move
+        // If all conditions passed, it's game over because 'turnColor' can't move
         bool inCheck = IsKingInCheck(turnColor);
         if (inCheck)
         {

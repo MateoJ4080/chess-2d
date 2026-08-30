@@ -284,14 +284,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void BackToMenu()
-    {
-        PhotonNetwork.LeaveRoom();
-
-        UpdateGameState(GameState.MainMenu);
-        SceneManager.LoadScene("Menu");
-    }
-
     public void TriggerGameOver(GameResult selfResult, GameOverReason reason)
     {
         UpdateGameState(GameState.GameOver);
