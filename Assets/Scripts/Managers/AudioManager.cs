@@ -1,12 +1,14 @@
 
 using UnityEngine;
+using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("Audio Sources")]
+    [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
+
 
     [Header("UI SFX")]
     public AudioClip ButtonHover;
@@ -47,12 +49,12 @@ public class AudioManager : MonoBehaviour
     // Assigned to slider in the Inspector
     public void SetMusicVolume(float value)
     {
-        musicSource.volume = value;
+        mixer.SetFloat("Music", Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20);
     }
 
     // Assigned to slider in the Inspector
-    public void SetSfxVolume(float value)
+    public void SetSFXVolume(float value)
     {
-        sfxSource.volume = value;
+        mixer.SetFloat("SFX", Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20);
     }
 }
