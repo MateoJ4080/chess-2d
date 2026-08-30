@@ -3,8 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class Bootstrap : MonoBehaviour
 {
-    private void Start()
+    public static bool Initialized { get; private set; }
+
+    private void Awake()
     {
+        Initialized = true;
         SceneManager.LoadScene("Menu");
     }
 }
