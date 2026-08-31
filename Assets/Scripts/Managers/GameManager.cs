@@ -2,7 +2,6 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
 public class GameManager : MonoBehaviourPunCallbacks
@@ -19,6 +18,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public PlayerColor CurrentTurn { get; private set; } = PlayerColor.White;
     public GameState State { get; private set; }
+
+    public bool IsGameActive => State == GameState.InGame;
 
     private bool piecesAreSpawned = false;
     public bool PiecesAreSpawned

@@ -1,6 +1,5 @@
 using System.Collections;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
 public class TimerManager : MonoBehaviourPunCallbacks
@@ -11,11 +10,11 @@ public class TimerManager : MonoBehaviourPunCallbacks
     private double _opponentTime;
 
     private double _lastTurnStartTime;
-    private double _lastTurnDuration;
+    private double _turnElapsedTime;
 
-    double _matchTime = 180;
-    bool _started;
-    bool _startTimeAssigned;
+    private double _matchTime = 180;
+    private bool _started;
+    private bool _startTimeAssigned;
 
     void Awake()
     {
@@ -53,6 +52,8 @@ public class TimerManager : MonoBehaviourPunCallbacks
 
     public void UpdateTimersAndUI()
     {
+        if (!GameManager.Instance.IsGameActive) return;
+
         if (!_started || PhotonNetwork.Time == 0) return;
 
         if (!_startTimeAssigned)
@@ -61,15 +62,15 @@ public class TimerManager : MonoBehaviourPunCallbacks
             _startTimeAssigned = true;
         }
 
-        _lastTurnDuration = PhotonNetwork.Time - _lastTurnStartTime;
+        _turnElapsedTime = PhotonNetwork.Time - _lastTurnStartTime;
 
         double currentSelf = _selfTime;
         double currentOpponent = _opponentTime;
 
         if (GameManager.Instance.IsMyTurn())
-            currentSelf = _selfTime - _lastTurnDuration;
+            currentSelf = _selfTime - _turnElapsedTime;
         else
-            currentOpponent = _opponentTime - _lastTurnDuration;
+            currentOpponent = _opponentTime - _turnElapsedTime;
 
         currentSelf = System.Math.Max(0, currentSelf);
         currentOpponent = System.Math.Max(0, currentOpponent);
@@ -86,10 +87,10 @@ public class TimerManager : MonoBehaviourPunCallbacks
 
     public void OnPieceMovedBySelf()
     {
-        _selfTime -= _lastTurnDuration;
+        _selfTime -= _turnElapsedTime;
         _lastTurnStartTime = PhotonNetwork.Time;
 
-        photonView.RPC("SyncTimer", RpcTarget.Others, _lastTurnDuration);
+        photonView.RPC("SyncTimer", RpcTarget.Others, _turnElapsedTime);
     }
 
     public void OnRemoteTurn(double turnDuration)
