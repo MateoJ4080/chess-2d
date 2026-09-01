@@ -77,9 +77,8 @@ public class TimerManager : MonoBehaviourPunCallbacks
 
         if (currentSelf <= 0 || currentOpponent <= 0)
         {
-            GameManager.Instance.UpdateGameState(GameManager.GameState.GameOver);
             var selfResult = currentSelf <= 0 ? GameResult.Lose : GameResult.Win;
-            UIManager.Instance.ShowGameOverPanel(selfResult, GameOverReason.Timeout);
+            GameManager.Instance.TriggerGameOver(selfResult, GameOverReason.Timeout);
         }
 
         UIManager.Instance.UpdateTimers(currentSelf, currentOpponent);

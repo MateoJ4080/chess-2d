@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameState State { get; private set; }
 
     public bool IsGameActive => State == GameState.InGame;
+    public bool IsGameOver => State == GameState.GameOver;
 
     private bool piecesAreSpawned = false;
     public bool PiecesAreSpawned
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         var roomProps = PhotonNetwork.CurrentRoom.CustomProperties;
         var playerProps = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        if (!roomProps.ContainsKey("Turn") || !playerProps.ContainsKey("Color") || Instance.IsGameOver())
+        if (!roomProps.ContainsKey("Turn") || !playerProps.ContainsKey("Color") || Instance.IsGameOver)
             return false;
 
         PlayerColor currentTurn = (PlayerColor)(int)roomProps["Turn"];
@@ -290,10 +291,5 @@ public class GameManager : MonoBehaviourPunCallbacks
         UpdateGameState(GameState.GameOver);
         SetGameStateNetwork(GameState.GameOver);
         UIManager.Instance.ShowGameOverPanel(selfResult, reason);
-    }
-
-    public bool IsGameOver()
-    {
-        return State == GameState.GameOver;
     }
 }
