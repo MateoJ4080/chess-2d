@@ -100,16 +100,9 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
     public override void OnLeftRoom()
     {
         UIManager.Instance.HidePlayerPanelsParent();
-
-        SceneManager.LoadScene("Menu");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -126,10 +119,5 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public void CancelMatchmaking()
     {
         PhotonNetwork.LeaveRoom();
-    }
-
-    public void OnResign()
-    {
-        if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
     }
 }

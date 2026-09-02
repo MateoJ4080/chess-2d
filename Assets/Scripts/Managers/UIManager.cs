@@ -308,4 +308,9 @@ public class UIManager : MonoBehaviourPunCallbacks
             _ => "Unknown Reason"
         };
     }
+
+    public void OnGameResign()
+    {
+        GameManager.Instance.Resign();
+    }
 }

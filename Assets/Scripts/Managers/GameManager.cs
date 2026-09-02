@@ -292,4 +292,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetGameStateNetwork(GameState.GameOver);
         UIManager.Instance.ShowGameOverPanel(selfResult, reason);
     }
+
+    public void Resign()
+    {
+        TriggerGameOver(GameResult.Lose, GameOverReason.Resign);
+        _photonView.RPC("OnOpponentResigned", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    void OnOpponentResigned() => TriggerGameOver(GameResult.Win, GameOverReason.Resign);
 }

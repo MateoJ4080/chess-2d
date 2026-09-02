@@ -9913,10 +9913,10 @@ RectTransform:
   - {fileID: 1080270890}
   m_Father: {fileID: 1745171279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5528144, y: 1}
+  m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 124.33716, y: -32.644012}
-  m_SizeDelta: {x: -248.6742, y: 65.289}
+  m_AnchoredPosition: {x: -145.16284, y: -32.644012}
+  m_SizeDelta: {x: 290.3258, y: 65.289}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1596349876
 MonoBehaviour:
@@ -12586,9 +12586,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1696223698}
-        m_TargetAssemblyTypeName: MatchmakingManager, Assembly-CSharp
-        m_MethodName: OnResign
+      - m_Target: {fileID: 538286587}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: HideResignPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12600,7 +12600,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 538286587}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HideResignPanel
+        m_MethodName: OnGameResign
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
