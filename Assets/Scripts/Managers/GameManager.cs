@@ -144,7 +144,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         SwitchTurn();
         HighlightMoves.Instance.ClearHighlights();
-        BoardState.Instance.HandleEnPassant(from, to, data);
         TimerManager.Instance.OnPieceMovedBySelf();
 
         // SFX

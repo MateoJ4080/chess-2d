@@ -213,8 +213,6 @@ public class BoardState : MonoBehaviourPunCallbacks
         bool inCheck = IsKingInCheck(turnColor);
         if (inCheck)
         {
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
-
             var selfResult = turnColor == PlayerManager.Instance.SelfColor ? GameResult.Lose : GameResult.Win;
             GameManager.Instance.TriggerGameOver(selfResult, GameOverReason.Checkmate);
         }
@@ -227,31 +225,15 @@ public class BoardState : MonoBehaviourPunCallbacks
     {
         if (to == EnPassantTarget)
         {
-            var capturedPiece = BoardUtils.GetPieceAt(new Vector2Int(to.x, from.y));
-            PieceManager.CapturePiece(capturedPiece);
+            var capturedPos = new Vector2Int(to.x, from.y);
+            var capturedPiece = BoardUtils.GetPieceAt(capturedPos);
+            PieceManager.CapturePiece(capturedPiece, capturedPos);
         }
 
         EnPassantTarget = null;
 
         if (data.PieceType == "Pawn" && Mathf.Abs(from.y - to.y) == 2)
-            EnPassantTarget = BoardUtils.ToBoardPosition(new(from.x, (from.y + to.y) / 2), data.Color);
-
-        int[] target = EnPassantTarget.HasValue ? new[] { EnPassantTarget.Value.x, EnPassantTarget.Value.y } : new[] { -1, -1 };
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
-        {
-            // Sent as an array because Photon doesn't serialize Vector2Int
-            { "EnPassantTarget", target}
-        });
-    }
-
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesUpdated)
-    {
-        if (propertiesUpdated.TryGetValue("EnPassantTarget", out object value))
-        {
-            var target = (int[])value;
-            EnPassantTarget = target[0] == -1 ? null : BoardUtils.ToLocalPosition(new Vector2Int(target[0], target[1]), PlayerManager.Instance.SelfColor);
-        }
+            EnPassantTarget = new(from.x, (from.y + to.y) / 2);
     }
 
     public bool IsSquareAttackedBy(Vector2Int target, PlayerColor attackerColor)

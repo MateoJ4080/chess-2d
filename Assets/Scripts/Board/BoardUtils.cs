@@ -45,36 +45,23 @@ public static class BoardUtils
 
     public static void RefreshBoardState(Vector2Int from, Vector2Int to, GameObject piece)
     {
+        var data = piece.GetComponent<ChessPiece>().PieceData;
+
         BoardGenerator.Instance.PiecesOnBoard[piece] = to;
         BoardGenerator.Instance.PositionToPiece.Remove(from);
         BoardGenerator.Instance.PositionToPiece[to] = piece;
 
-        CalculateMoves.Instance.CalculateAllMoves();
+        BoardState.Instance.HandleEnPassant(from, to, data);
         BoardState.Instance.UpdateThreatenedSquares();
+        CalculateMoves.Instance.CalculateAllMoves();
 
-        var data = piece.GetComponent<ChessPiece>().PieceData;
         var colorToEvaluate = data.Color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-        BoardState.Instance.CheckGameOver(colorToEvaluate); // Evaluate new turn player movements to see if it can move or it's the end of the game
+        BoardState.Instance.CheckGameOver(colorToEvaluate);
     }
 
     public static GameObject GetSquareAt(Vector2Int pos)
     {
         BoardGenerator.Instance.Squares.TryGetValue(pos, out GameObject square);
         return square;
-    }
-
-    // Kept as separate methods for readability, despite using the same transformation.
-    public static Vector2Int ToBoardPosition(Vector2Int localPosition, PlayerColor selfColor)
-    {
-        return selfColor == PlayerColor.White
-            ? localPosition
-            : new Vector2Int(localPosition.x, 7 - localPosition.y);
-    }
-
-    public static Vector2Int ToLocalPosition(Vector2Int boardPosition, PlayerColor selfColor)
-    {
-        return selfColor == PlayerColor.White
-            ? boardPosition
-            : new Vector2Int(boardPosition.x, 7 - boardPosition.y);
     }
 }

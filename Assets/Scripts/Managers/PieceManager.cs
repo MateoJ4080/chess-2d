@@ -33,16 +33,16 @@ public class PieceManager : MonoBehaviour
         }
 
         GameObject target = BoardUtils.GetPieceAt(to);
-        CapturePiece(target);
+        CapturePiece(target, to);
 
         bool isCastling = data.PieceType == "King" && Mathf.Abs(to.x - from.x) == 2;
         if (isCastling) HandleCastling(from, to, isWhite);
 
-        // Important: must go before MovePiece so EnPeassant is registered before CalculateAllMoves
-        GameManager.Instance.OnPieceMovedBySelf(piece, from, to, target);
-
         MovePiece(from, to, piece);
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
+
+        // Important: must go before MovePiece so EnPeassant is registered before CalculateAllMoves
+        GameManager.Instance.OnPieceMovedBySelf(piece, from, to, target);
     }
 
     void MovePiece(Vector2Int from, Vector2Int to, GameObject piece)
@@ -51,11 +51,12 @@ public class PieceManager : MonoBehaviour
         BoardUtils.RefreshBoardState(from, to, piece);
     }
 
-    public static void CapturePiece(GameObject piece)
+    public static void CapturePiece(GameObject piece, Vector2Int at)
     {
         if (piece == null) return;
 
         BoardGenerator.Instance.PiecesOnBoard.Remove(piece);
+        BoardGenerator.Instance.PositionToPiece.Remove(at);
         Destroy(piece);
     }
 
