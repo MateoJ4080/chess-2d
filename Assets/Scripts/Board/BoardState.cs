@@ -289,7 +289,7 @@ public class BoardState : MonoBehaviourPunCallbacks
 
     private bool PawnAttacks(Vector2Int from, Vector2Int target, PlayerColor color)
     {
-        int direction = color == PlayerColor.White ? 1 : -1;
+        int direction = PlayerManager.Instance.SelfColor == color ? 1 : -1;
 
         return target == from + new Vector2Int(1, direction) ||
                target == from + new Vector2Int(-1, direction);
