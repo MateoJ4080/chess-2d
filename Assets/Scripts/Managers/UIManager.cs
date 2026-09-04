@@ -309,8 +309,7 @@ public class UIManager : MonoBehaviourPunCallbacks
         };
     }
 
-    public void OnGameResign()
-    {
-        GameManager.Instance.Resign();
-    }
+    public void OnGameResign() => GameManager.Instance.Resign();
+
+    public void Quit() => Application.Quit();
 }
