@@ -27,8 +27,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
     void TrySpawnPieces()
     {
-        if (DebugManager.IsDebugMode) Debug.Log("TrySpawnPieces() called");
-
         if (spawned)
         {
             Debug.Log("Boolean spawned is already true");
@@ -53,8 +51,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
     public void SpawnPieces()
     {
-        if (DebugManager.IsDebugMode) Debug.Log("SpawnPieces() called");
-
         foreach (var pieceData in _piecesData)
         {
             foreach (var pos in pieceData.InitialPositions)

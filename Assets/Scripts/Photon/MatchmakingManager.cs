@@ -1,8 +1,7 @@
-using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
@@ -48,33 +47,35 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     public void TryJoinOrCreate()
     {
-        if (cachedRooms.Count > 0)
+        foreach (var room in cachedRooms.Values)
         {
-            foreach (var room in cachedRooms.Values)
+            bool matchStarted = room.CustomProperties.ContainsKey(RoomProps.MatchStarted)
+                                && (bool)room.CustomProperties[RoomProps.MatchStarted];
+
+            if (!matchStarted && room.PlayerCount < 2)
             {
-                // TO REVIEW
                 PhotonNetwork.JoinRoom(room.Name);
-                break;
+                return;
             }
         }
-        else
+
+        PhotonNetwork.CreateRoom(null, new RoomOptions
         {
-            PhotonNetwork.CreateRoom("null", new RoomOptions
-            {
-                MaxPlayers = 20,
-                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            MaxPlayers = 20,
+            CustomRoomProperties = new Hashtable
                 {
+                    {RoomProps.MatchStarted, false},
                     {RoomProps.MatchTime, (double)180}
                 },
-                CustomRoomPropertiesForLobby = new string[] {
+            CustomRoomPropertiesForLobby = new string[] {
                     RoomProps.P1Name,
                     RoomProps.P2Name,
                     RoomProps.P1Elo,
                     RoomProps.P2Elo,
+                    RoomProps.MatchStarted,
                     RoomProps.MatchTime
                 }
-            });
-        }
+        });
     }
 
     public override void OnJoinedRoom()
@@ -96,13 +97,13 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
         {
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
+            {
+                { RoomProps.MatchStarted, true }
+            });
+
             PhotonNetwork.LoadLevel("Game");
         }
-    }
-
-    public override void OnLeftRoom()
-    {
-        UIManager.Instance.HidePlayerPanelsParent();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -116,8 +117,5 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void CancelMatchmaking()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
+    public void CancelMatchmaking() => PhotonNetwork.LeaveRoom();
 }

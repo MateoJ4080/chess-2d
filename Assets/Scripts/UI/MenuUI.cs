@@ -21,6 +21,7 @@ public class MenuUI : MonoBehaviour
     public void BackToMenu()
     {
         PhotonNetwork.LeaveRoom();
+        UIManager.Instance.HidePlayerPanelsParent();
 
         GameManager.Instance.UpdateGameState(GameManager.GameState.MainMenu);
         SceneManager.LoadScene("Menu");
