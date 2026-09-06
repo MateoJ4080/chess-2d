@@ -8,14 +8,13 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private Transform _pieceContainer;
     [SerializeField] private PieceData[] _piecesData;
 
-    private bool spawned = false;
+    private bool _spawned = false;
 
     IEnumerator Start()
     {
         PieceDataManager.Initialize();
 
         if (PhotonNetwork.IsMasterClient) PlayerManager.AssignRandomColors();
-
         yield return new WaitUntil(() =>
             PlayerManager.Instance != null &&
             PlayerManager.Instance.AreColorsAssigned());
@@ -27,15 +26,9 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
 
     void TrySpawnPieces()
     {
-        if (spawned)
+        if (_spawned)
         {
             Debug.Log("Boolean spawned is already true");
-            return;
-        }
-
-        if (!PlayerManager.Instance.ColorsAreAssigned)
-        {
-            Debug.LogError("Player colors are not assigned yet. Cannot spawn pieces.");
             return;
         }
 
@@ -45,11 +38,11 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
-        SpawnPieces();
-        spawned = true;
+        SpawnPiecesDefault();
+        _spawned = true;
     }
 
-    public void SpawnPieces()
+    private void SpawnPiecesDefault()
     {
         foreach (var pieceData in _piecesData)
         {
@@ -65,16 +58,15 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
                 );
             }
         }
-        GameManager.Instance.SetGameStateNetwork(GameManager.GameState.InGame);
-        ExitGames.Client.Photon.Hashtable props = new()
-        {
-            { "GameState", GameManager.GameState.InGame.ToString() }
-        };
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-        GameManager.Instance.PiecesAreSpawned = true;
+        OnPiecesSpawned();
+    }
 
-        CalculateMoves.Instance.CalculateAllMoves();
+    private void OnPiecesSpawned()
+    {
+        GameManager.Instance.PiecesAreSpawned = true;
+        GameManager.Instance.SetGameStateNetwork(GameManager.GameState.InGame);
         GameManager.Instance.AssignFirstTurnWhite();
+        CalculateMoves.Instance.CalculateAllMoves();
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.GameStart);
     }
