@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
-  m_Name: White_Rook
+  m_Name: Black_Knight
   m_EditorClassIdentifier: 
-  _pieceType: Rook
+  _pieceType: 1
   _pieceName: 
-  _color: 0
-  _prefab: {fileID: 7954241924168561529, guid: 855a166d2c59785488636f32abcfb609, type: 3}
+  _color: 1
+  _prefab: {fileID: 6851445986577367396, guid: 65a555e987bebe0439e5e493a08a9c16, type: 3}
   _initialPositions:
-  - {x: 0, y: 0}
-  - {x: 7, y: 0}
+  - {x: 1, y: 7}
+  - {x: 6, y: 7}

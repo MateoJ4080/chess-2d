@@ -35,7 +35,7 @@ public class PieceManager : MonoBehaviour
         GameObject target = BoardUtils.GetPieceAt(to);
         CapturePiece(target, to);
 
-        bool isCastling = data.PieceType == "King" && Mathf.Abs(to.x - from.x) == 2;
+        bool isCastling = data.PieceType == PieceType.King && Mathf.Abs(to.x - from.x) == 2;
         if (isCastling) HandleCastling(from, to, isWhite);
 
         MovePiece(from, to, piece);

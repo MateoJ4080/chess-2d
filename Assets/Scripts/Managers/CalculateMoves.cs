@@ -30,22 +30,22 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
             var data = piece.GetComponent<ChessPiece>().PieceData;
             switch (data.PieceType)
             {
-                case "Pawn":
+                case PieceType.Pawn:
                     CalculatePawnMoves(piece);
                     break;
-                case "Knight":
+                case PieceType.Knight:
                     CalculateKnightMoves(piece);
                     break;
-                case "Bishop":
+                case PieceType.Bishop:
                     CalculateBishopMoves(piece);
                     break;
-                case "Rook":
+                case PieceType.Rook:
                     CalculateRookMoves(piece);
                     break;
-                case "Queen":
+                case PieceType.Queen:
                     CalculateQueenMoves(piece);
                     break;
-                case "King":
+                case PieceType.King:
                     CalculateKingMoves(piece);
                     break;
             }

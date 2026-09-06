@@ -125,13 +125,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         var isCastle = false;
 
         // Castling   
-        if (data.PieceType == "King")
+        if (data.PieceType == PieceType.King)
         {
             DisableSelfCastling();
             if (Mathf.Abs(from.x - to.x) == 2) isCastle = true;
         }
 
-        if (data.PieceType == "Rook")
+        if (data.PieceType == PieceType.Rook)
         {
             bool isWhite = data.Color == PlayerColor.White;
 

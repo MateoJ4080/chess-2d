@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
-  m_Name: Black_Knight
+  m_Name: Black_Queen
   m_EditorClassIdentifier: 
-  _pieceType: Knight
+  _pieceType: 4
   _pieceName: 
   _color: 1
-  _prefab: {fileID: 6851445986577367396, guid: 65a555e987bebe0439e5e493a08a9c16, type: 3}
+  _prefab: {fileID: 4168874907514201355, guid: 5815756e04b2b2449b40e2be57ddfb31, type: 3}
   _initialPositions:
-  - {x: 1, y: 7}
-  - {x: 6, y: 7}
+  - {x: 3, y: 7}

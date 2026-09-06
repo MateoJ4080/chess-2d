@@ -48,7 +48,7 @@ public class BoardState : MonoBehaviourPunCallbacks
 
             switch (data.PieceType)
             {
-                case "Pawn":
+                case PieceType.Pawn:
                     foreach (var move in Instance._movementData.pawnMoves)
                     {
                         if (move == new Vector2Int(0, 1)) continue;
@@ -66,7 +66,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                     }
                     break;
 
-                case "Knight":
+                case PieceType.Knight:
                     foreach (var move in Instance._movementData.knightMoves)
                     {
                         Vector2Int targetPos = pos + move;
@@ -82,7 +82,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                     }
                     break;
 
-                case "Bishop":
+                case PieceType.Bishop:
                     foreach (var move in Instance._movementData.bishopDirections)
                     {
                         for (int i = 1; i < 8; i++)
@@ -105,7 +105,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                     }
                     break;
 
-                case "Rook":
+                case PieceType.Rook:
                     foreach (var move in Instance._movementData.rookDirections)
                     {
                         for (int i = 1; i < 8; i++)
@@ -126,7 +126,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                     }
                     break;
 
-                case "Queen":
+                case PieceType.Queen:
                     foreach (var move in Instance._movementData.queenDirections)
                     {
                         for (int i = 1; i < 8; i++)
@@ -147,7 +147,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                     }
                     break;
 
-                case "King":
+                case PieceType.King:
                     foreach (var move in Instance._movementData.kingMoves)
                     {
                         Vector2Int targetPos = pos + move;
@@ -172,7 +172,7 @@ public class BoardState : MonoBehaviourPunCallbacks
 
             var data = piece.GetComponent<ChessPiece>().PieceData;
 
-            if (data.PieceType != "King" || data.Color != color)
+            if (data.PieceType != PieceType.King || data.Color != color)
                 continue;
 
             Vector2Int kingPos = BoardGenerator.Instance.PiecesOnBoard[piece];
@@ -232,7 +232,7 @@ public class BoardState : MonoBehaviourPunCallbacks
 
         EnPassantTarget = null;
 
-        if (data.PieceType == "Pawn" && Mathf.Abs(from.y - to.y) == 2)
+        if (data.PieceType == PieceType.Pawn && Mathf.Abs(from.y - to.y) == 2)
             EnPassantTarget = new(from.x, (from.y + to.y) / 2);
     }
 
@@ -252,32 +252,32 @@ public class BoardState : MonoBehaviourPunCallbacks
 
             switch (data.PieceType)
             {
-                case "Pawn":
+                case PieceType.Pawn:
                     if (PawnAttacks(from, target, attackerColor))
                         return true;
                     break;
 
-                case "Knight":
+                case PieceType.Knight:
                     if (KnightAttacks(from, target))
                         return true;
                     break;
 
-                case "Bishop":
+                case PieceType.Bishop:
                     if (DiagonalAttacks(from, target))
                         return true;
                     break;
 
-                case "Rook":
+                case PieceType.Rook:
                     if (StraightAttacks(from, target))
                         return true;
                     break;
 
-                case "Queen":
+                case PieceType.Queen:
                     if (DiagonalAttacks(from, target) || StraightAttacks(from, target))
                         return true;
                     break;
 
-                case "King":
+                case PieceType.King:
                     if (KingAttacks(from, target))
                         return true;
                     break;

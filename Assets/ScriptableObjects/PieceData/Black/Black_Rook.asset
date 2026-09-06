@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e0c0815c82985458b287455dc1e15f, type: 3}
-  m_Name: Black_King
+  m_Name: Black_Rook
   m_EditorClassIdentifier: 
-  _pieceType: King
+  _pieceType: 3
   _pieceName: 
   _color: 1
-  _prefab: {fileID: 2526980718157629377, guid: d5918fd1e06907c42a09b3d1b71b95b2, type: 3}
+  _prefab: {fileID: 125214921008740338, guid: 94183db7a8b2dfe40859d647d43b833f, type: 3}
   _initialPositions:
-  - {x: 4, y: 7}
+  - {x: 0, y: 7}
+  - {x: 7, y: 7}
