@@ -220,14 +220,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerColor selfColor = PlayerManager.Instance.SelfColor;
         PlayerColor enemyColor = PlayerManager.Instance.EnemyColor;
 
-        var direction = selfColor == PlayerColor.White ? 1 : -1;
         var availableKingside = selfColor == PlayerColor.White ? whiteCK : blackCK;
         var availableQueenside = selfColor == PlayerColor.White ? whiteCQ : blackCQ;
 
         if (side == PieceData.RookSide.King)
         {
-            Vector2Int firstTile = piecePos + new Vector2Int(1, 0) * direction;
-            Vector2Int secondTile = piecePos + new Vector2Int(2, 0) * direction;
+            Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
+            Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
 
             bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, enemyColor) || BoardState.Instance.IsSquareAttackedBy(secondTile, enemyColor);
             bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
@@ -237,8 +236,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (side == PieceData.RookSide.Queen)
         {
 
-            Vector2Int firstTile = piecePos + new Vector2Int(-1, 0) * direction;
-            Vector2Int secondTile = piecePos + new Vector2Int(-2, 0) * direction;
+            Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
+            Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
 
             bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
                                     BoardState.Instance.IsSquareAttackedBy(secondTile, PlayerManager.Instance.EnemyColor);
