@@ -122,24 +122,24 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPieceMovedBySelf(GameObject piece, Vector2Int from, Vector2Int to, GameObject target)
     {
         var data = piece.GetComponent<ChessPiece>().PieceData;
-        var isCastle = false;
+        var moveIsCastle = false;
 
         // Castling   
         if (data.PieceType == PieceType.King)
         {
             DisableSelfCastling();
-            if (Mathf.Abs(from.x - to.x) == 2) isCastle = true;
+            if (Mathf.Abs(from.x - to.x) == 2) moveIsCastle = true;
         }
 
         if (data.PieceType == PieceType.Rook)
         {
             bool isWhite = data.Color == PlayerColor.White;
 
-            if (isWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.King);
-            if (isWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.Queen);
+            if (isWhite && from.x == 7) DisableRookSide(PieceData.RookSide.King);
+            if (isWhite && from.x == 0) DisableRookSide(PieceData.RookSide.Queen);
 
-            if (!isWhite && from == new Vector2Int(7, 0)) DisableRookSide(PieceData.RookSide.Queen);
-            if (!isWhite && from == new Vector2Int(0, 0)) DisableRookSide(PieceData.RookSide.King);
+            if (!isWhite && from.x == 0) DisableRookSide(PieceData.RookSide.King);
+            if (!isWhite && from.x == 7) DisableRookSide(PieceData.RookSide.Queen);
         }
 
         SwitchTurn();
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
             _photonView.RPC("PlayCheckSFX", RpcTarget.Others);
         }
-        else if (isCastle)
+        else if (moveIsCastle)
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
             _photonView.RPC("PlayCastlingSFX", RpcTarget.Others);

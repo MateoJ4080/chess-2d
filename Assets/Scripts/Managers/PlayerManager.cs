@@ -79,7 +79,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey("ColorsAssigned"))
         {
             colorsAreAssigned = (bool)propertiesThatChanged["ColorsAssigned"];
-            Hashtable p = PhotonNetwork.CurrentRoom.CustomProperties;
+
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
+                SetSelfColor((PlayerColor)(int)colorObj);
         }
     }
 
@@ -92,6 +94,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         SelfColor = color;
         EnemyColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+        CameraController.Instance.SetBoardRotation(color);
+
+        UIManager.Instance.UpdateColorText(color.ToString());
     }
 
     // Debug colors (give each player a specific color)

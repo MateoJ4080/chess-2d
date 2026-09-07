@@ -55,5 +55,12 @@ public class CameraController : MonoBehaviour
 
         _cam.orthographicSize = finalOrthographicSize;
     }
+
+    public void SetBoardRotation(PlayerColor color)
+    {
+        transform.rotation = color == PlayerColor.Black
+        ? Quaternion.Euler(0, 0, 180)
+        : Quaternion.identity;
+    }
 }
 

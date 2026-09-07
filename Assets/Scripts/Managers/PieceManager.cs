@@ -63,8 +63,8 @@ public class PieceManager : MonoBehaviour
     [PunRPC]
     public void SyncMove(int fromX, int fromY, int toX, int toY, int pieceID, bool isMoveFromWhite)
     {
-        Vector2Int from = InvertPos(new(fromX, fromY), isMoveFromWhite);
-        Vector2Int to = InvertPos(new(toX, toY), isMoveFromWhite);
+        Vector2Int from = new(fromX, fromY);
+        Vector2Int to = new(toX, toY);
 
         var view = PhotonView.Find(pieceID);
         if (view == null)
@@ -111,10 +111,5 @@ public class PieceManager : MonoBehaviour
             return legalMoves.Contains(targetPosition);
 
         return false;
-    }
-
-    private Vector2Int InvertPos(Vector2Int pos, bool moveFromWhite)
-    {
-        return BoardState.Instance.IsBoardInverted == moveFromWhite ? new Vector2Int(pos.x, 7 - pos.y) : pos;
     }
 }

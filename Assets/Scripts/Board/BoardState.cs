@@ -8,13 +8,6 @@ public class BoardState : MonoBehaviourPunCallbacks
     public Dictionary<Vector2Int, GameObject> WhiteThreatenedSquares { get; private set; } = new();
     public Dictionary<Vector2Int, GameObject> BlackThreatenedSquares { get; private set; } = new();
 
-    private bool _isBoardInverted;
-    public bool IsBoardInverted
-    {
-        get => _isBoardInverted;
-        set => _isBoardInverted = value;
-    }
-
     private PieceMovementData _movementData;
 
     public Vector2Int? EnPassantTarget { get; private set; } = null;
@@ -43,7 +36,7 @@ public class BoardState : MonoBehaviourPunCallbacks
             Vector2Int pos = Vector2Int.RoundToInt(piece.transform.position);
 
             bool isWhite = data.Color == PlayerColor.White;
-            int direction = (isWhite ^ Instance.IsBoardInverted) ? 1 : -1;
+            int direction = isWhite ? 1 : -1;
             var targetDict = isWhite ? Instance.WhiteThreatenedSquares : Instance.BlackThreatenedSquares;
 
             switch (data.PieceType)
@@ -177,8 +170,8 @@ public class BoardState : MonoBehaviourPunCallbacks
 
             Vector2Int kingPos = BoardGenerator.Instance.PiecesOnBoard[piece];
 
-            var oppositeColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-            return IsSquareAttackedBy(kingPos, oppositeColor);
+            var enemyColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+            return IsSquareAttackedBy(kingPos, enemyColor);
         }
 
         return false;
@@ -289,7 +282,7 @@ public class BoardState : MonoBehaviourPunCallbacks
 
     private bool PawnAttacks(Vector2Int from, Vector2Int target, PlayerColor color)
     {
-        int direction = PlayerManager.Instance.SelfColor == color ? 1 : -1;
+        int direction = color == PlayerColor.Black ? 1 : -1;
 
         return target == from + new Vector2Int(1, direction) ||
                target == from + new Vector2Int(-1, direction);

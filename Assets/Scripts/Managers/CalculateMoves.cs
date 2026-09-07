@@ -55,8 +55,8 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
     void CalculatePawnMoves(GameObject pawnGO)
     {
         bool isWhite = PlayerManager.Instance.SelfColor == PlayerColor.White;
-        int direction = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : -1;
-        int initialRow = (isWhite ^ BoardState.Instance.IsBoardInverted) ? 1 : 6;
+        int direction = isWhite ? 1 : -1;
+        int initialRow = isWhite ? 1 : 6;
 
         Vector2Int currentPos = Vector2Int.RoundToInt(pawnGO.transform.position);
 
@@ -174,11 +174,8 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
         bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, kingGO);
         bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, kingGO);
 
-        if (canCastleKingSide)
-            pieceLegalMoves.Add(from + new Vector2Int(2 * direction, 0));
-
-        if (canCastleQueenSide)
-            pieceLegalMoves.Add(from + new Vector2Int(-2 * direction, 0));
+        if (canCastleKingSide) pieceLegalMoves.Add(from + new Vector2Int(2 * direction, 0));
+        if (canCastleQueenSide) pieceLegalMoves.Add(from + new Vector2Int(-2 * direction, 0));
 
         _legalMovesByPiece[kingGO] = pieceLegalMoves;
     }

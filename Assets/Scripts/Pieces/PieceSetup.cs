@@ -9,20 +9,6 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Color", out object colorObj))
-        {
-            PlayerColor color = (PlayerColor)colorObj;
-            PlayerManager.Instance.SetSelfColor(color);
-            BoardState.Instance.IsBoardInverted = color == PlayerColor.Black;
-
-            UIManager.Instance.UpdateColorText(color.ToString());
-        }
-        else
-        {
-            UIManager.Instance.UpdateColorText("not found");
-            Debug.LogError("PlayerManager: Player color not found in room properties");
-        }
-
         PieceDataManager.Initialize();
         SetupPiece();
     }
@@ -65,14 +51,13 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         transform.SetParent(_piecesContainer, false);
         gameObject.AddComponent<Draggable>();
 
-        // Position and direction
+        // Position and rotation
         int x = (int)photonView.InstantiationData[1];
         int y = (int)photonView.InstantiationData[2];
+        Vector2Int piecePos = new(x, y);
+        gameObject.transform.localPosition = (Vector3Int)piecePos;
 
-        int posY = BoardState.Instance.IsBoardInverted ? 7 - y : y;
-
-        Vector2Int piecePos = new(x, posY);
-        gameObject.transform.localPosition = new Vector3(x, posY, 0f);
+        if (!PhotonNetwork.IsMasterClient) transform.rotation = Quaternion.Euler(0, 0, 180);
 
         // Set the collider to match the tile size (unaffected by visual scaling)
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
@@ -83,7 +68,5 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         BoardGenerator.Instance.PositionToPiece[piecePos] = gameObject;
         BoardState.Instance.UpdateThreatenedSquares();
         CalculateMoves.Instance.CalculateAllMoves();
-
-        // Debug.Log($"<color=yellow> {pieceData.PieceName} added to ({piecePos.x}, {piecePos.y}). PositionToPiece count: {BoardGenerator.Instance.PositionToPiece.Count}");
     }
 }
