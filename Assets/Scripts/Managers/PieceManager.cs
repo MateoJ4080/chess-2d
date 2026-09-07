@@ -41,7 +41,6 @@ public class PieceManager : MonoBehaviour
         MovePiece(from, to, piece);
         _photonView.RPC("SyncMove", RpcTarget.OthersBuffered, from.x, from.y, to.x, to.y, pieceID, isWhite);
 
-        // Important: must go before MovePiece so EnPeassant is registered before CalculateAllMoves
         GameManager.Instance.OnPieceMovedBySelf(piece, from, to, target);
     }
 

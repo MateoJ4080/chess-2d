@@ -57,7 +57,8 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
         Vector2Int piecePos = new(x, y);
         gameObject.transform.localPosition = (Vector3Int)piecePos;
 
-        if (!PhotonNetwork.IsMasterClient) transform.rotation = Quaternion.Euler(0, 0, 180);
+        var isBlackPlayer = PlayerManager.Instance.SelfColor == PlayerColor.Black;
+        if (isBlackPlayer) transform.rotation = Quaternion.Euler(0, 0, 180);
 
         // Set the collider to match the tile size (unaffected by visual scaling)
         BoxCollider2D collider = GetComponent<BoxCollider2D>();

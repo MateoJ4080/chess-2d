@@ -127,8 +127,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Castling   
         if (data.PieceType == PieceType.King)
         {
+            moveIsCastle = Mathf.Abs(from.x - to.x) == 2;
             DisableSelfCastling();
-            if (Mathf.Abs(from.x - to.x) == 2) moveIsCastle = true;
         }
 
         if (data.PieceType == PieceType.Rook)
