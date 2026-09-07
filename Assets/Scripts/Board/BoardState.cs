@@ -52,7 +52,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                         {
                             targetDict[targetPos] = piece;
                         }
-                        else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                        else if (BoardUtils.GetPieceAt(targetPos))
                         {
                             targetDict[targetPos] = piece;
                         }
@@ -68,7 +68,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                         {
                             targetDict[targetPos] = piece;
                         }
-                        else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                        else if (BoardUtils.GetPieceAt(targetPos))
                         {
                             targetDict[targetPos] = piece;
                         }
@@ -89,7 +89,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                             {
                                 targetDict[targetPos] = piece;
                             }
-                            else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                            else if (BoardUtils.GetPieceAt(targetPos))
                             {
                                 targetDict[targetPos] = piece;
                                 break;
@@ -110,7 +110,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                             {
                                 targetDict[targetPos] = piece;
                             }
-                            else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                            else if (BoardUtils.GetPieceAt(targetPos))
                             {
                                 targetDict[targetPos] = piece;
                                 break;
@@ -131,7 +131,7 @@ public class BoardState : MonoBehaviourPunCallbacks
                             {
                                 targetDict[targetPos] = piece;
                             }
-                            else if (BoardUtils.GetPieceAt(targetPos, out GameObject targetPiece))
+                            else if (BoardUtils.GetPieceAt(targetPos))
                             {
                                 targetDict[targetPos] = piece;
                                 break;

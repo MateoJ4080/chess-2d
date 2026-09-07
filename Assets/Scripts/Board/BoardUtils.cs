@@ -29,14 +29,6 @@ public static class BoardUtils
         return null;
     }
 
-    public static bool GetPieceAt(Vector2Int position, out GameObject piece)
-    {
-        if (BoardGenerator.Instance.PositionToPiece.TryGetValue(position, out piece))
-            return true;
-
-        return false;
-    }
-
     public static bool PlayerIsThisColor(GameObject piece)
     {
         var pieceData = piece.GetComponent<ChessPiece>().PieceData;
