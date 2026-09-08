@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance { get; private set; }
 
+    // State
     public enum GameState
     {
         MainMenu,
@@ -16,19 +17,33 @@ public class GameManager : MonoBehaviourPunCallbacks
         GameOver
     }
 
-    public PlayerColor CurrentTurn { get; private set; } = PlayerColor.White;
     public GameState State { get; private set; }
+    public PlayerColor CurrentTurn { get; private set; } = PlayerColor.White;
 
     public bool IsGameActive => State == GameState.InGame;
     public bool IsGameOver => State == GameState.GameOver;
 
-    private bool piecesAreSpawned = false;
+    // Castling
+    private bool _whiteCanCastleKingSide;
+    private bool _whiteCanCastleQueenSide;
+    private bool _blackCanCastleKingSide;
+    private bool _blackCanCastleQueenSide;
+
+    public bool WhiteCanCastleKingSide => _whiteCanCastleKingSide;
+    public bool WhiteCanCastleQueenSide => _whiteCanCastleQueenSide;
+    public bool BlackCanCastleKingSide => _blackCanCastleKingSide;
+    public bool BlackCanCastleQueenSide => _blackCanCastleQueenSide;
+
+    // Pieces
+    private bool _piecesAreSpawned;
+
     public bool PiecesAreSpawned
     {
-        get => piecesAreSpawned;
-        set => piecesAreSpawned = value;
+        get => _piecesAreSpawned;
+        set => _piecesAreSpawned = value;
     }
 
+    // References
     private PhotonView _photonView;
 
     void Awake()
@@ -75,21 +90,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
     }
 
-    public override void OnCreatedRoom()
-    {
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
-        var props = new Hashtable {
-            {"whiteCK", true},
-            {"whiteCQ", true},
-            {"blackCK", true},
-            {"blackCQ", true}
-        };
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-    }
-
     public bool IsMyTurn()
     {
         var roomProps = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -128,18 +128,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (data.PieceType == PieceType.King)
         {
             moveIsCastle = Mathf.Abs(from.x - to.x) == 2;
-            DisableSelfCastling();
+            DisableCastling();
         }
 
         if (data.PieceType == PieceType.Rook)
         {
-            bool isWhite = data.Color == PlayerColor.White;
+            var selfColor = PlayerManager.Instance.SelfColor;
 
-            if (isWhite && from.x == 7) DisableRookSide(PieceData.RookSide.King);
-            if (isWhite && from.x == 0) DisableRookSide(PieceData.RookSide.Queen);
-
-            if (!isWhite && from.x == 0) DisableRookSide(PieceData.RookSide.King);
-            if (!isWhite && from.x == 7) DisableRookSide(PieceData.RookSide.Queen);
+            if (from.x == 7) DisableCastlingSide(PieceData.RookSide.King, selfColor);
+            if (from.x == 0) DisableCastlingSide(PieceData.RookSide.Queen, selfColor);
         }
 
         SwitchTurn();
@@ -167,7 +164,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             AudioManager.Instance.PlaySFX(AudioManager.Instance.SelfMove);
             _photonView.RPC("PlayOpponentMoveSFX", RpcTarget.Others);
         }
-
     }
 
     [PunRPC] void PlayCheckSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
@@ -175,78 +171,62 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
     [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.OpponentMove);
 
-    void DisableSelfCastling()
     {
-        var p = new Hashtable();
-        var selfColor = PlayerManager.Instance.SelfColor;
-
-        if (selfColor == PlayerColor.White)
-        {
-            p["whiteCK"] = false;
-            p["whiteCQ"] = false;
-        }
-        else
-        {
-            p["blackCK"] = false;
-            p["blackCQ"] = false;
-        }
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(p);
-    }
-
-    void DisableRookSide(PieceData.RookSide side)
-    {
-        var p = new Hashtable();
-        var selfColor = PlayerColor.White;
-
-        if (selfColor == PlayerColor.White) p[side == PieceData.RookSide.King ? "whiteCK" : "whiteCQ"] = false;
-        else p[side == PieceData.RookSide.King ? "blackCK" : "blackCQ"] = false;
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(p);
     }
 
     public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)
     {
-        var props = PhotonNetwork.CurrentRoom.CustomProperties;
-
+        // Set conditions
         Vector2Int piecePos = Vector2Int.RoundToInt(pieceGO.transform.position);
-
-        // These variables are turn to false when a king or a rook moves
-        bool whiteCK = props.ContainsKey("whiteCK") && (bool)props["whiteCK"];
-        bool whiteCQ = props.ContainsKey("whiteCQ") && (bool)props["whiteCQ"];
-        bool blackCK = props.ContainsKey("blackCK") && (bool)props["blackCK"];
-        bool blackCQ = props.ContainsKey("blackCQ") && (bool)props["blackCQ"];
-
         PlayerColor selfColor = PlayerManager.Instance.SelfColor;
-        PlayerColor enemyColor = PlayerManager.Instance.EnemyColor;
 
-        var availableKingside = selfColor == PlayerColor.White ? whiteCK : blackCK;
-        var availableQueenside = selfColor == PlayerColor.White ? whiteCQ : blackCQ;
+        var availableKingside = selfColor == PlayerColor.White ? _whiteCanCastleKingSide : _blackCanCastleKingSide;
+        var availableQueenside = selfColor == PlayerColor.White ? _whiteCanCastleQueenSide : _blackCanCastleQueenSide;
+        var isCastleAvailable = side == PieceData.RookSide.King ? availableKingside : availableQueenside;
 
-        if (side == PieceData.RookSide.King)
+        Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
+        Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
+
+        // Validate
+        bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
+                                BoardState.Instance.IsSquareAttackedBy(secondTile, PlayerManager.Instance.EnemyColor);
+        bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+
+        return !isPathThreatened && areSquaresEmpty && isCastleAvailable;
+    }
+
+    void DisableCastling()
+    {
+        var selfColor = PlayerManager.Instance.SelfColor;
+
+        if (selfColor == PlayerColor.White)
         {
-            Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
-            Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
-
-            bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, enemyColor) || BoardState.Instance.IsSquareAttackedBy(secondTile, enemyColor);
-            bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
-
-            return !isPathThreatened && areSquaresEmpty && availableKingside;
+            _whiteCanCastleKingSide = false;
+            _whiteCanCastleQueenSide = false;
         }
-        if (side == PieceData.RookSide.Queen)
+        else
         {
-
-            Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
-            Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
-
-            bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
-                                    BoardState.Instance.IsSquareAttackedBy(secondTile, PlayerManager.Instance.EnemyColor);
-            bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
-
-            return !isPathThreatened && areSquaresEmpty && availableQueenside;
+            _blackCanCastleKingSide = false;
+            _blackCanCastleQueenSide = false;
         }
+    }
 
-        return false;
+    public void DisableCastlingSide(PieceData.RookSide side, PlayerColor color)
+    {
+        if (color == PlayerColor.White)
+        {
+            if (side == PieceData.RookSide.King)
+                _whiteCanCastleKingSide = false;
+            else
+                _whiteCanCastleQueenSide = false;
+        }
+        else
+        {
+            if (side == PieceData.RookSide.King)
+                _blackCanCastleKingSide = false;
+            else
+                _blackCanCastleQueenSide = false;
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
