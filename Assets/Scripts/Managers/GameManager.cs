@@ -171,7 +171,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
     [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.OpponentMove);
 
+    public void SetCastlingRights(bool whiteKing, bool whiteQueen, bool blackKing, bool blackQueen)
     {
+        _whiteCanCastleKingSide = whiteKing;
+        _whiteCanCastleQueenSide = whiteQueen;
+        _blackCanCastleKingSide = blackKing;
+        _blackCanCastleQueenSide = blackQueen;
     }
 
     public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)

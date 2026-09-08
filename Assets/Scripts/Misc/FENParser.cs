@@ -63,5 +63,6 @@ public class FENParser : MonoBehaviour
     public void ApplyFENState(char sideToMove, string castling, string enPassant, int halfMove, int fullMove)
     {
         GameManager.Instance.AssignFirstTurn(GetTurn(sideToMove));
+        GameManager.Instance.SetCastlingRights(castling.Contains('K'), castling.Contains('Q'), castling.Contains('k'), castling.Contains('q'));
     }
 }

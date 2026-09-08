@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PieceSpawner : MonoBehaviourPunCallbacks
 {
-    private const string StartingFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    private const string StartingFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
     [SerializeField] private PieceData[] _piecesData;
@@ -39,7 +39,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
-        SpawnPiecesFromFEN(StartingFen);
+        SpawnPiecesFromFEN(StartingFEN);
         _spawned = true;
     }
 
