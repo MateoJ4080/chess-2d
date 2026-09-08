@@ -48,4 +48,20 @@ public class FENParser : MonoBehaviour
     {
         return _pieceMap[c];
     }
+
+    private PlayerColor GetTurn(char c)
+    {
+        return c switch
+        {
+            'w' => PlayerColor.White,
+            'b' => PlayerColor.Black,
+            _ => throw new ArgumentException($"Invalid FEN turn character: {c}")
+
+        };
+    }
+
+    public void ApplyFENState(char sideToMove, string castling, string enPassant, int halfMove, int fullMove)
+    {
+        GameManager.Instance.AssignFirstTurn(GetTurn(sideToMove));
+    }
 }

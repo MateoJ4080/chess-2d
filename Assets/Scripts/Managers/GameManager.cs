@@ -113,9 +113,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 
-    public void AssignFirstTurnWhite()
+    public void AssignFirstTurn(PlayerColor color)
     {
-        Hashtable turnProps = new() { { "Turn", (int)PlayerColor.White } };
+        Hashtable turnProps = new() { { "Turn", (int)color } };
         PhotonNetwork.CurrentRoom.SetCustomProperties(turnProps);
     }
 

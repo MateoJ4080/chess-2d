@@ -84,6 +84,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
             x++;
         }
 
+        FENParser.Instance.ApplyFENState(sideToMove, castling, enPassant, halfmove, fullmove);
         OnPiecesSpawned();
     }
 
@@ -91,7 +92,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
     {
         GameManager.Instance.PiecesAreSpawned = true;
         GameManager.Instance.SetGameStateNetwork(GameManager.GameState.InGame);
-        GameManager.Instance.AssignFirstTurnWhite();
         CalculateMoves.Instance.CalculateAllMoves();
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.GameStart);
