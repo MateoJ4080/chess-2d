@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PieceSpawner : MonoBehaviourPunCallbacks
 {
+    private const string StartingFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     [SerializeField] private GameObject _referenceTile;
     [SerializeField] private Transform _pieceContainer;
     [SerializeField] private PieceData[] _piecesData;
@@ -38,26 +39,51 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
-        SpawnPiecesDefault();
+        SpawnPiecesFromFEN(StartingFen);
         _spawned = true;
     }
 
-    private void SpawnPiecesDefault()
+    private void SpawnPiecesFromFEN(string fen)
     {
-        foreach (var pieceData in _piecesData)
+        string[] parts = fen.Split(' ');
+        string board = parts[0];
+        char sideToMove = parts[1][0];
+        string castling = parts[2];
+        string enPassant = parts[3];
+        int halfmove = int.Parse(parts[4]);
+        int fullmove = int.Parse(parts[5]);
+
+        int x = 0;
+        int y = 7;
+
+        foreach (char c in board)
         {
-            foreach (var pos in pieceData.InitialPositions)
+            if (c == '/')
             {
-                PhotonNetwork.InstantiateRoomObject
+                y--;
+                x = 0;
+                continue;
+            }
+
+            if (char.IsDigit(c))
+            {
+                x += c - '0';
+                continue;
+            }
+
+            var pieceData = FENParser.Instance.GetPieceData(c);
+
+            PhotonNetwork.InstantiateRoomObject
                 (
                     $"Prefabs/Pieces/{pieceData.name}",
                     Vector3.zero,
                     Quaternion.identity,
                     0,
-                    new object[] { pieceData.name, pos.x, pos.y } // used in PieceSetup
+                    new object[] { pieceData.name, x, y } // used in PieceSetup
                 );
-            }
+            x++;
         }
+
         OnPiecesSpawned();
     }
 
