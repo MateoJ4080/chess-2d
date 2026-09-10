@@ -139,10 +139,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (from.x == 0) DisableCastlingSide(PieceData.RookSide.Queen, selfColor);
         }
 
-        SwitchTurn();
-        HighlightMoves.Instance.ClearHighlights();
-        TimerManager.Instance.OnPieceMovedBySelf();
-
         // SFX
         if (BoardState.Instance.IsAnyKingInCheck())
         {
@@ -164,6 +160,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             AudioManager.Instance.PlaySFX(AudioManager.Instance.SelfMove);
             _photonView.RPC("PlayOpponentMoveSFX", RpcTarget.Others);
         }
+
+        SwitchTurn();
+        HighlightMoves.Instance.ClearHighlights();
+        TimerManager.Instance.OnPieceMovedBySelf();
     }
 
     [PunRPC] void PlayCheckSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);

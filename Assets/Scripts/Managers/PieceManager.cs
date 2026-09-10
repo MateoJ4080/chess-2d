@@ -32,7 +32,9 @@ public class PieceManager : MonoBehaviour
             return;
         }
 
-        GameObject target = BoardUtils.GetPieceAt(to);
+        GameObject target = BoardState.Instance.EnPassantTarget == to ?
+                            BoardUtils.GetPieceAt(new(to.x, from.y)) :
+                            BoardUtils.GetPieceAt(to);
         CapturePiece(target, to);
 
         bool isCastling = data.PieceType == PieceType.King && Mathf.Abs(to.x - from.x) == 2;
