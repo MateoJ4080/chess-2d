@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class FENParser : MonoBehaviour
+public class FENParser : MonoBehaviourPunCallbacks
 {
     public static FENParser Instance { get; private set; }
 
@@ -49,7 +50,12 @@ public class FENParser : MonoBehaviour
         return _pieceMap[c];
     }
 
+    public void ApplyFENState(string sideToMove, string castling, string enPassant)
     {
+        GameManager.Instance.AssignFirstTurn(GetTurn(sideToMove));
+        GameManager.Instance.SetCastlingRights(castling.Contains('K'), castling.Contains('Q'), castling.Contains('k'), castling.Contains('q'));
+        BoardState.Instance.SetEnPassantTarget(GetEnPassant(enPassant));
+    }
 
     private PlayerColor GetTurn(string turn)
     {
@@ -61,9 +67,13 @@ public class FENParser : MonoBehaviour
         };
     }
 
-    public void ApplyFENState(char sideToMove, string castling, string enPassant, int halfMove, int fullMove)
+    public Vector2Int? GetEnPassant(string coords)
     {
-        GameManager.Instance.AssignFirstTurn(GetTurn(sideToMove));
-        GameManager.Instance.SetCastlingRights(castling.Contains('K'), castling.Contains('Q'), castling.Contains('k'), castling.Contains('q'));
+        if (coords == "-") return null;
+
+        int x = coords[0] - 'a';
+        int y = coords[1] - '1';
+
+        return new(x, y);
     }
 }

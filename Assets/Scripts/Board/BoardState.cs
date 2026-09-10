@@ -10,7 +10,7 @@ public class BoardState : MonoBehaviourPunCallbacks
 
     private PieceMovementData _movementData;
 
-    public Vector2Int? EnPassantTarget { get; private set; } = null;
+    public Vector2Int? EnPassantTarget { get; private set; }
 
     private void Awake()
     {
@@ -336,5 +336,10 @@ public class BoardState : MonoBehaviourPunCallbacks
             if (pos == target) return true;
         }
         return false;
+    }
+
+    public void SetEnPassantTarget(Vector2Int? target)
+    {
+        EnPassantTarget = target;
     }
 }

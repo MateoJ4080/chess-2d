@@ -52,6 +52,7 @@ MonoBehaviour:
   - PlayCaptureSFX
   - PlayOpponentMoveSFX
   - OnOpponentResigned
+  - SyncFENState
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

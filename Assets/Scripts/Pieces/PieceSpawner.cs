@@ -50,8 +50,6 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
         string sideToMove = parts[1];
         string castling = parts[2];
         string enPassant = parts[3];
-        int halfmove = int.Parse(parts[4]);
-        int fullmove = int.Parse(parts[5]);
 
         int x = 0;
         int y = 7;
@@ -83,9 +81,16 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
                 );
             x++;
         }
+        FENParser.Instance.ApplyFENState(sideToMove, castling, enPassant);
+        photonView.RPC(nameof(SyncFENState), RpcTarget.Others, sideToMove, castling, enPassant);
 
-        FENParser.Instance.ApplyFENState(sideToMove, castling, enPassant, halfmove, fullmove);
         OnPiecesSpawned();
+    }
+
+    [PunRPC]
+    private void SyncFENState(string sideToMove, string castling, string enPassant)
+    {
+        FENParser.Instance.ApplyFENState(sideToMove, castling, enPassant);
     }
 
     private void OnPiecesSpawned()
