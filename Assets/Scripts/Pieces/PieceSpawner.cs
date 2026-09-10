@@ -82,15 +82,16 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
             x++;
         }
         FENParser.Instance.ApplyFENState(sideToMove, castling, enPassant);
-        photonView.RPC(nameof(SyncFENState), RpcTarget.Others, sideToMove, castling, enPassant);
-
         OnPiecesSpawned();
+
+        photonView.RPC(nameof(SyncFENState), RpcTarget.Others, sideToMove, castling, enPassant);
     }
 
     [PunRPC]
     private void SyncFENState(string sideToMove, string castling, string enPassant)
     {
         FENParser.Instance.ApplyFENState(sideToMove, castling, enPassant);
+        OnPiecesSpawned();
     }
 
     private void OnPiecesSpawned()
