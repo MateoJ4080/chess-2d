@@ -67,6 +67,7 @@ public class PieceSetup : MonoBehaviourPun, IPunInstantiateMagicCallback
 
         BoardGenerator.Instance.PiecesOnBoard[gameObject] = piecePos;
         BoardGenerator.Instance.PositionToPiece[piecePos] = gameObject;
+
         BoardState.Instance.UpdateThreatenedSquares();
         CalculateMoves.Instance.CalculateAllMoves();
     }

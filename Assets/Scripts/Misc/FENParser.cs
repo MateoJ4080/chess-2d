@@ -49,14 +49,15 @@ public class FENParser : MonoBehaviour
         return _pieceMap[c];
     }
 
-    private PlayerColor GetTurn(char c)
     {
-        return c switch
-        {
-            'w' => PlayerColor.White,
-            'b' => PlayerColor.Black,
-            _ => throw new ArgumentException($"Invalid FEN turn character: {c}")
 
+    private PlayerColor GetTurn(string turn)
+    {
+        return turn switch
+        {
+            "w" => PlayerColor.White,
+            "b" => PlayerColor.Black,
+            _ => throw new ArgumentException($"Invalid FEN turn character: {turn}")
         };
     }
 

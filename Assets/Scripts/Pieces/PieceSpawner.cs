@@ -47,7 +47,7 @@ public class PieceSpawner : MonoBehaviourPunCallbacks
     {
         string[] parts = fen.Split(' ');
         string board = parts[0];
-        char sideToMove = parts[1][0];
+        string sideToMove = parts[1];
         string castling = parts[2];
         string enPassant = parts[3];
         int halfmove = int.Parse(parts[4]);
