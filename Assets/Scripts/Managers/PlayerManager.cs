@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient) return;
 
-        bool firstIsWhite = Random.value < 0.5f;
+        bool firstIsWhite = Random.value < 0.5f || DebugManager.IsDebugMode;
 
         Hashtable p1props = new();
         p1props["Color"] = (int)(firstIsWhite ? PlayerColor.White : PlayerColor.Black);
@@ -98,26 +98,4 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
         UIManager.Instance.UpdateColorText(color.ToString());
     }
-
-    // Debug colors (give each player a specific color)
-
-    // Debug method:
-
-    // Hashtable p1props = new();
-    //     p1props["Color"] = PlayerColor.Black;
-    //     players[0].SetCustomProperties(p1props);
-
-    //     Hashtable p2props = new();
-    //     p2props["Color"] = "PlayerColor.White";
-    //     players[1].SetCustomProperties(p2props);
-
-    // Normal method:
-
-    // Hashtable p1props = new();
-    //     p1props["Color"] = firstIsWhite ? "PlayerColor.White" : "PlayerColor.Black";
-    //     players[0].SetCustomProperties(p1props);
-
-    //     Hashtable p2props = new();
-    //     p2props["Color"] = firstIsWhite ? "PlayerColor.Black" : "PlayerColor.White";
-    //     players[1].SetCustomProperties(p2props);
 }
