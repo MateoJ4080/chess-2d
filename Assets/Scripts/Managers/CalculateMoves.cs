@@ -167,15 +167,11 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
                 AddIfLegal(kingGO, from, to, pieceLegalMoves);
 
         }
-
-        // Castling
-        int direction = PlayerManager.Instance.SelfColor == PlayerColor.White ? 1 : -1;
-
         bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, kingGO);
         bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, kingGO);
 
-        if (canCastleKingSide) pieceLegalMoves.Add(from + new Vector2Int(2 * direction, 0));
-        if (canCastleQueenSide) pieceLegalMoves.Add(from + new Vector2Int(-2 * direction, 0));
+        if (canCastleKingSide) pieceLegalMoves.Add(from + new Vector2Int(2, 0));
+        if (canCastleQueenSide) pieceLegalMoves.Add(from + new Vector2Int(-2, 0));
 
         _legalMovesByPiece[kingGO] = pieceLegalMoves;
     }

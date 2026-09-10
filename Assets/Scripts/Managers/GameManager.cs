@@ -171,12 +171,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
     [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.OpponentMove);
 
-    public void SetCastlingRights(bool whiteKing, bool whiteQueen, bool blackKing, bool blackQueen)
+    public void SetCastlingRights(bool K, bool Q, bool k, bool q)
     {
-        _whiteCanCastleKingSide = whiteKing;
-        _whiteCanCastleQueenSide = whiteQueen;
-        _blackCanCastleKingSide = blackKing;
-        _blackCanCastleQueenSide = blackQueen;
+        _whiteCanCastleKingSide = K;
+        _whiteCanCastleQueenSide = Q;
+        _blackCanCastleKingSide = k;
+        _blackCanCastleQueenSide = q;
     }
 
     public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)
@@ -189,8 +189,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         var availableQueenside = selfColor == PlayerColor.White ? _whiteCanCastleQueenSide : _blackCanCastleQueenSide;
         var isCastleAvailable = side == PieceData.RookSide.King ? availableKingside : availableQueenside;
 
-        Vector2Int firstTile = piecePos + new Vector2Int(-1, 0);
-        Vector2Int secondTile = piecePos + new Vector2Int(-2, 0);
+        Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
+        Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
 
         // Validate
         bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
