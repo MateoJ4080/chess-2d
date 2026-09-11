@@ -23,17 +23,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool IsGameActive => State == GameState.InGame;
     public bool IsGameOver => State == GameState.GameOver;
 
-    // Castling
-    private bool _whiteCanCastleKingSide;
-    private bool _whiteCanCastleQueenSide;
-    private bool _blackCanCastleKingSide;
-    private bool _blackCanCastleQueenSide;
-
-    public bool WhiteCanCastleKingSide => _whiteCanCastleKingSide;
-    public bool WhiteCanCastleQueenSide => _whiteCanCastleQueenSide;
-    public bool BlackCanCastleKingSide => _blackCanCastleKingSide;
-    public bool BlackCanCastleQueenSide => _blackCanCastleQueenSide;
-
     // Pieces
     private bool _piecesAreSpawned;
 
@@ -128,15 +117,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (data.PieceType == PieceType.King)
         {
             moveIsCastle = Mathf.Abs(from.x - to.x) == 2;
-            DisableCastling();
+            BoardState.Instance.DisableCastling();
         }
 
         if (data.PieceType == PieceType.Rook)
         {
             var selfColor = PlayerManager.Instance.SelfColor;
 
-            if (from.x == 7) DisableCastlingSide(PieceData.RookSide.King, selfColor);
-            if (from.x == 0) DisableCastlingSide(PieceData.RookSide.Queen, selfColor);
+            if (from.x == 7) BoardState.Instance.DisableCastlingSide(PieceData.RookSide.King, selfColor);
+            if (from.x == 0) BoardState.Instance.DisableCastlingSide(PieceData.RookSide.Queen, selfColor);
         }
 
         // SFX
@@ -170,69 +159,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC] void PlayCaptureSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Capture);
     [PunRPC] void PlayCastlingSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.Castling);
     [PunRPC] void PlayOpponentMoveSFX() => AudioManager.Instance.PlaySFX(AudioManager.Instance.OpponentMove);
-
-    public void SetCastlingRights(bool K, bool Q, bool k, bool q)
-    {
-        _whiteCanCastleKingSide = K;
-        _whiteCanCastleQueenSide = Q;
-        _blackCanCastleKingSide = k;
-        _blackCanCastleQueenSide = q;
-    }
-
-    public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)
-    {
-        // Set conditions
-        Vector2Int piecePos = Vector2Int.RoundToInt(pieceGO.transform.position);
-        PlayerColor selfColor = PlayerManager.Instance.SelfColor;
-
-        var availableKingside = selfColor == PlayerColor.White ? _whiteCanCastleKingSide : _blackCanCastleKingSide;
-        var availableQueenside = selfColor == PlayerColor.White ? _whiteCanCastleQueenSide : _blackCanCastleQueenSide;
-        var isCastleAvailable = side == PieceData.RookSide.King ? availableKingside : availableQueenside;
-
-        Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
-        Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
-
-        // Validate
-        bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
-                                BoardState.Instance.IsSquareAttackedBy(secondTile, PlayerManager.Instance.EnemyColor);
-        bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
-
-        return !isPathThreatened && areSquaresEmpty && isCastleAvailable;
-    }
-
-    void DisableCastling()
-    {
-        var selfColor = PlayerManager.Instance.SelfColor;
-
-        if (selfColor == PlayerColor.White)
-        {
-            _whiteCanCastleKingSide = false;
-            _whiteCanCastleQueenSide = false;
-        }
-        else
-        {
-            _blackCanCastleKingSide = false;
-            _blackCanCastleQueenSide = false;
-        }
-    }
-
-    public void DisableCastlingSide(PieceData.RookSide side, PlayerColor color)
-    {
-        if (color == PlayerColor.White)
-        {
-            if (side == PieceData.RookSide.King)
-                _whiteCanCastleKingSide = false;
-            else
-                _whiteCanCastleQueenSide = false;
-        }
-        else
-        {
-            if (side == PieceData.RookSide.King)
-                _blackCanCastleKingSide = false;
-            else
-                _blackCanCastleQueenSide = false;
-        }
-    }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {

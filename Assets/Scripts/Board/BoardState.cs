@@ -12,6 +12,17 @@ public class BoardState : MonoBehaviourPunCallbacks
 
     public Vector2Int? EnPassantTarget { get; private set; }
 
+    // Castling
+    private bool _whiteCanCastleKingSide;
+    private bool _whiteCanCastleQueenSide;
+    private bool _blackCanCastleKingSide;
+    private bool _blackCanCastleQueenSide;
+
+    public bool WhiteCanCastleKingSide => _whiteCanCastleKingSide;
+    public bool WhiteCanCastleQueenSide => _whiteCanCastleQueenSide;
+    public bool BlackCanCastleKingSide => _blackCanCastleKingSide;
+    public bool BlackCanCastleQueenSide => _blackCanCastleQueenSide;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -227,6 +238,69 @@ public class BoardState : MonoBehaviourPunCallbacks
 
         if (data.PieceType == PieceType.Pawn && Mathf.Abs(from.y - to.y) == 2)
             EnPassantTarget = new(from.x, (from.y + to.y) / 2);
+    }
+
+    public void SetCastlingRights(bool K, bool Q, bool k, bool q)
+    {
+        _whiteCanCastleKingSide = K;
+        _whiteCanCastleQueenSide = Q;
+        _blackCanCastleKingSide = k;
+        _blackCanCastleQueenSide = q;
+    }
+
+    public bool CanCastle(PieceData.RookSide side, GameObject pieceGO)
+    {
+        // Set conditions
+        Vector2Int piecePos = Vector2Int.RoundToInt(pieceGO.transform.position);
+        PlayerColor selfColor = PlayerManager.Instance.SelfColor;
+
+        var availableKingside = selfColor == PlayerColor.White ? _whiteCanCastleKingSide : _blackCanCastleKingSide;
+        var availableQueenside = selfColor == PlayerColor.White ? _whiteCanCastleQueenSide : _blackCanCastleQueenSide;
+        var isCastleAvailable = side == PieceData.RookSide.King ? availableKingside : availableQueenside;
+
+        Vector2Int firstTile = piecePos + new Vector2Int(1, 0);
+        Vector2Int secondTile = piecePos + new Vector2Int(2, 0);
+
+        // Validate
+        bool isPathThreatened = BoardState.Instance.IsSquareAttackedBy(firstTile, PlayerManager.Instance.EnemyColor) ||
+                                BoardState.Instance.IsSquareAttackedBy(secondTile, PlayerManager.Instance.EnemyColor);
+        bool areSquaresEmpty = BoardUtils.SquareIsEmpty(firstTile) && BoardUtils.SquareIsEmpty(secondTile);
+
+        return !isPathThreatened && areSquaresEmpty && isCastleAvailable;
+    }
+
+    public void DisableCastling()
+    {
+        var selfColor = PlayerManager.Instance.SelfColor;
+
+        if (selfColor == PlayerColor.White)
+        {
+            _whiteCanCastleKingSide = false;
+            _whiteCanCastleQueenSide = false;
+        }
+        else
+        {
+            _blackCanCastleKingSide = false;
+            _blackCanCastleQueenSide = false;
+        }
+    }
+
+    public void DisableCastlingSide(PieceData.RookSide side, PlayerColor color)
+    {
+        if (color == PlayerColor.White)
+        {
+            if (side == PieceData.RookSide.King)
+                _whiteCanCastleKingSide = false;
+            else
+                _whiteCanCastleQueenSide = false;
+        }
+        else
+        {
+            if (side == PieceData.RookSide.King)
+                _blackCanCastleKingSide = false;
+            else
+                _blackCanCastleQueenSide = false;
+        }
     }
 
     public bool IsSquareAttackedBy(Vector2Int target, PlayerColor attackerColor)

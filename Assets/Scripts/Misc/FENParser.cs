@@ -53,7 +53,7 @@ public class FENParser : MonoBehaviourPunCallbacks
     public void ApplyFENState(string sideToMove, string castling, string enPassant)
     {
         GameManager.Instance.AssignFirstTurn(GetTurn(sideToMove));
-        GameManager.Instance.SetCastlingRights(castling.Contains('K'), castling.Contains('Q'), castling.Contains('k'), castling.Contains('q'));
+        BoardState.Instance.SetCastlingRights(castling.Contains('K'), castling.Contains('Q'), castling.Contains('k'), castling.Contains('q'));
         BoardState.Instance.SetEnPassantTarget(GetEnPassant(enPassant));
     }
 

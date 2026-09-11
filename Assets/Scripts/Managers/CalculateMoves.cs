@@ -167,8 +167,8 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
                 AddIfLegal(kingGO, from, to, pieceLegalMoves);
 
         }
-        bool canCastleKingSide = GameManager.Instance.CanCastle(PieceData.RookSide.King, kingGO);
-        bool canCastleQueenSide = GameManager.Instance.CanCastle(PieceData.RookSide.Queen, kingGO);
+        bool canCastleKingSide = BoardState.Instance.CanCastle(PieceData.RookSide.King, kingGO);
+        bool canCastleQueenSide = BoardState.Instance.CanCastle(PieceData.RookSide.Queen, kingGO);
 
         if (canCastleKingSide) pieceLegalMoves.Add(from + new Vector2Int(2, 0));
         if (canCastleQueenSide) pieceLegalMoves.Add(from + new Vector2Int(-2, 0));
