@@ -205,7 +205,7 @@ public class CalculateMoves : MonoBehaviourPunCallbacks
     {
         GameObject captured = SimulateMove(piece, from, to);
 
-        if (!BoardState.Instance.IsKingInCheck(piece.GetComponent<ChessPiece>().PieceData.Color))
+        if (!BoardUtils.IsKingInCheck(piece.GetComponent<ChessPiece>().PieceData.Color))
             legalMoves.Add(to);
 
         UndoSimulatedMove(piece, from, to, captured);

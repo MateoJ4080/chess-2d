@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // SFX
-        if (BoardState.Instance.IsAnyKingInCheck())
+        if (BoardUtils.IsAnyKingInCheck())
         {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.Check);
             _photonView.RPC("PlayCheckSFX", RpcTarget.Others);

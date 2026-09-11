@@ -167,33 +167,6 @@ public class BoardState : MonoBehaviourPunCallbacks
         DebugManager.Instance.ColorThreatenedSquares();
     }
 
-    public bool IsKingInCheck(PlayerColor color)
-    {
-        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
-        {
-            if (piece == null)
-                continue;
-
-            var data = piece.GetComponent<ChessPiece>().PieceData;
-
-            if (data.PieceType != PieceType.King || data.Color != color)
-                continue;
-
-            Vector2Int kingPos = BoardGenerator.Instance.PiecesOnBoard[piece];
-
-            var enemyColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-            return IsSquareAttackedBy(kingPos, enemyColor);
-        }
-
-        return false;
-    }
-
-    public bool IsAnyKingInCheck()
-    {
-        return IsKingInCheck(PlayerManager.Instance.SelfColor) ||
-               IsKingInCheck(PlayerManager.Instance.EnemyColor);
-    }
-
     public void CheckGameOver(PlayerColor turnColor)
     {
         foreach (var legalMoves in CalculateMoves.Instance.LegalMovesByPiece)
@@ -214,7 +187,7 @@ public class BoardState : MonoBehaviourPunCallbacks
         }
 
         // If all conditions passed, it's game over because 'turnColor' can't move
-        bool inCheck = IsKingInCheck(turnColor);
+        bool inCheck = BoardUtils.IsKingInCheck(turnColor);
         if (inCheck)
         {
             var selfResult = turnColor == PlayerManager.Instance.SelfColor ? GameResult.Lose : GameResult.Win;

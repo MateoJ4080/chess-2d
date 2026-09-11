@@ -56,4 +56,31 @@ public static class BoardUtils
         BoardGenerator.Instance.Squares.TryGetValue(pos, out GameObject square);
         return square;
     }
+
+    public static bool IsKingInCheck(PlayerColor color)
+    {
+        foreach (var piece in BoardGenerator.Instance.PiecesOnBoard.Keys)
+        {
+            if (piece == null)
+                continue;
+
+            var data = piece.GetComponent<ChessPiece>().PieceData;
+
+            if (data.PieceType != PieceType.King || data.Color != color)
+                continue;
+
+            Vector2Int kingPos = BoardGenerator.Instance.PiecesOnBoard[piece];
+
+            var enemyColor = color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+            return BoardState.Instance.IsSquareAttackedBy(kingPos, enemyColor);
+        }
+
+        return false;
+    }
+
+    public static bool IsAnyKingInCheck()
+    {
+        return IsKingInCheck(PlayerManager.Instance.SelfColor) ||
+               IsKingInCheck(PlayerManager.Instance.EnemyColor);
+    }
 }
