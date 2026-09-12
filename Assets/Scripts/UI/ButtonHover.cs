@@ -5,6 +5,6 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.ButtonHover);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.ButtonClick);
     }
 }

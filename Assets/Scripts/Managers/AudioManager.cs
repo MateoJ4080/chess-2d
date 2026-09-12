@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
 
 
     [Header("UI SFX")]
-    public AudioClip ButtonHover;
+    public AudioClip ButtonClick;
 
     [Header("Game SFX")]
     public AudioClip SelfMove;
@@ -57,4 +57,6 @@ public class AudioManager : MonoBehaviour
     {
         mixer.SetFloat("SFX", Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20);
     }
+
+    public void PlayButtonClick() => PlaySFX(ButtonClick);
 }
