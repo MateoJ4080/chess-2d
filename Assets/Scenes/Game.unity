@@ -524,8 +524,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1029106883}
-  - component: {fileID: 1029106882}
   - component: {fileID: 1029106884}
+  - component: {fileID: 1029106882}
   m_Layer: 0
   m_Name: TimerManager
   m_TagString: Untagged
@@ -545,6 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd30f088e8c974abc48cdda5a9c42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
+  _demoSelfTime: 600
+  _demoOpponentTime: 600
 --- !u!4 &1029106883
 Transform:
   m_ObjectHideFlags: 0

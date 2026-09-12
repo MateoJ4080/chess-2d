@@ -6,6 +6,9 @@ public class TimerManager : MonoBehaviourPunCallbacks
 {
     public static TimerManager Instance { get; private set; }
 
+    [SerializeField] private double _demoSelfTime = 600;
+    [SerializeField] private double _demoOpponentTime = 600;
+
     private double _selfTime;
     private double _opponentTime;
 
@@ -89,7 +92,7 @@ public class TimerManager : MonoBehaviourPunCallbacks
         _selfTime -= _turnElapsedTime;
         _lastTurnStartTime = PhotonNetwork.Time;
 
-        photonView.RPC("SyncTimer", RpcTarget.Others, _turnElapsedTime);
+        photonView.RPC(nameof(SyncTimer), RpcTarget.Others, _turnElapsedTime);
     }
 
     public void OnRemoteTurn(double turnDuration)
@@ -111,5 +114,27 @@ public class TimerManager : MonoBehaviourPunCallbacks
         _lastTurnStartTime = PhotonNetwork.Time;
 
         photonView.RPC("SyncTimer", RpcTarget.Others, (double)175);
+    }
+
+    [ContextMenu("Set debug timers")]
+    public void SetDebugTimers()
+    {
+        ApplyDebugTimers();
+        photonView.RPC(nameof(SyncDebugTimers), RpcTarget.Others);
+    }
+
+    [PunRPC]
+    void SyncDebugTimers()
+    {
+        ApplyDebugTimers();
+    }
+
+    private void ApplyDebugTimers()
+    {
+        _lastTurnStartTime = PhotonNetwork.Time;
+        _selfTime = _demoSelfTime;
+        _opponentTime = _demoOpponentTime;
+
+        UIManager.Instance.UpdateTimers(_selfTime, _opponentTime);
     }
 }
