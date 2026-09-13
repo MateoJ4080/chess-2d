@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     [Header("Main Menu")]
     [SerializeField] private Button _playButton;
+    [SerializeField] private Button _cancelMatchmakingButton;
 
     [Header("Match End Panel")]
     [SerializeField] private GameObject _matchEndPanel;
@@ -220,7 +221,13 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
+        _cancelMatchmakingButton.interactable = false;
         _playButton.interactable = true;
+    }
+
+    public override void OnJoinedRoom()
+    {
+        _cancelMatchmakingButton.interactable = true;
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
